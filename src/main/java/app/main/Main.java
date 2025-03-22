@@ -6,6 +6,7 @@ package app.main;
 
 import com.formdev.flatlaf.FlatLightLaf;
 import app.controllers.ViewBienvenidaController;
+import app.controllers.ViewCrearSalaController;
 import app.controllers.ViewGestionCineController;
 import app.controllers.ViewLoginController;
 import app.controllers.ViewRegisterController;
@@ -23,6 +24,7 @@ public class Main {
     private static final ViewLoginController loginController = new ViewLoginController();
     private static final ViewRegisterController registerController = new ViewRegisterController();
     private static final ViewGestionCineController gestionCineController = new ViewGestionCineController();
+    private static final ViewCrearSalaController crearSalaController = new ViewCrearSalaController();
 
     public static void main(String[] args) {
         looksAndFeelSetup();
@@ -45,9 +47,11 @@ public class Main {
         String nombreUsuarioRegistro = null;
         String pinRegistro = null;
         int salaSeleccionada = -1;
+        int asientosNuevaSala = -1;
         /* Para cargar la data de los métodos y usarla, siempre se sobrescribe */
         Object[] data;
         while (true) {
+            System.out.println(asientosNuevaSala);
             switch (ruta) {
                 // Test
                 case "Test_botones":
@@ -114,6 +118,15 @@ public class Main {
                     data = gestionCine_verSalas();
                     ruta = (String) data[0];
                     salaSeleccionada = (int) data[1];  // Guarda sala seleccionada para gestionar
+                    break;
+                // ViewCrearSala
+                case "CrearSala_crearSala":
+                    data = crearSala_crearSala();
+                    ruta = (String) data[0];
+                    asientosNuevaSala = (int) data[1];
+                    break;
+                case "CrearSala_exito":
+                    ruta = crearSala_exito();
                     break;
                 default:
                     throw new Error("No hay una ruta implementada para la ruta \""
@@ -190,5 +203,14 @@ public class Main {
     private static Object[] gestionCine_verSalas() {
         return gestionCineController.verSalas();
     }
+    
+    // ViewCrearSala
+    private static Object[] crearSala_crearSala() {
+        return crearSalaController.crearSala();
+    }
 
+    private static String crearSala_exito() {
+        return crearSalaController.exito();
+    }
+    
 }

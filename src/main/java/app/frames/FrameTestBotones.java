@@ -98,7 +98,7 @@ public class FrameTestBotones extends javax.swing.JFrame {
     a correr cuando la ventana se cierre. Dentro del cuerpo de dicho método va
     la reasignación del parámetro de selección. Luego se añade el WindowListener
     a este JFrame*/
-    public void AgregarWindowListener() {
+    private void AgregarWindowListener() {
         WindowListener exitListener = new WindowAdapter() {
 
             @Override

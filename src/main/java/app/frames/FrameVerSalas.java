@@ -40,7 +40,7 @@ public class FrameVerSalas extends javax.swing.JFrame {
         return salaSeleccionada;
     }
     
-    public void AgregarWindowListener() {
+    private void AgregarWindowListener() {
         WindowListener exitListener = new WindowAdapter() {
 
             @Override
@@ -51,7 +51,7 @@ public class FrameVerSalas extends javax.swing.JFrame {
         addWindowListener(exitListener);
     }
     
-    public void llenarCombobox() {
+    private void llenarCombobox() {
         DefaultComboBoxModel model = new DefaultComboBoxModel();
         for (int i = 0; i < 6; i++) {
             model.addElement("Sala " + String.valueOf(i));

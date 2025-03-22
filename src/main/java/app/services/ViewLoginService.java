@@ -23,7 +23,7 @@ public class ViewLoginService {
         }
         if (!nombreUsuarioValido(input)) {
             return new Object[]{"Login_usuarioInvalido", null};
-        } else if (input.equals("juan1234")) {
+        } else if (input.equals("juan1234") || input.equals("johan1234")) {
             return new Object[]{"Login_pidePin", input};
         } else {
             return new Object[]{"Login_usuarioNoEncontrado", null};
@@ -34,8 +34,10 @@ public class ViewLoginService {
         int selection = login.usuarioInvalido();
         if (selection == 0) {
             return "Login_pideNombreUsuario";
-        } else if (selection == 2 || selection == -1) {
+        } else if (selection == 2) {
             return "Bienvenida_bienvenida";
+        } else if (selection == -1) {
+            return "salida";
         } else {
             throw new Error("Seleccion" + selection + "sin ruta");
         }
@@ -45,8 +47,10 @@ public class ViewLoginService {
         int selection = login.usuarioNoEncontrado();
         if (selection == 0) {
             return "Login_pideNombreUsuario";
-        } else if (selection == 2 || selection == -1) {
+        } else if (selection == 2) {
             return "Bienvenida_bienvenida";
+        } else if (selection == -1) {
+            return "salida";
         } else {
             throw new Error("Seleccion" + selection + "sin ruta");
         }
@@ -74,8 +78,10 @@ public class ViewLoginService {
         int selection = login.pinIncorrecto();
         if (selection == 0) {  // Presiona OK
             return "Login_pidePin";
-        } else if (selection == 2 || selection == -1) {  // Presiona CANCEL o cierra la ventana
+        } else if (selection == 2) {  // Presiona CANCEL
             return "Bienvenida_bienvenida";
+        } else if (selection == -1) {  // Cierra la ventana
+            return "salida";
         } else {
             throw new Error("Seleccion \"" + selection + "\" sin ruta");
         }
@@ -85,19 +91,27 @@ public class ViewLoginService {
         int selection = login.pinInvalido();
         if (selection == 0) {  // Presiona OK
             return "Login_pidePin";
-        } else if (selection == 2 || selection == -1) {  // Presiona CANCEL o cierra la ventana
+        } else if (selection == 2) {  // Presiona CANCEL
             return "Bienvenida_bienvenida";
+        } else if (selection == -1) {  // Cierra la ventana
+            return "salida";
         } else {
             throw new Error("Seleccion \"" + selection + "\" sin ruta");
         }
     }
     
-    public String exito() {
+    public String exito(String nombreUsuario) {
         int selection = login.exito();
         if (selection == 0) {  // Presiona OK
-            return "GestionCine_verSalas";
-        } else if (selection == 2 || selection == -1) {  // Presiona CANCEL o cierra la ventana
+            if (nombreUsuario.equals("juan1234")) {
+                return "GestionCine_verSalas";
+            } else {
+                return "GestionPerfil_perfil";
+            }
+        } else if (selection == 2) {  // Presiona CANCEL
             return "Bienvenida_bienvenida";
+        } else if (selection == -1) {  // Cierra la ventana
+            return "salida";
         } else {
             throw new Error("Seleccion \"" + selection + "\" sin ruta");
         }

@@ -41,7 +41,7 @@ public class ViewLoginController {
         return service.pinInvalido();
     }
     
-    public String exito() {
-        return service.exito();
+    public String exito(String nombreUsuario) {
+        return service.exito(nombreUsuario);
     }
 }

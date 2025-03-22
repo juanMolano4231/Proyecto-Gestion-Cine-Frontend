@@ -88,7 +88,7 @@ public class Main {
                     ruta = login_pinInvalido();
                     break;
                 case "Login_exito":
-                    ruta = login_exito();
+                    ruta = login_exito(nombreUsuarioLogin);
                     break;
                 // ViewRegister
                 case "Register_pideNombreUsuario":
@@ -170,8 +170,8 @@ public class Main {
         return loginController.pinInvalido();
     }
 
-    private static String login_exito() {
-        return loginController.exito();
+    private static String login_exito(String nombreUsuario) {
+        return loginController.exito(nombreUsuario);
     }
 
     // ViewRegister

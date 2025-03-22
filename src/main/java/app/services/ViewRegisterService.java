@@ -26,7 +26,7 @@ public class ViewRegisterService {
         }
         if (!nombreUsuarioValido(input)) {
             return new Object[]{"Register_usuarioInvalido", null};
-        } else if (input.equals("juan1234")) {  // Usuario admin quemado
+        } else if (input.equals("juan1234") || input.equals("joham1234")) {  // Usuario admin quemado
             return new Object[]{"Register_usuarioOcupado", null};
         } else {
             return new Object[]{"Register_pidePin", input};
@@ -37,8 +37,10 @@ public class ViewRegisterService {
         int selection = register.usuarioInvalido();
         if (selection == 0) {  // Presiona OK
             return "Register_pideNombreUsuario";
-        } else if (selection == 2 || selection == -1) {  // Presiona CANCEL o cierra la ventana
+        } else if (selection == 2) {  // Presiona CANCEL
             return "Bienvenida_bienvenida";
+        } else if (selection == -1) {  // Cierra la ventana
+            return "salida";
         } else {
             throw new Error("Seleccion \"" + selection + "\" sin ruta");
         }
@@ -48,8 +50,10 @@ public class ViewRegisterService {
         int selection = register.usuarioOcupado();
         if (selection == 0) {  // Presiona OK
             return "Register_pideNombreUsuario";
-        } else if (selection == 2 || selection == -1) {  // Presiona CANCEL o cierra la ventana
+        } else if (selection == 2) {  // Presiona CANCEL
             return "Bienvenida_bienvenida";
+        } else if (selection == -1) {  // Cierra la ventana
+            return "salida";
         } else {
             throw new Error("Seleccion \"" + selection + "\" sin ruta");
         }
@@ -69,8 +73,10 @@ public class ViewRegisterService {
         int selection = register.pinInvalido();
         if (selection == 0) {  // Presiona OK
             return "Register_pidePin";
-        } else if (selection == 2 || selection == -1) {  // Presiona CANCEL o cierra la ventana
+        } else if (selection == 2) {  // Presiona CANCEL
             return "Bienvenida_bienvenida";
+        } else if (selection == -1) {  // Cierra la ventana
+            return "salida";
         } else {
             throw new Error("Seleccion \"" + selection + "\" sin ruta");
         }
@@ -78,8 +84,10 @@ public class ViewRegisterService {
     
     public String exito() {
         int selection = register.exito();
-        if (selection == 0 || selection == 2 || selection == -1) {  // Presiona OK, CANCEL o cierra la ventana
+        if (selection == 0 || selection == 2) {  // Presiona OK o CANCEL
             return "Bienvenida_bienvenida";
+        } else if (selection == -1) {  // Cierra la ventana
+            return "salida";
         } else {
             throw new Error("Seleccion \"" + selection + "\" sin ruta");
         }

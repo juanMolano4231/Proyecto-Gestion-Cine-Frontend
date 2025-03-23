@@ -6,13 +6,14 @@ package app.main;
 
 import com.formdev.flatlaf.FlatLightLaf;
 import app.controllers.*;
+
 /**
  *
  * @author Juan Jose Molano Franco
  */
 
 public class Main {
-    
+
     private static final ViewTestController testController = new ViewTestController();
     private static final ViewBienvenidaController bienvenidaController = new ViewBienvenidaController();
     private static final ViewLoginController loginController = new ViewLoginController();
@@ -25,14 +26,14 @@ public class Main {
         looksAndFeelSetup();
         iniciarRouting();
     }
-    
+
     private static void looksAndFeelSetup() {
         /* Estilo default de FlatLightLaf */
         FlatLightLaf.setup();
     }
-    
+
     private static void iniciarRouting() {
-            
+
         /* Guarda la ruta a la que se irá en la siguiente iteración del ciclo
         en cierta View y cierto Diálogo (cada método es un diálogo */
         String ruta = "Bienvenida_bienvenida";  // Ruta default, ViewBienvenida método bienvenida
@@ -85,9 +86,6 @@ public class Main {
                 case "Login_exito":
                     ruta = login_exito(nombreUsuarioLogin);
                     break;
-                case "GestionPerfil_perfil":
-                    ruta = gestionPerfil();
-                    break;
                 // ViewRegister
                 case "Register_pideNombreUsuario":
                     data = register_pideNombreUsuario();
@@ -126,14 +124,18 @@ public class Main {
                 case "CrearSala_exito":
                     ruta = crearSala_exito();
                     break;
-                // ViewUsuario
+                // ViewGestionPerfil
+                case "GestionPerfil_perfil":
+                    ruta = gestionPerfil_perfil();
+                    break;
+                // Default
                 default:
                     throw new Error("No hay una ruta implementada para la ruta \""
                             + ruta + "\"");
             }
         }
     }
-    
+
     // Testing
     public static String test_botones() {
         return testController.botones();
@@ -197,12 +199,12 @@ public class Main {
     private static String register_exito() {
         return registerController.exito();
     }
-    
+
     // ViewGestionCine
     private static Object[] gestionCine_verSalas() {
         return gestionCineController.verSalas();
     }
-    
+
     // ViewCrearSala
     private static Object[] crearSala_crearSala() {
         return crearSalaController.crearSala();
@@ -211,10 +213,10 @@ public class Main {
     private static String crearSala_exito() {
         return crearSalaController.exito();
     }
-    
+
     // ViewGestionPerfil
-        private static String gestionPerfil() {
+    private static String gestionPerfil_perfil() {
         return viewGestionPerfilController.verPerfil();
     }
-    
+
 }

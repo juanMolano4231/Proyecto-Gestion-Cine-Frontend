@@ -22,16 +22,16 @@ public class ViewGestionPerfilService {
             switch (seleccion) {
                 case 0:  // Se cierra el frame con la X
                     frame.dispose();
-                    return "RUTA INDEFINIDA";
-                case 1:  // Botón 1
+                    return "salida";
+                case 1:  // Cierra sesion y vuelve a bienvenida
                     frame.dispose();
                     return "Bienvenida_bienvenida";
-                case 2:  // Botón 2
+                case 2:  // Muestra vista de funciones
                     frame.dispose();
-                    return "ViewFunciones_funciones";
-                case 3:
+                    return "ViewVerFunciones_funciones";
+                case 3: // Muestra vista de tickets
                     frame.dispose();
-                    return "ViewTickets_tickets";
+                    return "ViewVerTickets_tickets";
                 default:  // Valor default, preferiblemente un número negativo
                     // Detiene el ciclo por 250 ms
                     try {

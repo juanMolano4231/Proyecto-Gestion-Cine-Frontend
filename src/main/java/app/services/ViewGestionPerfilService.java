@@ -5,7 +5,7 @@
 package app.services;
 
 import java.util.concurrent.TimeUnit;
-import app.frames.FrameGestionPerfil;
+import app.frames.*;
 
 /**
  *
@@ -28,10 +28,38 @@ public class ViewGestionPerfilService {
                     return "Bienvenida_bienvenida";
                 case 2:  // Muestra vista de funciones
                     frame.dispose();
-                    return "ViewVerFunciones_funciones";
+                    return "GestionPerfil_funciones";
                 case 3: // Muestra vista de tickets
                     frame.dispose();
-                    return "ViewVerTickets_tickets";
+                    return "GestionPerfil_tickets";
+                default:  // Valor default, preferiblemente un número negativo
+                    // Detiene el ciclo por 250 ms
+                    try {
+                        TimeUnit.MILLISECONDS.sleep(250);
+                    } catch (InterruptedException ie) {
+                        Thread.currentThread().interrupt();
+                    }
+                    break;
+            }
+        }
+    }
+
+    public String verTickets() {
+        FrameTickets frame = new FrameTickets();
+        frame.setVisible(true);
+
+        while (true) {
+            int seleccion = frame.getSeleccion();
+            switch (seleccion) {
+                case 0:  // Se cierra el frame con la X
+                    frame.dispose();
+                    return "salida";
+                case 1:  //Vuelve a la vista de usuario
+                    frame.dispose();
+                    return "GestionPerfil_perfil";
+                case 2:  // Devuelve el ticket seleccionado
+                    frame.dispose();
+                    return "GestionPerfil_devolver";
                 default:  // Valor default, preferiblemente un número negativo
                     // Detiene el ciclo por 250 ms
                     try {

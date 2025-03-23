@@ -5,12 +5,7 @@
 package app.main;
 
 import com.formdev.flatlaf.FlatLightLaf;
-import app.controllers.ViewBienvenidaController;
-import app.controllers.ViewCrearSalaController;
-import app.controllers.ViewGestionCineController;
-import app.controllers.ViewLoginController;
-import app.controllers.ViewRegisterController;
-import app.controllers.ViewTestController;
+import app.controllers.*;
 
 /**
  *
@@ -25,6 +20,7 @@ public class Main {
     private static final ViewRegisterController registerController = new ViewRegisterController();
     private static final ViewGestionCineController gestionCineController = new ViewGestionCineController();
     private static final ViewCrearSalaController crearSalaController = new ViewCrearSalaController();
+    private static final ViewGestionSalaController gestionSalaController = new ViewGestionSalaController();
 
     public static void main(String[] args) {
         looksAndFeelSetup();
@@ -46,12 +42,12 @@ public class Main {
         String pinLogin = null;
         String nombreUsuarioRegistro = null;
         String pinRegistro = null;
-        int salaSeleccionada = -1;
+        int salaSeleccionada = -1;  // Sala seleccionada para gestionarla
         int asientosNuevaSala = -1;
+        int funcionSeleccionada = -1;  // Función seleccionada para gestionarla
         /* Para cargar la data de los métodos y usarla, siempre se sobrescribe */
         Object[] data;
         while (true) {
-            System.out.println(asientosNuevaSala);
             switch (ruta) {
                 // Test
                 case "Test_botones":
@@ -127,6 +123,18 @@ public class Main {
                     break;
                 case "CrearSala_exito":
                     ruta = crearSala_exito();
+                    break;
+                // ViewGestionSala
+                case "GestionSala_gestionSala":
+                    data = gestionSala_gestionSala();
+                    ruta = (String) data[0];
+                    funcionSeleccionada = (int) data[1];
+                    break;
+                case "GestionSala_falloAlBorrar":
+                    ruta = gestionSala_falloAlBorrar();
+                    break;
+                case "GestionSala_exitoAlBorrar":
+                    ruta = gestionSala_exitoAlBorrar();
                     break;
                 default:
                     throw new Error("No hay una ruta implementada para la ruta \""
@@ -211,6 +219,19 @@ public class Main {
 
     private static String crearSala_exito() {
         return crearSalaController.exito();
+    }
+    
+    // ViewGestionSala
+    private static Object[] gestionSala_gestionSala() {
+        return gestionSalaController.gestionSala();
+    }
+    
+    private static String gestionSala_falloAlBorrar() {
+        return gestionSalaController.falloAlBorrar();
+    }
+    
+    private static String gestionSala_exitoAlBorrar() {
+        return gestionSalaController.exitoAlBorrar();
     }
     
 }

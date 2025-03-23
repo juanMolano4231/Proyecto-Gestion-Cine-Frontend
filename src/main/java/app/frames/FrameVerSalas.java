@@ -53,7 +53,7 @@ public class FrameVerSalas extends javax.swing.JFrame {
     
     private void llenarCombobox() {
         DefaultComboBoxModel model = new DefaultComboBoxModel();
-        for (int i = 0; i < 6; i++) {
+        for (int i = 1; i <= 6; i++) {
             model.addElement("Sala " + String.valueOf(i));
         }
         cbSalas.setModel(model);
@@ -185,7 +185,7 @@ public class FrameVerSalas extends javax.swing.JFrame {
 
     private void botonGestionarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botonGestionarActionPerformed
         seleccion = 3;
-        salaSeleccionada = cbSalas.getSelectedIndex();
+        salaSeleccionada = cbSalas.getSelectedIndex() + 1;
     }//GEN-LAST:event_botonGestionarActionPerformed
 
     

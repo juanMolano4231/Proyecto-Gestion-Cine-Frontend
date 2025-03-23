@@ -7,7 +7,6 @@ package app.frames;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import java.awt.event.WindowListener;
-import javax.crypto.AEADBadTagException;
 import javax.swing.JFormattedTextField;
 import javax.swing.JFrame;
 import javax.swing.JSpinner;

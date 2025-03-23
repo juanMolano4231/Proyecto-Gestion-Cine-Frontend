@@ -5,13 +5,7 @@
 package app.main;
 
 import com.formdev.flatlaf.FlatLightLaf;
-import app.controllers.ViewBienvenidaController;
-import app.controllers.ViewCrearSalaController;
-import app.controllers.ViewGestionCineController;
-import app.controllers.ViewLoginController;
-import app.controllers.ViewRegisterController;
-import app.controllers.ViewTestController;
-
+import app.controllers.*;
 /**
  *
  * @author Juan Jose Molano Franco
@@ -25,6 +19,7 @@ public class Main {
     private static final ViewRegisterController registerController = new ViewRegisterController();
     private static final ViewGestionCineController gestionCineController = new ViewGestionCineController();
     private static final ViewCrearSalaController crearSalaController = new ViewCrearSalaController();
+    private static final ViewGestionPerfilController viewGestionPerfilController = new ViewGestionPerfilController();
 
     public static void main(String[] args) {
         looksAndFeelSetup();
@@ -90,6 +85,9 @@ public class Main {
                 case "Login_exito":
                     ruta = login_exito(nombreUsuarioLogin);
                     break;
+                case "GestionPerfil_perfil":
+                    ruta = gestionPerfil();
+                    break;
                 // ViewRegister
                 case "Register_pideNombreUsuario":
                     data = register_pideNombreUsuario();
@@ -128,6 +126,7 @@ public class Main {
                 case "CrearSala_exito":
                     ruta = crearSala_exito();
                     break;
+                // ViewUsuario
                 default:
                     throw new Error("No hay una ruta implementada para la ruta \""
                             + ruta + "\"");
@@ -211,6 +210,11 @@ public class Main {
 
     private static String crearSala_exito() {
         return crearSalaController.exito();
+    }
+    
+    // ViewGestionPerfil
+        private static String gestionPerfil() {
+        return viewGestionPerfilController.verPerfil();
     }
     
 }

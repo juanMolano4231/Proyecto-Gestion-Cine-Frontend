@@ -25,7 +25,7 @@ public class FrameBienvenida extends javax.swing.JFrame {
         setLocationRelativeTo(null);
         // Esto se hace para poder detectar cuando la ventana se cierra con un listener
         setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
-        // Aquí se hace el setup thel windowlistener
+        // Aquí se hace el setup del windowListener
         AgregarWindowListener();
     }
     

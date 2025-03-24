@@ -18,4 +18,8 @@ public class ViewGestionPerfilController {
         return this.service.verPerfil();
     }
     
+    public String verTickets() {
+        return this.service.verTickets();
+    }
+    
 }

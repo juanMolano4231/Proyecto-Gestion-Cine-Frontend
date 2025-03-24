@@ -141,8 +141,8 @@ public class Main {
                 case "GestionPerfil_perfil":
                     ruta = gestionPerfil_perfil();
                     break;
-                case "GestionPerfil_tickets":
-                    ruta = gestionPerfil_tickets();
+                case "GestionPerfil_verTickets":
+                    ruta = gestionPerfil_verTickets();
                     break;
                 // Default
                 default:
@@ -248,7 +248,7 @@ public class Main {
         return viewGestionPerfilController.verPerfil();
     }
     
-    private static String gestionPerfil_tickets() {
+    private static String gestionPerfil_verTickets() {
         return viewGestionPerfilController.verTickets();
     }
 

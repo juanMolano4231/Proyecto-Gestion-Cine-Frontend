@@ -28,10 +28,10 @@ public class ViewGestionPerfilService {
                     return "Bienvenida_bienvenida";
                 case 2:  // Muestra vista de funciones
                     frame.dispose();
-                    return "GestionPerfil_funciones";
+                    return "GestionPerfil_verFunciones";
                 case 3: // Muestra vista de tickets
                     frame.dispose();
-                    return "GestionPerfil_tickets";
+                    return "GestionPerfil_verTickets";
                 default:  // Valor default, preferiblemente un número negativo
                     // Detiene el ciclo por 250 ms
                     try {

@@ -15,13 +15,13 @@ import javax.swing.table.DefaultTableModel;
  * @author johan
  */
 public class FrameTickets extends javax.swing.JFrame {
-    
+
     private int seleccion = -1;
-    
+
     public int getSeleccion() {
         return this.seleccion;
     }
-    
+
     /**
      * Creates new form FrameTickets
      */
@@ -32,6 +32,7 @@ public class FrameTickets extends javax.swing.JFrame {
         setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
         // Aquí se hace el setup del windowListener
         AgregarWindowListener();
+        llenarTabla();
     }
 
     public void AgregarWindowListener() {
@@ -45,26 +46,23 @@ public class FrameTickets extends javax.swing.JFrame {
         addWindowListener(exitListener);
     }
 
-    // BLUEPRINT PARA LLENAR LA TABLA DE TICKETS
-//        public void llenarTabla() {
-//        DefaultTableModel model = new DefaultTableModel() {
-//            @Override
-//            public boolean isCellEditable(int row, int column) {
-//                return false; // Make all cells non-editable
-//            }
-//        };
-//
-//        model.setColumnIdentifiers(new Object[]{"ID", "Fecha creacion", "Titulo"});
-//        for (int i = 0; i < tickets.size(); i++) {
-//            Tickets t = ;
-//            model.addRow(new Object[]{
-//                t.getters();
-//            });
-//
-//        }
-//
-//        tabla.setModel(model);
-//    }
+    public void llenarTabla() {
+        DefaultTableModel model = new DefaultTableModel() {
+            @Override
+            public boolean isCellEditable(int row, int column) {
+                return false; // Make all cells non-editable
+            }
+        };
+
+        model.setColumnIdentifiers(new Object[]{"ID", "Funcion", "Asiento", "Hora"});
+
+        for (int i = 0; i < 1; i++) {
+            model.addRow(new Object[]{1, "Avengers", 30, "19:30"});
+        }
+        
+        ticketsTable.setModel(model);
+    }
+
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -76,7 +74,7 @@ public class FrameTickets extends javax.swing.JFrame {
 
         jPanel1 = new javax.swing.JPanel();
         jScrollPane1 = new javax.swing.JScrollPane();
-        ticketsTabla = new javax.swing.JTable();
+        ticketsTable = new javax.swing.JTable();
         regresarBtn = new javax.swing.JButton();
         devolverBtn = new javax.swing.JButton();
         ticketSeleccionadoJLabel = new javax.swing.JLabel();
@@ -84,7 +82,7 @@ public class FrameTickets extends javax.swing.JFrame {
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
-        ticketsTabla.setModel(new javax.swing.table.DefaultTableModel(
+        ticketsTable.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
                 {null, null, null, null},
                 {null, null, null, null},
@@ -103,7 +101,7 @@ public class FrameTickets extends javax.swing.JFrame {
                 return types [columnIndex];
             }
         });
-        jScrollPane1.setViewportView(ticketsTabla);
+        jScrollPane1.setViewportView(ticketsTable);
 
         regresarBtn.setText("Regresar");
         regresarBtn.addActionListener(new java.awt.event.ActionListener() {
@@ -198,6 +196,6 @@ public class FrameTickets extends javax.swing.JFrame {
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JButton regresarBtn;
     private javax.swing.JLabel ticketSeleccionadoJLabel;
-    private javax.swing.JTable ticketsTabla;
+    private javax.swing.JTable ticketsTable;
     // End of variables declaration//GEN-END:variables
 }

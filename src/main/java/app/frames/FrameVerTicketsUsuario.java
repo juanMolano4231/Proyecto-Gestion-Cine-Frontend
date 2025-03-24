@@ -14,7 +14,7 @@ import javax.swing.table.DefaultTableModel;
  *
  * @author johan
  */
-public class FrameTickets extends javax.swing.JFrame {
+public class FrameVerTicketsUsuario extends javax.swing.JFrame {
 
     private int seleccion = -1;
 
@@ -25,7 +25,7 @@ public class FrameTickets extends javax.swing.JFrame {
     /**
      * Creates new form FrameTickets
      */
-    public FrameTickets() {
+    public FrameVerTicketsUsuario() {
         initComponents();
         setLocationRelativeTo(null);
         // Esto se hace para poder detectar cuando la ventana se cierra con un listener
@@ -33,6 +33,7 @@ public class FrameTickets extends javax.swing.JFrame {
         // Aquí se hace el setup del windowListener
         AgregarWindowListener();
         llenarTabla();
+        actionListenerTablaTickets();
     }
 
     public void AgregarWindowListener() {
@@ -59,8 +60,19 @@ public class FrameTickets extends javax.swing.JFrame {
         for (int i = 0; i < 1; i++) {
             model.addRow(new Object[]{1, "Avengers", 30, "19:30"});
         }
-        
+
         ticketsTable.setModel(model);
+    }
+
+    private void actionListenerTablaTickets() {
+        ticketsTable.getSelectionModel().addListSelectionListener(e -> {
+            if (!e.getValueIsAdjusting() && ticketsTable.getSelectedRow() != -1) {
+                int selectedRow = ticketsTable.getSelectedRow();
+
+                idTicketLabel.setText(ticketsTable.getValueAt(selectedRow, 0).toString());
+                ticketsTable.clearSelection();
+            }
+        });
     }
 
     /**

@@ -45,7 +45,7 @@ public class ViewGestionPerfilService {
     }
 
     public String verTickets() {
-        FrameTickets frame = new FrameTickets();
+        FrameVerTicketsUsuario frame = new FrameVerTicketsUsuario();
         frame.setVisible(true);
 
         while (true) {
@@ -60,6 +60,34 @@ public class ViewGestionPerfilService {
                 case 2:  // Devuelve el ticket seleccionado
                     frame.dispose();
                     return "GestionPerfil_devolver";
+                default:  // Valor default, preferiblemente un número negativo
+                    // Detiene el ciclo por 250 ms
+                    try {
+                        TimeUnit.MILLISECONDS.sleep(250);
+                    } catch (InterruptedException ie) {
+                        Thread.currentThread().interrupt();
+                    }
+                    break;
+            }
+        }
+    }
+
+    public String verFunciones() {
+        FrameVerFuncionesUsuario frame = new FrameVerFuncionesUsuario();
+        frame.setVisible(true);
+
+        while (true) {
+            int seleccion = frame.getSeleccion();
+            switch (seleccion) {
+                case 0:  // Se cierra el frame con la X
+                    frame.dispose();
+                    return "salida";
+                case 1:  //Vuelve a la vista de usuario
+                    frame.dispose();
+                    return "GestionPerfil_perfil";
+                case 2:  // Manda a la vista de compra de ticket
+                    frame.dispose();
+                    return "GestionPerfil_comprarTicket";
                 default:  // Valor default, preferiblemente un número negativo
                     // Detiene el ciclo por 250 ms
                     try {

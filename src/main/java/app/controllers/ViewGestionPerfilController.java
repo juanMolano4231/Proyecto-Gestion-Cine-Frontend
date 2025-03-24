@@ -22,4 +22,8 @@ public class ViewGestionPerfilController {
         return this.service.verTickets();
     }
     
+    public String verFunciones() {
+        return this.service.verFunciones();
+    }
+    
 }

@@ -144,6 +144,9 @@ public class Main {
                 case "GestionPerfil_verTickets":
                     ruta = gestionPerfil_verTickets();
                     break;
+                case "GestionPerfil_verFunciones":
+                    ruta = gestionPerfil_verFunciones();
+                    break;
                 // Default
                 default:
                     throw new Error("No hay una ruta implementada para la ruta \""
@@ -250,6 +253,10 @@ public class Main {
     
     private static String gestionPerfil_verTickets() {
         return viewGestionPerfilController.verTickets();
+    }
+    
+    private static String gestionPerfil_verFunciones() {
+        return viewGestionPerfilController.verFunciones();
     }
 
 }

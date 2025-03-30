@@ -15,7 +15,7 @@ import app.controllers.*;
 public class Main {
 
     private static final ViewTestController testController = new ViewTestController();
-    private static final ViewBienvenidaController bienvenidaController = new ViewBienvenidaController();
+    private static final BienvenidaController bienvenidaController = new BienvenidaController();
     private static final ViewLoginController loginController = new ViewLoginController();
     private static final ViewRegisterController registerController = new ViewRegisterController();
     private static final ViewGestionCineController gestionCineController = new ViewGestionCineController();

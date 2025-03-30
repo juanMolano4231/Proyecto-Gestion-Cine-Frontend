@@ -5,22 +5,26 @@
 
 package app.controllers;
 
-import app.services.ViewRegisterService;
+import app.services.RegisterService;
+import app.views.ViewRegister;
 
 /**
  *
  * @author Juan Jose Molano Franco
  */
-public class ViewRegisterController {
+public class RegisterController {
     
-    private final ViewRegisterService service;
+    private final RegisterService service;
+    private final ViewRegister view;
     
-    public ViewRegisterController() {
-        this.service = new ViewRegisterService();
+    public RegisterController() {
+        service = new RegisterService();
+        view = new ViewRegister();
     }
     
     public Object[] pideNombreUsuario() {
-        return service.pideNombreUsuario();
+        String nombreUsuario = view.pideNombreUsuario();
+        return service.pideNombreUsuario(nombreUsuario);
     }
     
     public String usuarioInvalido() {

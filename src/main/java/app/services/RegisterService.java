@@ -5,31 +5,44 @@
 
 package app.services;
 
+import app.models.Usuario;
 import app.views.ViewRegister;
+import client.CineClient;
+import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import javax.swing.JOptionPane;
 
 /**
  *
  * @author Juan José Molano Franco
  */
-public class ViewRegisterService {
+public class RegisterService {
     
-    private final ViewRegister register;
+    private final ViewRegister register;  // Esto se debe de borrar después
+    private final CineClient cliente;
     
-    public ViewRegisterService() {
-        this.register = new ViewRegister();
+    public RegisterService() {
+        register = new ViewRegister();
+        cliente = new CineClient();
     }
     
-    public Object[] pideNombreUsuario() {
-        String input = register.pideNombreUsuario();
-        if (input == null) {
+    public Object[] pideNombreUsuario(String nombreUsuario) {
+        try {
+            if (nombreUsuario == null) {
+                return new Object[]{"Bienvenida_bienvenida", null};
+            }
+            if (!nombreUsuarioValido(nombreUsuario)) {
+                return new Object[]{"Register_usuarioInvalido", null};
+            } else if (nombreUsuarioOcupado(nombreUsuario)) {
+                return new Object[]{"Register_usuarioOcupado", null};
+            } else {
+                return new Object[]{"Register_pidePin", nombreUsuario};
+            }
+        } catch (Exception ex) {
+            notificar(ex.getMessage());
+            ex.printStackTrace();
             return new Object[]{"Bienvenida_bienvenida", null};
-        }
-        if (!nombreUsuarioValido(input)) {
-            return new Object[]{"Register_usuarioInvalido", null};
-        } else if (input.equals("juan1234") || input.equals("joham1234")) {  // Usuario admin quemado
-            return new Object[]{"Register_usuarioOcupado", null};
-        } else {
-            return new Object[]{"Register_pidePin", input};
         }
     }
     
@@ -104,6 +117,23 @@ public class ViewRegisterService {
             }
         }
         return true;
+    }
+
+    private boolean nombreUsuarioOcupado(String nombreUsuario) throws Exception {
+        List<Usuario> usuarios = cliente.getAllUsuarios();
+        if (usuarios == null) {
+            throw new Exception("Hubo un error al conectar con el servidor");
+        }
+        for (Usuario u : usuarios) {
+            if (u.getUsuario().equals(nombreUsuario)) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    private void notificar(String mensaje) {
+        JOptionPane.showMessageDialog(null, mensaje);
     }
     
 }

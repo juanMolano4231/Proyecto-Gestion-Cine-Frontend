@@ -55,7 +55,7 @@ public class CineClient {
                 throw new Exception("El usuario no se pudo guardar, por favor inténtelo de nuevo más tarde");
             }
         } catch (IOException e) {
-            e.printStackTrace();
+            throw new Exception("El usuario no se pudo guardar, por favor inténtelo de nuevo más tarde");
         }
     }
 }

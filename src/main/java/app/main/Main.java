@@ -6,6 +6,7 @@ package app.main;
 
 import com.formdev.flatlaf.FlatLightLaf;
 import app.controllers.*;
+import app.models.Sala;
 
 /**
  *
@@ -18,7 +19,7 @@ public class Main {
     private static final BienvenidaController bienvenidaController = new BienvenidaController();
     private static final ViewLoginController loginController = new ViewLoginController();
     private static final RegisterController registerController = new RegisterController();
-    private static final ViewGestionCineController gestionCineController = new ViewGestionCineController();
+    private static final GestionCineController gestionCineController = new GestionCineController();
     private static final ViewCrearSalaController crearSalaController = new ViewCrearSalaController();
     private static final ViewGestionPerfilController viewGestionPerfilController = new ViewGestionPerfilController();
     private static final ViewGestionSalaController gestionSalaController = new ViewGestionSalaController();
@@ -44,7 +45,10 @@ public class Main {
         String pinLogin = null;
         String nombreUsuarioRegistro = null;
         String pinRegistro = null;
-        int salaSeleccionada = -1;  // Sala seleccionada para gestionarla
+        int indexSalaSeleccionada = -1;  // Index de sala seleccionada para gestionarla
+        /* La sala puede ser Sala n dependiendo del número, ERROR DE CONEXION si no se
+        puede conectar con la API y NO HAY SALAS si aún no se han creado salas*/
+        String salaSeleccionada = null;  // Sala seleccionada para gestión
         int asientosNuevaSala = -1;
         int funcionSeleccionada = -1;  // Función seleccionada para gestionarla
         /* Para cargar la data de los métodos y usarla, siempre se sobrescribe */
@@ -115,7 +119,8 @@ public class Main {
                 case "GestionCine_verSalas":
                     data = gestionCine_verSalas();
                     ruta = (String) data[0];
-                    salaSeleccionada = (int) data[1];  // Guarda sala seleccionada para gestionar
+                    indexSalaSeleccionada = (int) data[1];  // Guarda index sala seleccionada para gestionar
+                    salaSeleccionada = (String) data[2];  // Sala para gestionarla
                     break;
                 // ViewCrearSala
                 case "CrearSala_crearSala":

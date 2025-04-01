@@ -4,11 +4,14 @@
  */
 package app.frames;
 
+import app.models.Sala;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import java.awt.event.WindowListener;
+import java.util.List;
 import javax.swing.DefaultComboBoxModel;
 import javax.swing.JFrame;
+import javax.swing.JOptionPane;
 
 /**
  *
@@ -17,27 +20,32 @@ import javax.swing.JFrame;
 public class FrameVerSalas extends javax.swing.JFrame {
 
     private int seleccion = -1;  // Valor default, preferiblemente un número negativo
-    private int salaSeleccionada = -1;
+    private int indexSalaSeleccionada = -1;
+    private String salaSeleccionada = null;
     
     /**
      * Creates new form FrameVerSalas
      */
-    public FrameVerSalas() {
+    public FrameVerSalas(List<Sala> salas) {
         initComponents();
         setLocationRelativeTo(null);
         // Esto se hace para poder detectar cuando la ventana se cierra con un listener
         setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
         // Aquí se hace el setup thel windowlistener
         AgregarWindowListener();
-        llenarCombobox();
+        llenarCombobox(salas);
     }
     
     public int getSeleccion() {
         return seleccion;
     }
     
-    public int getSalaSeleccionada() {
+    public String getSalaSeleccionada() {
         return salaSeleccionada;
+    }
+    
+    public int getIndexSalaSeleccionada() {
+        return indexSalaSeleccionada;
     }
     
     private void AgregarWindowListener() {
@@ -51,13 +59,28 @@ public class FrameVerSalas extends javax.swing.JFrame {
         addWindowListener(exitListener);
     }
     
-    private void llenarCombobox() {
+    private void llenarCombobox(List<Sala> salas) {
         DefaultComboBoxModel model = new DefaultComboBoxModel();
-        for (int i = 1; i <= 6; i++) {
-            model.addElement("Sala " + String.valueOf(i));
+        if (salas == null) {
+            notificar("No se pudieron cargar las salas, por favor inténtelo de nuevo más tarde");
+            cbSalas.setModel(model);
+            model.addElement("ERROR DE CONEXION");
+            return;
+        }
+        for (int i = 0; i < salas.size(); i++) {
+            model.addElement("Sala " + (i + 1));
         }
         cbSalas.setModel(model);
-        cbSalas.setSelectedIndex(0);
+        try {  // No hay salas
+            cbSalas.setSelectedIndex(0);
+        } catch (Exception e) {
+            model.addElement("NO HAY SALAS");
+            
+        }
+    }
+    
+    private void notificar(String mensaje) {
+        JOptionPane.showMessageDialog(null, mensaje);
     }
     
     /**
@@ -185,7 +208,8 @@ public class FrameVerSalas extends javax.swing.JFrame {
 
     private void botonGestionarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botonGestionarActionPerformed
         seleccion = 3;
-        salaSeleccionada = cbSalas.getSelectedIndex() + 1;
+        indexSalaSeleccionada = cbSalas.getSelectedIndex() + 1;
+        salaSeleccionada = (String) cbSalas.getSelectedItem();
     }//GEN-LAST:event_botonGestionarActionPerformed
 
     

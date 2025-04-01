@@ -5,7 +5,7 @@
 
 package api.repositories;
 
-import app.models.Usuario;
+import app.models.Sala;
 import java.util.ArrayList;
 import java.util.List;
 import org.springframework.stereotype.Repository;
@@ -14,17 +14,16 @@ import org.springframework.stereotype.Repository;
  *
  * @author Juan José Molano Franco
  */
-
 @Repository
-public class UsuarioRepository {
-    private final List<Usuario> baseDeDatosUsuarios = new ArrayList<>();
+public class SalaRepository {
+    private final List<Sala> baseDeDatosSalas = new ArrayList<>();
 
-    public void saveUsuario(Usuario usuario) {
-        baseDeDatosUsuarios.add(usuario);
+    public void saveSala(Sala sala) {
+        baseDeDatosSalas.add(sala);
     }
-    
-    public List<Usuario> getAllUsuarios() {
-        return baseDeDatosUsuarios;
+
+    public List<Sala> getSalas() {
+        return baseDeDatosSalas;
     }
 
 }

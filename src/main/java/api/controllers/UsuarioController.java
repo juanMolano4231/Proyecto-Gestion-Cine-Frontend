@@ -6,7 +6,7 @@
 package api.controllers;
 
 import api.services.UsuarioService;
-import app.models.Usuario;
+ import app.models.Usuario;
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -41,7 +41,7 @@ public class UsuarioController {
     
     @PostMapping
     public ResponseEntity<Usuario> createUsuario(@RequestBody Usuario usuario) {
-        Usuario newUsuario = service.save(usuario);
+        Usuario newUsuario = service.saveUsuario(usuario);
         return new ResponseEntity<>(newUsuario, HttpStatus.CREATED);
     }
 }

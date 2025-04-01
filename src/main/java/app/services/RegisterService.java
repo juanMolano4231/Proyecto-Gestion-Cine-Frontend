@@ -46,8 +46,7 @@ public class RegisterService {
         }
     }
     
-    public String usuarioInvalido() {
-        int selection = register.usuarioInvalido();
+    public String usuarioInvalido(int selection) {
         if (selection == 0) {  // Presiona OK
             return "Register_pideNombreUsuario";
         } else if (selection == 2) {  // Presiona CANCEL
@@ -59,8 +58,7 @@ public class RegisterService {
         }
     }
     
-    public String usuarioOcupado() {
-        int selection = register.usuarioOcupado();
+    public String usuarioOcupado(int selection) {
         if (selection == 0) {  // Presiona OK
             return "Register_pideNombreUsuario";
         } else if (selection == 2) {  // Presiona CANCEL
@@ -72,8 +70,7 @@ public class RegisterService {
         }
     }
     
-    public Object[] pidePin() {
-        String input = register.pidePin();
+    public Object[] pidePin(String input) {
         try {
             Integer.parseInt(input);
         } catch (Exception e) {
@@ -82,8 +79,7 @@ public class RegisterService {
         return new Object[]{"Register_exito", input};
     }
     
-    public String pinInvalido() {
-        int selection = register.pinInvalido();
+    public String pinInvalido(int selection) {
         if (selection == 0) {  // Presiona OK
             return "Register_pidePin";
         } else if (selection == 2) {  // Presiona CANCEL
@@ -95,8 +91,9 @@ public class RegisterService {
         }
     }
     
-    public String exito() {
-        int selection = register.exito();
+    public String exito(int selection, String usu, String pin) {
+        registrarUsuario(usu, pin);
+        
         if (selection == 0 || selection == 2) {  // Presiona OK o CANCEL
             return "Bienvenida_bienvenida";
         } else if (selection == -1) {  // Cierra la ventana
@@ -132,8 +129,13 @@ public class RegisterService {
         return false;
     }
 
+    // Otros procesos
     private void notificar(String mensaje) {
         JOptionPane.showMessageDialog(null, mensaje);
+    }
+
+    private void registrarUsuario(String usu, String pin) {
+        cliente.createUsuario(usu, pin);
     }
     
 }

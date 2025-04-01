@@ -5,6 +5,7 @@
 
 package client;
 
+import app.models.Cliente;
 import app.models.Usuario;
 import client.apiServices.UsuarioApiService;
 import java.io.IOException;
@@ -31,15 +32,6 @@ public class CineClient {
         apiService = retrofit.create(UsuarioApiService.class);
     }
     
-//    public static void main(String[] args) {
-//        Retrofit retrofit = new Retrofit.Builder()
-//            .baseUrl(BASE_URL)
-//            .addConverterFactory(GsonConverterFactory.create())
-//            .build();
-//
-//        apiService = retrofit.create(UsuarioApiService.class);
-//    }
-    
     public List<Usuario> getAllUsuarios() {
         try {
             Response<List<Usuario>> response = apiService.getAllUsuarios().execute();
@@ -51,6 +43,20 @@ public class CineClient {
             }
         } catch (IOException e) {
             return null;
+        }
+    }
+
+    public void createUsuario(String usu, String pin) {
+        Usuario usuario = new Cliente(usu, Long.parseLong(pin));
+        try {
+            Response<Usuario> response = apiService.createUsuario(usuario).execute();
+            if (response.isSuccessful()) {
+                System.out.println("Usuario creado: " + response.body());
+            } else {
+                System.out.println("Error al crear usuario: " + response.code());
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
         }
     }
 }

@@ -7,6 +7,10 @@ package api.controllers;
 
 import api.services.SalaService;
 import app.models.Sala;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.responses.ApiResponse;
+import io.swagger.v3.oas.annotations.responses.ApiResponses;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -22,6 +26,8 @@ import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 @RequestMapping("/api/salas")
+@Tag(name = "Salas", description = "API para la gestión de salas")
+
 public class SalaController {
     
     private final SalaService service;
@@ -32,6 +38,11 @@ public class SalaController {
     }
     
     @GetMapping
+    @Operation(summary = "Obtener todas las salas", description = "Devuelve una lista de todas las salas existentes.")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "Lista de salas obtenida con éxito"),
+            @ApiResponse(responseCode = "500", description = "Error interno del servidor")
+    })
     public ResponseEntity<List<Sala>> getSalas() {
         List<Sala> Salas = service.getSalas();
         return new ResponseEntity<>(Salas, HttpStatus.OK);

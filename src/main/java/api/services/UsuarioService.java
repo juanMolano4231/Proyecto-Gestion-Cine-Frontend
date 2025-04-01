@@ -36,8 +36,9 @@ public class UsuarioService {
         save(johan);
     }
 
-    private void save(Usuario usuario) {
+    public Usuario save(Usuario usuario) {
         repository.save(usuario);
+        return usuario;
     }
 
     public List<Usuario> getAllUsuarios() {

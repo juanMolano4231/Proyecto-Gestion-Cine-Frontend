@@ -109,7 +109,7 @@ public class Main {
                     ruta = register_pinInvalido();
                     break;
                 case "Register_exito":
-                    ruta = register_exito();
+                    ruta = register_exito(nombreUsuarioRegistro, pinRegistro);
                     break;
                 // ViewGestionCine
                 case "GestionCine_verSalas":
@@ -226,8 +226,8 @@ public class Main {
         return registerController.pinInvalido();
     }
 
-    private static String register_exito() {
-        return registerController.exito();
+    private static String register_exito(String usu, String pin) {
+        return registerController.exito(usu, pin);
     }
 
     // ViewGestionCine

@@ -11,6 +11,7 @@ import retrofit2.Call;
 import retrofit2.http.Body;
 import retrofit2.http.GET;
 import retrofit2.http.POST;
+import retrofit2.http.Path;
 
 /**
  *
@@ -22,5 +23,8 @@ public interface UsuarioApiService {
 
     @POST("/api/usuarios")
     Call<Usuario> createUsuario(@Body Usuario usuario);
+    
+    @GET("/api/usuarios/{user}")
+    Call<Usuario> buscarUsuario(@Path("user") String user);
 
 }

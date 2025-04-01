@@ -44,4 +44,8 @@ public class UsuarioService {
     public List<Usuario> getAllUsuarios() {
         return repository.getAllUsuarios();
     }
+
+    public Usuario findByUser(String user) {
+        return repository.findByUser(user);
+    }
 }

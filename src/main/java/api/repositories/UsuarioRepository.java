@@ -27,4 +27,13 @@ public class UsuarioRepository {
         return baseDeDatos;
     }
 
+    public Usuario findByUser(String user) {
+        for (Usuario usuario : baseDeDatos) {
+            if(usuario.getUsuario().equals(user)) {
+                return usuario;
+            }
+        }
+        return null;
+    }
+
 }

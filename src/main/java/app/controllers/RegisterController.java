@@ -48,7 +48,6 @@ public class RegisterController {
 
     public String exito(String usu, String pin) {
         int seleccion = view.exito();
-        System.out.println("pasa");
         return service.exito(seleccion, usu, pin);
     }
 }

@@ -92,8 +92,14 @@ public class RegisterService {
     }
     
     public String exito(int selection, String usu, String pin) {
-        registrarUsuario(usu, pin);
-        
+        try {
+            registrarUsuario(usu, pin);
+        } catch (Exception ex) {
+            notificar(ex.getMessage());
+            ex.printStackTrace();
+            return "Bienvenida_bienvenida";
+        }
+
         if (selection == 0 || selection == 2) {  // Presiona OK o CANCEL
             return "Bienvenida_bienvenida";
         } else if (selection == -1) {  // Cierra la ventana
@@ -134,7 +140,7 @@ public class RegisterService {
         JOptionPane.showMessageDialog(null, mensaje);
     }
 
-    private void registrarUsuario(String usu, String pin) {
+    private void registrarUsuario(String usu, String pin) throws Exception {
         cliente.createUsuario(usu, pin);
     }
     

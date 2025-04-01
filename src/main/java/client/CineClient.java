@@ -46,14 +46,13 @@ public class CineClient {
         }
     }
 
-    public void createUsuario(String usu, String pin) {
+    public void createUsuario(String usu, String pin) throws Exception {
         Usuario usuario = new Cliente(usu, Long.parseLong(pin));
         try {
             Response<Usuario> response = apiService.createUsuario(usuario).execute();
             if (response.isSuccessful()) {
-                System.out.println("Usuario creado: " + response.body());
             } else {
-                System.out.println("Error al crear usuario: " + response.code());
+                throw new Exception("El usuario no se pudo guardar, por favor inténtelo de nuevo más tarde");
             }
         } catch (IOException e) {
             e.printStackTrace();

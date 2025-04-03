@@ -4,6 +4,7 @@
  */
 package app.services;
 
+import app.models.Usuario;
 import app.views.ViewLogin;
 import client.CineClient;
 
@@ -25,12 +26,14 @@ public class LoginService {
         }
         if (!nombreUsuarioValido(input)) {
             return new Object[]{"Login_usuarioInvalido", null};
-        } else if (input.equals(cliente.buscarUsuario(input))) {
+        }
+
+        Usuario usuario = cliente.buscarUsuario(input); 
+        if (usuario != null && usuario.getUsuario().equals(input)) {
             return new Object[]{"Login_pidePin", input};
         } else {
             return new Object[]{"Login_usuarioNoEncontrado", null};
         }
-
     }
 
     public String usuarioInvalido(int selection) {

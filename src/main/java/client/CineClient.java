@@ -64,9 +64,9 @@ public class CineClient {
         try {
             Response<Usuario> response = apiService.buscarUsuario(user).execute();
             if (response.isSuccessful()) {
-                Usuario usuario = response.body();
-                return usuario;
+                return response.body();
             } else {
+                System.out.println("Error: " + response.code() + " - " + response.message());
                 return null;
             }
         } catch (IOException e) {
@@ -74,4 +74,5 @@ public class CineClient {
         }
         return null;
     }
+
 }

@@ -17,7 +17,7 @@ public class Main {
 
     private static final ViewTestController testController = new ViewTestController();
     private static final BienvenidaController bienvenidaController = new BienvenidaController();
-    private static final ViewLoginController loginController = new ViewLoginController();
+    private static final LoginController loginController = new LoginController();
     private static final RegisterController registerController = new RegisterController();
     private static final GestionCineController gestionCineController = new GestionCineController();
     private static final ViewCrearSalaController crearSalaController = new ViewCrearSalaController();

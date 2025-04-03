@@ -19,11 +19,9 @@ import javax.swing.JOptionPane;
  */
 public class RegisterService {
     
-    private final ViewRegister register;  // Esto se debe de borrar después
     private final CineClient cliente;
     
     public RegisterService() {
-        register = new ViewRegister();
         cliente = new CineClient();
     }
     
@@ -94,9 +92,7 @@ public class RegisterService {
     public String exito(int selection, String usu, String pin) {
         try {
             registrarUsuario(usu, pin);
-            System.out.println("registrando");
         } catch (Exception ex) {
-            System.out.println("error");
             notificar(ex.getMessage());
             ex.printStackTrace();
             return "Bienvenida_bienvenida";

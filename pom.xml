@@ -60,13 +60,13 @@
             <artifactId>retrofit</artifactId>
             <version>2.9.0</version>
         </dependency>
-
         <!-- Gson Converter para Retrofit -->
         <dependency>
             <groupId>com.squareup.retrofit2</groupId>
             <artifactId>converter-gson</artifactId>
             <version>2.9.0</version>
         </dependency>
+        <!--swagger-->
         <dependency>
             <groupId>org.springdoc</groupId>
             <artifactId>springdoc-openapi-starter-webmvc-ui</artifactId>
@@ -81,5 +81,4 @@
             </plugin>
         </plugins>
     </build>
-
 </project>

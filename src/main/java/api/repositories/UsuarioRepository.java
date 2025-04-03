@@ -17,18 +17,18 @@ import org.springframework.stereotype.Repository;
 
 @Repository
 public class UsuarioRepository {
-    private final List<Usuario> baseDeDatos = new ArrayList<>();
+    private final List<Usuario> baseDeDatosUsuarios = new ArrayList<>();
 
-    public void save(Usuario usuario) {
-        baseDeDatos.add(usuario);
+    public void saveUsuario(Usuario usuario) {
+        baseDeDatosUsuarios.add(usuario);
     }
-
+    
     public List<Usuario> getAllUsuarios() {
-        return baseDeDatos;
+        return baseDeDatosUsuarios;
     }
 
     public Usuario findByUser(String user) {
-        for (Usuario usuario : baseDeDatos) {
+        for (Usuario usuario : baseDeDatosUsuarios) {
             if(usuario.getUsuario().equals(user)) {
                 return usuario;
             }

@@ -11,8 +11,8 @@ package app.models;
  */
 public class Usuario {
     
-    String usuario;
-    long pin;
+    private String usuario;
+    private long pin;
 
     public Usuario(String usuario, long pin) {
         this.usuario = usuario;
@@ -39,4 +39,6 @@ public class Usuario {
     public void setPin(long pin) {
         this.pin = pin;
     }
+
+
 }

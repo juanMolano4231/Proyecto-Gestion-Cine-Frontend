@@ -5,7 +5,9 @@
 package client;
 
 import app.models.Cliente;
+import app.models.Sala;
 import app.models.Usuario;
+import client.apiServices.SalaApiService;
 import client.apiServices.UsuarioApiService;
 import java.io.IOException;
 import java.util.ArrayList;
@@ -21,7 +23,8 @@ import retrofit2.converter.gson.GsonConverterFactory;
 public class CineClient {
 
     private static final String BASE_URL = "http://localhost:8080";
-    private static UsuarioApiService apiService;
+    private static UsuarioApiService usuarioApiService;
+    private static SalaApiService salaApiService;
     private static Retrofit retrofit;
 
     public CineClient() {
@@ -30,12 +33,13 @@ public class CineClient {
                 .addConverterFactory(GsonConverterFactory.create())
                 .build();
 
-        apiService = retrofit.create(UsuarioApiService.class);
+        usuarioApiService = retrofit.create(UsuarioApiService.class);
+        salaApiService = retrofit.create(SalaApiService.class);
     }
 
     public List<Usuario> getAllUsuarios() {
         try {
-            Response<List<Usuario>> response = apiService.getAllUsuarios().execute();
+            Response<List<Usuario>> response = usuarioApiService.getAllUsuarios().execute();
             if (response.isSuccessful()) {
                 List<Usuario> usuarios = response.body();
                 return usuarios;
@@ -50,7 +54,7 @@ public class CineClient {
     public void createUsuario(String usu, String pin) throws Exception {
         Usuario usuario = new Cliente(usu, Long.parseLong(pin));
         try {
-            Response<Usuario> response = apiService.createUsuario(usuario).execute();
+            Response<Usuario> response = usuarioApiService.createUsuario(usuario).execute();
             if (response.isSuccessful()) {
             } else {
                 throw new Exception("El usuario no se pudo guardar, por favor inténtelo de nuevo más tarde");
@@ -62,7 +66,7 @@ public class CineClient {
 
     public Usuario buscarUsuario(String user) {
         try {
-            Response<Usuario> response = apiService.buscarUsuario(user).execute();
+            Response<Usuario> response = usuarioApiService.buscarUsuario(user).execute();
             if (response.isSuccessful()) {
                 return response.body();
             } else {
@@ -73,6 +77,20 @@ public class CineClient {
             e.printStackTrace();
         }
         return null;
+    }
+
+    public List<Sala> getSalas() {
+        try {
+            Response<List<Sala>> response = salaApiService.getSalas().execute();
+            if (response.isSuccessful()) {
+                List<Sala> salas = response.body();
+                return salas;
+            } else {
+                return null;
+            }
+        } catch (IOException e) {
+            return null;
+        }
     }
 
 }

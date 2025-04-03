@@ -15,12 +15,12 @@ import java.util.List;
  */
 public class Funcion {
     
-    private LocalDateTime inicio;
-    private LocalDateTime fin;
+    private String inicio;
+    private String fin;
     private List<Boolean> asientos = new ArrayList<>();
     private String titulo;
 
-    public Funcion(LocalDateTime inicio, LocalDateTime fin, String titulo) {
+    public Funcion(String inicio, String fin, String titulo) {
         this.inicio = inicio;
         this.fin = fin;
         this.titulo = titulo;
@@ -29,22 +29,6 @@ public class Funcion {
     @Override
     public String toString() {
         return "Funcion{" + "inicio=" + inicio + ", fin=" + fin + ", asientos=" + asientos + ", titulo=" + titulo + '}';
-    }
-
-    public LocalDateTime getInicio() {
-        return inicio;
-    }
-
-    public void setInicio(LocalDateTime inicio) {
-        this.inicio = inicio;
-    }
-
-    public LocalDateTime getFin() {
-        return fin;
-    }
-
-    public void setFin(LocalDateTime fin) {
-        this.fin = fin;
     }
 
     public List<Boolean> getAsientos() {
@@ -61,6 +45,22 @@ public class Funcion {
 
     public void setTitulo(String titulo) {
         this.titulo = titulo;
+    }
+
+    public String getInicio() {
+        return inicio;
+    }
+
+    public void setInicio(String inicio) {
+        this.inicio = inicio;
+    }
+
+    public String getFin() {
+        return fin;
+    }
+
+    public void setFin(String fin) {
+        this.fin = fin;
     }
 
    

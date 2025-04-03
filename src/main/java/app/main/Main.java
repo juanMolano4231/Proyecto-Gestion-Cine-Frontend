@@ -20,7 +20,7 @@ public class Main {
     private static final LoginController loginController = new LoginController();
     private static final RegisterController registerController = new RegisterController();
     private static final GestionCineController gestionCineController = new GestionCineController();
-    private static final ViewCrearSalaController crearSalaController = new ViewCrearSalaController();
+    private static final CrearSalaController crearSalaController = new CrearSalaController();
     private static final ViewGestionPerfilController viewGestionPerfilController = new ViewGestionPerfilController();
     private static final ViewGestionSalaController gestionSalaController = new ViewGestionSalaController();
     private static final ViewGestionFuncionController gestionFuncionController = new ViewGestionFuncionController();
@@ -129,7 +129,7 @@ public class Main {
                     asientosNuevaSala = (int) data[1];
                     break;
                 case "CrearSala_exito":
-                    ruta = crearSala_exito();
+                    ruta = crearSala_exito(asientosNuevaSala);
                     break;
                 // ViewGestionSala
                 case "GestionSala_gestionSala":
@@ -245,8 +245,8 @@ public class Main {
         return crearSalaController.crearSala();
     }
 
-    private static String crearSala_exito() {
-        return crearSalaController.exito();
+    private static String crearSala_exito(int asientos) {
+        return crearSalaController.exito(asientos);
     }
     
     // ViewGestionSala

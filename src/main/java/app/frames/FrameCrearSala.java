@@ -25,7 +25,7 @@ public class FrameCrearSala extends javax.swing.JFrame {
     /**
      * Creates new form FrameCrearSala
      */
-    public FrameCrearSala() {
+    public FrameCrearSala(int numSala) {
         initComponents();
         setLocationRelativeTo(null);
         // Esto se hace para poder detectar cuando la ventana se cierra con un listener
@@ -33,6 +33,12 @@ public class FrameCrearSala extends javax.swing.JFrame {
         // Aquí se hace el setup thel windowlistener
         AgregarWindowListener();
         configurarSpinner();
+        // numSala es el número de la sala que está siendo creada
+        if (numSala == -1) {
+            labelSala.setText("Creando sala n");
+        } else {
+            labelSala.setText("Creando sala " + numSala);
+        }
     }
     
     private void configurarSpinner() {
@@ -74,7 +80,7 @@ public class FrameCrearSala extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        jLabel1 = new javax.swing.JLabel();
+        labelSala = new javax.swing.JLabel();
         jLabel2 = new javax.swing.JLabel();
         spinner = new javax.swing.JSpinner();
         botonCrear = new javax.swing.JButton();
@@ -82,7 +88,7 @@ public class FrameCrearSala extends javax.swing.JFrame {
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
-        jLabel1.setText("Creando sala n");
+        labelSala.setText("Creando sala n");
 
         jLabel2.setText("Por favor elija el número de asientos");
 
@@ -108,7 +114,7 @@ public class FrameCrearSala extends javax.swing.JFrame {
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
                         .addGap(158, 158, 158)
-                        .addComponent(jLabel1))
+                        .addComponent(labelSala))
                     .addGroup(layout.createSequentialGroup()
                         .addGap(100, 100, 100)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -127,7 +133,7 @@ public class FrameCrearSala extends javax.swing.JFrame {
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addGap(64, 64, 64)
-                .addComponent(jLabel1)
+                .addComponent(labelSala)
                 .addGap(41, 41, 41)
                 .addComponent(jLabel2)
                 .addGap(18, 18, 18)
@@ -155,8 +161,8 @@ public class FrameCrearSala extends javax.swing.JFrame {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton botonCrear;
     private javax.swing.JButton botonVolver;
-    private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
+    private javax.swing.JLabel labelSala;
     private javax.swing.JSpinner spinner;
     // End of variables declaration//GEN-END:variables
 }

@@ -13,8 +13,13 @@ import javax.swing.JOptionPane;
  */
 public class ViewCrearSala {
     
-    public int exito() {
-        String message = "Sala número n creada exitosamente";
+    public int exito(int n) {
+        String message = "";
+        if (n == -1) {
+            message = "Sala número n creada exitosamente";
+        } else {
+            message = "Sala número " + n + " creada exitosamente";
+        }
         return JOptionPane.showConfirmDialog(null, message, "Advertencia", 
                 JOptionPane.OK_CANCEL_OPTION);
     }

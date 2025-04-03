@@ -93,4 +93,17 @@ public class CineClient {
         }
     }
 
+    public void createSala(int asientos) throws Exception {
+        Sala sala = new Sala(asientos);
+        try {
+            Response<Sala> response = salaApiService.createSala(sala).execute();
+            if (response.isSuccessful()) {
+            } else {
+                throw new Exception("La sala no se pudo guardar, por favor inténtelo de nuevo más tarde");
+            }
+        } catch (IOException e) {
+            throw new Exception("La sala no se pudo guardar, por favor inténtelo de nuevo más tarde");
+        }
+    }
+
 }

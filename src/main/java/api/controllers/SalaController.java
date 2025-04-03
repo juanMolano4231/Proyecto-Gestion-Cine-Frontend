@@ -8,6 +8,7 @@ package api.controllers;
 import api.services.SalaService;
 import app.models.Sala;
 import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.tags.Tag;
@@ -16,6 +17,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -46,5 +49,16 @@ public class SalaController {
     public ResponseEntity<List<Sala>> getSalas() {
         List<Sala> Salas = service.getSalas();
         return new ResponseEntity<>(Salas, HttpStatus.OK);
+    }
+    
+    @PostMapping
+    @Operation(summary = "Crear una nueva sala", description = "Crea una nueva sala con los datos proporcionados.")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "201", description = "Sala creado con éxito"),
+            @ApiResponse(responseCode = "400", description = "Datos inválidos")
+    })
+    public ResponseEntity<Sala> createSala(@RequestBody @Parameter(description = "Datos de la sala a crear") Sala sala) {
+        Sala nuevaSala = service.saveSala(sala);
+        return new ResponseEntity<>(nuevaSala, HttpStatus.CREATED);
     }
 }

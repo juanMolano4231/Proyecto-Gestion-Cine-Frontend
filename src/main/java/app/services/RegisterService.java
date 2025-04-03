@@ -94,9 +94,7 @@ public class RegisterService {
     public String exito(int selection, String usu, String pin) {
         try {
             registrarUsuario(usu, pin);
-            System.out.println("registrando");
         } catch (Exception ex) {
-            System.out.println("error");
             notificar(ex.getMessage());
             ex.printStackTrace();
             return "Bienvenida_bienvenida";

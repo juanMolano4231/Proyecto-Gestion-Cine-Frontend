@@ -2,7 +2,6 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
  */
-
 package api.services;
 
 import api.repositories.UsuarioRepository;
@@ -32,15 +31,15 @@ public class UsuarioService {
     private void initSampleData() {
         Usuario juan = new Administrador("juan1234", 1234);
         Usuario johan = new Cliente("johan1234", 1234);
-        save(juan);
-        save(johan);
+        saveUsuario(juan);
+        saveUsuario(johan);
     }
 
-    public Usuario save(Usuario usuario) {
-        repository.save(usuario);
+    public Usuario saveUsuario(Usuario usuario) {
+        repository.saveUsuario(usuario);
         return usuario;
     }
-
+    
     public List<Usuario> getAllUsuarios() {
         return repository.getAllUsuarios();
     }

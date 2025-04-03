@@ -69,7 +69,11 @@ public class CrearSalaService {
     /* Retorna el index de la sala que se está creando */
     public int indexSala() {
         List<Sala> salas = cliente.getSalas();
-        return salas.size() + 1;
+        if (salas != null) {
+            return salas.size() + 1;
+        } else {
+            return -1;
+        }
     }
     
 }

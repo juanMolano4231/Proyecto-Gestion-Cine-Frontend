@@ -34,7 +34,11 @@ public class FrameCrearSala extends javax.swing.JFrame {
         AgregarWindowListener();
         configurarSpinner();
         // numSala es el número de la sala que está siendo creada
-        labelSala.setText("Creando sala " + numSala);
+        if (numSala == -1) {
+            labelSala.setText("Creando sala n");
+        } else {
+            labelSala.setText("Creando sala " + numSala);
+        }
     }
     
     private void configurarSpinner() {

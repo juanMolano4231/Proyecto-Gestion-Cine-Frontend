@@ -37,7 +37,7 @@ public class CrearSalaController {
     }
 
     private int[] levantarFrameCrearSala(int numSala) {
-        FrameCrearSala frame = new FrameCrearSala(numSalas);
+        FrameCrearSala frame = new FrameCrearSala(numSala);
         frame.setVisible(true);
         
         /* Este ciclo revisa cada 250ms si el usuario ya clickeó un botón.

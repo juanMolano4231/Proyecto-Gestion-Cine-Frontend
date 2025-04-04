@@ -16,7 +16,9 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -60,5 +62,21 @@ public class SalaController {
     public ResponseEntity<Sala> createSala(@RequestBody @Parameter(description = "Datos de la sala a crear") Sala sala) {
         Sala nuevaSala = service.saveSala(sala);
         return new ResponseEntity<>(nuevaSala, HttpStatus.CREATED);
+    }
+    
+    @DeleteMapping("/{index}")
+    @Operation(summary = "Eliminar una sala", description = "Elimina una sala por index")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "204", description = "Sala eliminada con éxito"),
+            @ApiResponse(responseCode = "404", description = "Sala no encontrado")
+    })
+    public ResponseEntity<Void> deleteSala(@PathVariable @Parameter(description = "Index de la sala") int index) {
+        Sala salaExistente = service.findSala(index);
+        if (salaExistente != null) {
+            service.deleteSala(index);
+            return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+        } else {
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
     }
 }

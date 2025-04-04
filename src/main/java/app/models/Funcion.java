@@ -5,8 +5,6 @@
 
 package app.models;
 
-import java.time.LocalDateTime;
-import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -17,26 +15,19 @@ public class Funcion {
     
     private String inicio;
     private String fin;
-    private List<Boolean> asientos = new ArrayList<>();
+    private boolean[] asientos;
     private String titulo;
 
-    public Funcion(String inicio, String fin, String titulo) {
+    public Funcion(String inicio, String fin, String titulo, int asientos) {
         this.inicio = inicio;
         this.fin = fin;
         this.titulo = titulo;
+        this.asientos = new boolean[asientos];
     }
 
     @Override
     public String toString() {
-        return "Funcion{" + "inicio=" + inicio + ", fin=" + fin + ", asientos=" + asientos + ", titulo=" + titulo + '}';
-    }
-
-    public List<Boolean> getAsientos() {
-        return asientos;
-    }
-
-    public void setAsientos(List<Boolean> asientos) {
-        this.asientos = asientos;
+        return titulo;
     }
 
     public String getTitulo() {
@@ -63,7 +54,13 @@ public class Funcion {
         this.fin = fin;
     }
 
-   
+    public boolean[] getAsientos() {
+        return asientos;
+    }
+
+    public void setAsientos(boolean[] asientos) {
+        this.asientos = asientos;
+    }
 
 }
 

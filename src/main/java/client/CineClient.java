@@ -106,4 +106,16 @@ public class CineClient {
         }
     }
 
+    public void delete(int indexSala) throws Exception {
+        try {
+            Response<Void> response = salaApiService.deleteSala(indexSala).execute();
+            if (response.isSuccessful()) {
+            } else {
+                throw new Exception("La sala no se pudo borrar, por favor inténtelo de nuevo más tarde");
+            }
+        } catch (IOException e) {
+            throw new Exception("La sala no se pudo borrar, por favor inténtelo de nuevo más tarde");
+        }
+    }
+
 }

@@ -26,4 +26,16 @@ public class SalaRepository {
         return baseDeDatosSalas;
     }
 
+    public Sala findSala(int index) {
+        try {
+            return baseDeDatosSalas.get(index);
+        } catch (Exception e) {
+            return null;
+        }
+    }
+
+    public void deleteSala(int index) {
+        baseDeDatosSalas.remove(index);
+    }
+
 }

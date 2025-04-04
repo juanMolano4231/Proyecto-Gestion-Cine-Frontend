@@ -38,7 +38,7 @@ public class GestionCineController {
         while (true) {
             int seleccion = frame.getSeleccion();
             int indexSalaSeleccionada = frame.getIndexSalaSeleccionada();
-            String salaSeleccionada = frame.getSalaSeleccionada();
+            Sala salaSeleccionada = frame.getSalaSeleccionada();
             switch (seleccion) {
                 case -1:  // Valor default, preferiblemente un número negativo
                     // Detiene el ciclo por 250 ms

@@ -6,6 +6,7 @@
 package api.services;
 
 import api.repositories.SalaRepository;
+import app.models.Funcion;
 import app.models.Sala;
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -28,7 +29,9 @@ public class SalaService {
     private void initSampleData() {
         Sala s1 = new Sala(30);
         Sala s2 = new Sala(46);
-        
+        Funcion f = new Funcion("", "", "a", s2.getAsientos());
+        f.getAsientos()[0] = true;
+        s2.getFunciones().add(f);
         saveSala(s1);
         saveSala(s2);
     }
@@ -40,5 +43,13 @@ public class SalaService {
 
     public List<Sala> getSalas() {
         return repository.getSalas();
+    }
+
+    public Sala findSala(int index) {
+        return repository.findSala(index);
+    }
+
+    public void deleteSala(int index) {
+        repository.deleteSala(index);
     }
 }

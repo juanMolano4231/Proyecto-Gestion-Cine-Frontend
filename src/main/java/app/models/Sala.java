@@ -21,11 +21,6 @@ public class Sala {
         this.asientos = asientos;
     }
 
-    @Override
-    public String toString() {
-        return "Sala{" + "asientos=" + asientos + ", funciones=" + funciones + '}';
-    }
-
     public int getAsientos() {
         return asientos;
     }

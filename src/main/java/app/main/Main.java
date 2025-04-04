@@ -6,6 +6,7 @@ package app.main;
 
 import com.formdev.flatlaf.FlatLightLaf;
 import app.controllers.*;
+import app.models.Funcion;
 import app.models.Sala;
 
 /**
@@ -22,7 +23,7 @@ public class Main {
     private static final GestionCineController gestionCineController = new GestionCineController();
     private static final CrearSalaController crearSalaController = new CrearSalaController();
     private static final ViewGestionPerfilController viewGestionPerfilController = new ViewGestionPerfilController();
-    private static final ViewGestionSalaController gestionSalaController = new ViewGestionSalaController();
+    private static final GestionSalaController gestionSalaController = new GestionSalaController();
     private static final ViewGestionFuncionController gestionFuncionController = new ViewGestionFuncionController();
 
     public static void main(String[] args) {
@@ -48,9 +49,9 @@ public class Main {
         int indexSalaSeleccionada = -1;  // Index de sala seleccionada para gestionarla
         /* La sala puede ser Sala n dependiendo del número, ERROR DE CONEXION si no se
         puede conectar con la API y NO HAY SALAS si aún no se han creado salas*/
-        String salaSeleccionada = null;  // Sala seleccionada para gestión
+        Sala salaSeleccionada = null;  // Sala seleccionada para gestión
         int asientosNuevaSala = -1;
-        int funcionSeleccionada = -1;  // Función seleccionada para gestionarla
+        Funcion funcionSeleccionada = null;  // Función seleccionada para gestionarla
         /* Para cargar la data de los métodos y usarla, siempre se sobrescribe */
         Object[] data;
         while (true) {
@@ -120,7 +121,7 @@ public class Main {
                     data = gestionCine_verSalas();
                     ruta = (String) data[0];
                     indexSalaSeleccionada = (int) data[1];  // Guarda index sala seleccionada para gestionar
-                    salaSeleccionada = (String) data[2];  // Sala para gestionarla
+                    salaSeleccionada = (Sala) data[2];  // Sala para gestionarla
                     break;
                 // ViewCrearSala
                 case "CrearSala_crearSala":
@@ -133,15 +134,15 @@ public class Main {
                     break;
                 // ViewGestionSala
                 case "GestionSala_gestionSala":
-                    data = gestionSala_gestionSala();
+                    data = gestionSala_gestionSala(salaSeleccionada, indexSalaSeleccionada);
                     ruta = (String) data[0];
-                    funcionSeleccionada = (int) data[1];
+                    funcionSeleccionada = (Funcion) data[1];
                     break;
                 case "GestionSala_falloAlBorrar":
                     ruta = gestionSala_falloAlBorrar();
                     break;
                 case "GestionSala_exitoAlBorrar":
-                    ruta = gestionSala_exitoAlBorrar();
+                    ruta = gestionSala_exitoAlBorrar(indexSalaSeleccionada);
                     break;
                 // ViewGestionPerfil
                 case "GestionPerfil_perfil":
@@ -250,16 +251,16 @@ public class Main {
     }
     
     // ViewGestionSala
-    private static Object[] gestionSala_gestionSala() {
-        return gestionSalaController.gestionSala();
+    private static Object[] gestionSala_gestionSala(Sala sala, int indexSala) {
+        return gestionSalaController.gestionSala(sala, indexSala);
     }
     
     private static String gestionSala_falloAlBorrar() {
         return gestionSalaController.falloAlBorrar();
     }
     
-    private static String gestionSala_exitoAlBorrar() {
-        return gestionSalaController.exitoAlBorrar();
+    private static String gestionSala_exitoAlBorrar(int indexSala) {
+        return gestionSalaController.exitoAlBorrar(indexSala);
     }
 
     // ViewGestionPerfil

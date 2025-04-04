@@ -4,9 +4,12 @@
  */
 package app.frames;
 
+import app.models.Funcion;
+import app.models.Sala;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import java.awt.event.WindowListener;
+import java.util.List;
 import javax.swing.DefaultComboBoxModel;
 import javax.swing.JFrame;
 
@@ -17,35 +20,43 @@ import javax.swing.JFrame;
 public class FrameGestionSala extends javax.swing.JFrame {
 
     private int seleccion = -1;  // Valor default, preferiblemente un número negativo
-    private int funcionSeleccionada = -1;  // Función a gestionar
+    private Funcion funcionSeleccionada = null;  // Función a gestionar
 
     /**
      * Creates new form FrameGestionSala
      */
-    public FrameGestionSala() {
+    public FrameGestionSala(Sala sala, int indexSala) {
         initComponents();
         setLocationRelativeTo(null);
         // Esto se hace para poder detectar cuando la ventana se cierra con un listener
         setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
         // Aquí se hace el setup thel windowlistener
         AgregarWindowListener();
-        llenarCombobox();
+        llenarCombobox(sala);
+        labelSala.setText("Gestionando sala " + indexSala);
+        labelAsientos.setText("Asientos totales: " + sala.getAsientos());
+        labelFunciones.setText("Funciones programadas: " + sala.getFunciones().size());
     }
     
-    private void llenarCombobox() {
+    private void llenarCombobox(Sala sala) {
         DefaultComboBoxModel model = new DefaultComboBoxModel();
-        for (int i = 1; i <= 6; i++) {
-            model.addElement("Funcion " + String.valueOf(i));
+        List<Funcion> funciones = sala.getFunciones();
+        for (Funcion f : funciones) {
+            model.addElement(f);
         }
         cbFunciones.setModel(model);
-        cbFunciones.setSelectedIndex(0);
+        try {
+            cbFunciones.setSelectedIndex(0);
+        } catch (Exception e) {
+            model.addElement("NO HAY FUNCIONES");
+        }
     }
     
     public int getSeleccion() {
         return seleccion;
     }
     
-    public int getFuncionSeleccionada() {
+    public Funcion getFuncionSeleccionada() {
         return funcionSeleccionada;
     }
     
@@ -69,9 +80,9 @@ public class FrameGestionSala extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        jLabel1 = new javax.swing.JLabel();
-        jLabel2 = new javax.swing.JLabel();
-        jLabel3 = new javax.swing.JLabel();
+        labelSala = new javax.swing.JLabel();
+        labelAsientos = new javax.swing.JLabel();
+        labelFunciones = new javax.swing.JLabel();
         botonVolver = new javax.swing.JButton();
         botonBorrarSala = new javax.swing.JButton();
         botonNuevaFuncion = new javax.swing.JButton();
@@ -80,11 +91,11 @@ public class FrameGestionSala extends javax.swing.JFrame {
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
-        jLabel1.setText("Gestionando sala n");
+        labelSala.setText("Gestionando sala n");
 
-        jLabel2.setText("Asientos totales: x");
+        labelAsientos.setText("Asientos totales: x");
 
-        jLabel3.setText("Funciones programadas: x");
+        labelFunciones.setText("Funciones programadas: x");
 
         botonVolver.setText("Volver");
         botonVolver.addActionListener(new java.awt.event.ActionListener() {
@@ -142,20 +153,20 @@ public class FrameGestionSala extends javax.swing.JFrame {
                             .addGroup(layout.createSequentialGroup()
                                 .addGap(21, 21, 21)
                                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(jLabel1)
-                                    .addComponent(jLabel2)))
-                            .addComponent(jLabel3))
+                                    .addComponent(labelSala)
+                                    .addComponent(labelAsientos)))
+                            .addComponent(labelFunciones))
                         .addGap(129, 129, 129))))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap(62, Short.MAX_VALUE)
-                .addComponent(jLabel1)
+                .addComponent(labelSala)
                 .addGap(18, 18, 18)
-                .addComponent(jLabel2)
+                .addComponent(labelAsientos)
                 .addGap(18, 18, 18)
-                .addComponent(jLabel3)
+                .addComponent(labelFunciones)
                 .addGap(32, 32, 32)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(botonVolver)
@@ -185,7 +196,10 @@ public class FrameGestionSala extends javax.swing.JFrame {
 
     private void botonGestionarFuncionActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botonGestionarFuncionActionPerformed
         seleccion = 4;
-        funcionSeleccionada = cbFunciones.getSelectedIndex() + 1;
+        Object objSeleccionado = cbFunciones.getSelectedItem();
+        if (! (objSeleccionado instanceof String)) {
+            funcionSeleccionada = (Funcion) objSeleccionado;
+        }
     }//GEN-LAST:event_botonGestionarFuncionActionPerformed
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
@@ -194,8 +208,8 @@ public class FrameGestionSala extends javax.swing.JFrame {
     private javax.swing.JButton botonNuevaFuncion;
     private javax.swing.JButton botonVolver;
     private javax.swing.JComboBox<String> cbFunciones;
-    private javax.swing.JLabel jLabel1;
-    private javax.swing.JLabel jLabel2;
-    private javax.swing.JLabel jLabel3;
+    private javax.swing.JLabel labelAsientos;
+    private javax.swing.JLabel labelFunciones;
+    private javax.swing.JLabel labelSala;
     // End of variables declaration//GEN-END:variables
 }

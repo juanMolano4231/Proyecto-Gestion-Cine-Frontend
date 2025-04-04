@@ -10,8 +10,10 @@ import app.models.Usuario;
 import java.util.List;
 import retrofit2.Call;
 import retrofit2.http.Body;
+import retrofit2.http.DELETE;
 import retrofit2.http.GET;
 import retrofit2.http.POST;
+import retrofit2.http.Path;
 
 /**
  *
@@ -24,4 +26,7 @@ public interface SalaApiService {
 
     @POST("/api/salas")
     Call<Sala> createSala(@Body Sala sala);
+
+    @DELETE("/api/salas/{index}")
+    Call<Void> deleteSala(@Path("index") int index);
 }

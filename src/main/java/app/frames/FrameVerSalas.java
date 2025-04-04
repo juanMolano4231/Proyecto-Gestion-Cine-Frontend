@@ -21,7 +21,8 @@ public class FrameVerSalas extends javax.swing.JFrame {
 
     private int seleccion = -1;  // Valor default, preferiblemente un número negativo
     private int indexSalaSeleccionada = -1;
-    private String salaSeleccionada = null;
+    private Sala salaSeleccionada = null;
+    private List<Sala> salas;
     
     /**
      * Creates new form FrameVerSalas
@@ -34,6 +35,7 @@ public class FrameVerSalas extends javax.swing.JFrame {
         // Aquí se hace el setup thel windowlistener
         AgregarWindowListener();
         llenarCombobox(salas);
+        this.salas = salas;
         if (salas != null) {
             labelNumSalas.setText("Número de salas: " + salas.size());
         } else {
@@ -45,7 +47,7 @@ public class FrameVerSalas extends javax.swing.JFrame {
         return seleccion;
     }
     
-    public String getSalaSeleccionada() {
+    public Sala getSalaSeleccionada() {
         return salaSeleccionada;
     }
     
@@ -247,7 +249,10 @@ public class FrameVerSalas extends javax.swing.JFrame {
     private void botonGestionarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botonGestionarActionPerformed
         seleccion = 3;
         indexSalaSeleccionada = cbSalas.getSelectedIndex() + 1;
-        salaSeleccionada = (String) cbSalas.getSelectedItem();
+        String selectedItem = (String) cbSalas.getSelectedItem();
+        if (! (selectedItem.equals("NO HAY SALAS") || selectedItem.equals("ERROR DE CONEXION") )) {
+             salaSeleccionada = salas.get(cbSalas.getSelectedIndex());
+        }
     }//GEN-LAST:event_botonGestionarActionPerformed
 
     private void botonCrearSalaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botonCrearSalaActionPerformed

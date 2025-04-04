@@ -13,7 +13,8 @@ import client.CineClient;
  * @author Juan José Molano Franco
  */
 public class LoginService {
-
+    
+    private Usuario usuario;
     private final CineClient cliente;
 
     public LoginService() {
@@ -28,7 +29,7 @@ public class LoginService {
             return new Object[]{"Login_usuarioInvalido", null};
         }
 
-        Usuario usuario = cliente.buscarUsuario(input); 
+        usuario = cliente.buscarUsuario(input); 
         if (usuario != null && usuario.getUsuario().equals(input)) {
             return new Object[]{"Login_pidePin", input};
         } else {
@@ -70,8 +71,8 @@ public class LoginService {
         } catch (NumberFormatException e) {
             return new Object[]{"Login_pinInvalido", null};
         }
-        if (pin == 1234) {
-            return new Object[]{"Login_exito", 1234};
+        if (pin == usuario.getPin()) {
+            return new Object[]{"Login_exito", pin};
         } else {
             return new Object[]{"Login_pinIncorrecto", null};
         }

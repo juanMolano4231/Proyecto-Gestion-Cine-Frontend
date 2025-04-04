@@ -6,13 +6,23 @@
 package app.services;
 
 import app.frames.FrameTestBotones;
+import app.models.Funcion;
+import app.models.Sala;
+import client.CineClient;
+import java.util.List;
 import java.util.concurrent.TimeUnit;
 
 /**
  *
  * @author Juan José Molano Franco
  */
-public class ViewTestService {
+public class TestService {
+    
+    private final CineClient cliente;
+    
+    public TestService() {
+        cliente = new CineClient();
+    }
     
     public String botones() {
         FrameTestBotones frame = new FrameTestBotones();
@@ -43,5 +53,5 @@ public class ViewTestService {
             }
         }
     }
-    
+
 }

@@ -81,11 +81,9 @@ public class GestionSalaService {
         for (Funcion f : funciones) {
             boolean[] asientos = f.getAsientos();
             if (contieneTrue(asientos)) {
-                System.out.println("true");
                 return true;
             }
         }
-        System.out.println("false");
         return false;
     }
     

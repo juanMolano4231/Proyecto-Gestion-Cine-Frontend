@@ -16,7 +16,7 @@ import app.models.Sala;
 
 public class Main {
 
-    private static final ViewTestController testController = new ViewTestController();
+    private static final TestController testController = new TestController();
     private static final BienvenidaController bienvenidaController = new BienvenidaController();
     private static final LoginController loginController = new LoginController();
     private static final RegisterController registerController = new RegisterController();
@@ -176,7 +176,7 @@ public class Main {
     public static String test_botones() {
         return testController.botones();
     }
-
+    
     // ViewBienvenida
     private static String bienvenida_bienvenida() {
         return bienvenidaController.bienvenida();
@@ -288,5 +288,5 @@ public class Main {
     private static String gestionFuncion_falloAlBorrar() {
         return gestionFuncionController.falloAlBorrar();
     }
-    
+
 }

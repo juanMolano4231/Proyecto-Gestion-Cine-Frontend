@@ -57,7 +57,7 @@ public class GestionPerfilController {
     }
 
     private Object[] levantarFrameTickets(Usuario usuario) {
-        FrameVerTicketsUsuario frame = new FrameVerTicketsUsuario();
+        FrameVerTicketsUsuario frame = new FrameVerTicketsUsuario(usuario);
         frame.setVisible(true);
         while (true) {
             int seleccion = frame.getSeleccion();

@@ -149,7 +149,7 @@ public class Main {
                     break;
                 // ViewGestionPerfil
                 case "GestionPerfil_perfil":
-                    ruta = gestionPerfil_perfil(usuario);
+                    ruta = gestionPerfil_verPerfil(usuario);
                     break;
                 case "GestionPerfil_verTickets":
                     ruta = gestionPerfil_verTickets(usuario);
@@ -267,7 +267,7 @@ public class Main {
     }
 
     // ViewGestionPerfil
-    private static String gestionPerfil_perfil(Usuario usuario) {
+    private static String gestionPerfil_verPerfil(Usuario usuario) {
         return viewGestionPerfilController.verPerfil(usuario);
     }
 

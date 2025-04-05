@@ -23,7 +23,7 @@ public class Main {
     private static final RegisterController registerController = new RegisterController();
     private static final GestionCineController gestionCineController = new GestionCineController();
     private static final CrearSalaController crearSalaController = new CrearSalaController();
-    private static final ViewGestionPerfilController viewGestionPerfilController = new ViewGestionPerfilController();
+    private static final GestionPerfilController viewGestionPerfilController = new GestionPerfilController();
     private static final GestionSalaController gestionSalaController = new GestionSalaController();
     private static final ViewGestionFuncionController gestionFuncionController = new ViewGestionFuncionController();
 
@@ -48,7 +48,6 @@ public class Main {
         String nombreUsuarioRegistro = null;
         String pinRegistro = null;
         Usuario usuario = null;
-        List<Sala> salas = gestionCineController.getSalas();
         int indexSalaSeleccionada = -1;  // Index de sala seleccionada para gestionarla
         /* La sala puede ser Sala n dependiendo del número, ERROR DE CONEXION si no se
         puede conectar con la API y NO HAY SALAS si aún no se han creado salas*/
@@ -156,7 +155,7 @@ public class Main {
                     ruta = gestionPerfil_verTickets(usuario);
                     break;
                 case "GestionPerfil_verFunciones":
-                    ruta = gestionPerfil_verFunciones(usuario, salas);
+                    ruta = gestionPerfil_verFunciones(usuario);
                     break;
                 // ViewGestionFuncion
                 case "GestionFuncion_gestionFuncion":
@@ -276,8 +275,8 @@ public class Main {
         return viewGestionPerfilController.verTickets(usuario);
     }
 
-    private static String gestionPerfil_verFunciones(Usuario usuario, List<Sala> salas) {
-        return viewGestionPerfilController.verFunciones(usuario, salas);
+    private static String gestionPerfil_verFunciones(Usuario usuario) {
+        return viewGestionPerfilController.verFunciones(usuario);
     }
 
     // ViewGestionFuncion

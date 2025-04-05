@@ -29,9 +29,6 @@ public class GestionCineController {
         return gestionCineService.verSalas(selecciones);
     }
     
-    public List<Sala> getSalas() {
-        return gestionCineService.getSalas();
-    }
 
     private Object[] levantarFrameSalas(List<Sala> salas) {
         FrameVerSalas frame = new FrameVerSalas(salas);

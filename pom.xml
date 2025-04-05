@@ -11,8 +11,8 @@
     <groupId>com.group</groupId>
     <artifactId>gestion-cine</artifactId>
     <version>0.0.1-SNAPSHOT</version>
-    <name>Proyecto-Desarrollo-Software</name>
-    <description>Proyecto aplicación de gestión de cine</description>
+    <name>Proyecto-Gestion-Cine-Frontend</name>
+    <description>Proyecto aplicación de gestión de cine frontend</description>
     <url/>
     <licenses>
         <license/>
@@ -65,12 +65,6 @@
             <groupId>com.squareup.retrofit2</groupId>
             <artifactId>converter-gson</artifactId>
             <version>2.9.0</version>
-        </dependency>
-        <!--swagger-->
-        <dependency>
-            <groupId>org.springdoc</groupId>
-            <artifactId>springdoc-openapi-starter-webmvc-ui</artifactId>
-            <version>2.6.0</version>
         </dependency>
     </dependencies>
     <build>

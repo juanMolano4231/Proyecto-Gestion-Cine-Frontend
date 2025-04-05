@@ -8,12 +8,13 @@ import com.formdev.flatlaf.FlatLightLaf;
 import app.controllers.*;
 import app.models.Funcion;
 import app.models.Sala;
+import app.models.Usuario;
+import java.util.List;
 
 /**
  *
  * @author Juan Jose Molano Franco
  */
-
 public class Main {
 
     private static final TestController testController = new TestController();
@@ -22,7 +23,7 @@ public class Main {
     private static final RegisterController registerController = new RegisterController();
     private static final GestionCineController gestionCineController = new GestionCineController();
     private static final CrearSalaController crearSalaController = new CrearSalaController();
-    private static final ViewGestionPerfilController viewGestionPerfilController = new ViewGestionPerfilController();
+    private static final GestionPerfilController viewGestionPerfilController = new GestionPerfilController();
     private static final GestionSalaController gestionSalaController = new GestionSalaController();
     private static final ViewGestionFuncionController gestionFuncionController = new ViewGestionFuncionController();
     private static final CrearFuncionController crearFuncionController = new CrearFuncionController();
@@ -47,6 +48,7 @@ public class Main {
         String pinLogin = null;
         String nombreUsuarioRegistro = null;
         String pinRegistro = null;
+        Usuario usuario = null;
         int indexSalaSeleccionada = -1;  // Index de sala seleccionada para gestionarla
         /* La sala puede ser Sala n dependiendo del número, ERROR DE CONEXION si no se
         puede conectar con la API y NO HAY SALAS si aún no se han creado salas*/
@@ -84,6 +86,7 @@ public class Main {
                     data = login_pidePin();
                     ruta = (String) data[0]; // ruta
                     pinLogin = String.valueOf(data[1]); // pin
+                    usuario = (Usuario) data[2];
                     break;
                 case "Login_pinIncorrecto":
                     ruta = login_pinIncorrecto();
@@ -147,13 +150,13 @@ public class Main {
                     break;
                 // ViewGestionPerfil
                 case "GestionPerfil_perfil":
-                    ruta = gestionPerfil_perfil();
+                    ruta = gestionPerfil_verPerfil(usuario);
                     break;
                 case "GestionPerfil_verTickets":
-                    ruta = gestionPerfil_verTickets();
+                    ruta = gestionPerfil_verTickets(usuario);
                     break;
                 case "GestionPerfil_verFunciones":
-                    ruta = gestionPerfil_verFunciones();
+                    ruta = gestionPerfil_verFunciones(usuario);
                     break;
                 // ViewGestionFuncion
                 case "GestionFuncion_gestionFuncion":
@@ -187,7 +190,7 @@ public class Main {
     public static String test_botones() {
         return testController.botones();
     }
-    
+
     // ViewBienvenida
     private static String bienvenida_bienvenida() {
         return bienvenidaController.bienvenida();
@@ -260,42 +263,42 @@ public class Main {
     private static String crearSala_exito(int asientos) {
         return crearSalaController.exito(asientos);
     }
-    
+
     // ViewGestionSala
     private static Object[] gestionSala_gestionSala(Sala sala, int indexSala) {
         return gestionSalaController.gestionSala(sala, indexSala);
     }
-    
+
     private static String gestionSala_falloAlBorrar() {
         return gestionSalaController.falloAlBorrar();
     }
-    
+
     private static String gestionSala_exitoAlBorrar(int indexSala) {
         return gestionSalaController.exitoAlBorrar(indexSala);
     }
 
     // ViewGestionPerfil
-    private static String gestionPerfil_perfil() {
-        return viewGestionPerfilController.verPerfil();
+    private static String gestionPerfil_verPerfil(Usuario usuario) {
+        return viewGestionPerfilController.verPerfil(usuario);
     }
-    
-    private static String gestionPerfil_verTickets() {
-        return viewGestionPerfilController.verTickets();
+
+    private static String gestionPerfil_verTickets(Usuario usuario) {
+        return viewGestionPerfilController.verTickets(usuario);
     }
-    
-    private static String gestionPerfil_verFunciones() {
-        return viewGestionPerfilController.verFunciones();
+
+    private static String gestionPerfil_verFunciones(Usuario usuario) {
+        return viewGestionPerfilController.verFunciones(usuario);
     }
 
     // ViewGestionFuncion
     private static String gestionFuncion_gestionFuncion() {
         return gestionFuncionController.gestionFuncion();
     }
-    
+
     private static String gestionFuncion_exitoAlBorrar() {
         return gestionFuncionController.exitoAlBorrar();
     }
-    
+
     private static String gestionFuncion_falloAlBorrar() {
         return gestionFuncionController.falloAlBorrar();
     }

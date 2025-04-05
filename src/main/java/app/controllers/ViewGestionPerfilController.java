@@ -1,29 +1,23 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
 package app.controllers;
 
+import app.models.Sala;
+import app.models.Usuario;
 import app.services.ViewGestionPerfilService;
+import java.util.List;
 
-/**
- *
- * @author johan
- */
 public class ViewGestionPerfilController {
-    
-    private ViewGestionPerfilService service = new ViewGestionPerfilService();
-    
-    public String verPerfil() {
-        return this.service.verPerfil();
+
+    private final ViewGestionPerfilService service = new ViewGestionPerfilService();
+
+    public String verPerfil(Usuario usuario) {
+        return service.verPerfil(usuario);
     }
-    
-    public String verTickets() {
-        return this.service.verTickets();
+
+    public String verTickets(Usuario usuario) {
+        return service.verTickets(usuario);
     }
-    
-    public String verFunciones() {
-        return this.service.verFunciones();
+
+    public String verFunciones(Usuario usuario, List<Sala> salas) {
+        return service.verFunciones(usuario, salas);
     }
-    
 }

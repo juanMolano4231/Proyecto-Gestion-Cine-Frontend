@@ -4,9 +4,13 @@
  */
 package app.frames;
 
+import app.models.Funcion;
+import app.models.Sala;
+import app.models.Usuario;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import java.awt.event.WindowListener;
+import java.util.List;
 import javax.swing.JFrame;
 import javax.swing.table.DefaultTableModel;
 
@@ -20,11 +24,15 @@ public class FrameVerFuncionesUsuario extends javax.swing.JFrame {
      * Creates new form FrameVerFuncionesUsuario
      */
     private int seleccion = -1;
+    private Usuario usuario;
+    private List<Sala> salas;
 
     /**
      * Creates new form FrameUsuario
      */
-    public FrameVerFuncionesUsuario() {
+    public FrameVerFuncionesUsuario(Usuario usuario, List<Sala> salas) {
+        this.salas = salas;
+        this.usuario = usuario;
         initComponents();
         setLocationRelativeTo(null);
         // Esto se hace para poder detectar cuando la ventana se cierra con un listener
@@ -49,8 +57,8 @@ public class FrameVerFuncionesUsuario extends javax.swing.JFrame {
         };
         addWindowListener(exitListener);
     }
-    
-        public void llenarTabla() {
+
+    public void llenarTabla() {
         DefaultTableModel model = new DefaultTableModel() {
             @Override
             public boolean isCellEditable(int row, int column) {
@@ -58,10 +66,35 @@ public class FrameVerFuncionesUsuario extends javax.swing.JFrame {
             }
         };
 
-        model.setColumnIdentifiers(new Object[]{"ID", "Titulo", "Formato", "Hora de inicio"});
+        model.setColumnIdentifiers(new Object[]{"ID", "Titulo", "Asientos", "Hora inicio", "Hora fin"});
 
-        for (int i = 0; i < 1; i++) {
-            model.addRow(new Object[]{1, "Avengers", "3D", "19:50"});
+        if (salas == null || salas.isEmpty()) {
+            funcionesTable.setModel(model);
+            return;
+        }
+
+        try {
+            for (Sala sala : salas) {
+                if (sala == null || sala.getFunciones() == null || sala.getFunciones().isEmpty()) {
+                    continue; // Saltar si no hay funciones
+                }
+
+                for (Funcion funcion : sala.getFunciones()) {
+                    if (funcion == null) {
+                        continue; // Precaución extra
+                    }
+                    model.addRow(new Object[]{
+                        funcion.getId(),
+                        funcion.getTitulo(),
+                        funcion.getAsientos().length,
+                        funcion.getInicio(),
+                        funcion.getFin()
+                    });
+                }
+            }
+        } catch (Exception e) {
+            System.err.println("Error al llenar la tabla de funciones: " + e.getMessage());
+            e.printStackTrace();
         }
 
         funcionesTable.setModel(model);
@@ -72,6 +105,7 @@ public class FrameVerFuncionesUsuario extends javax.swing.JFrame {
             if (!e.getValueIsAdjusting() && funcionesTable.getSelectedRow() != -1) {
                 int selectedRow = funcionesTable.getSelectedRow();
 
+                idLabel.setText(funcionesTable.getValueAt(selectedRow, 0).toString());
                 tituloLabel.setText(funcionesTable.getValueAt(selectedRow, 1).toString());
                 funcionesTable.clearSelection();
             }
@@ -93,23 +127,26 @@ public class FrameVerFuncionesUsuario extends javax.swing.JFrame {
         regresarBtn = new javax.swing.JButton();
         comprarBtn = new javax.swing.JButton();
         funcionLabel = new javax.swing.JLabel();
+        tituloLabelNONEDITABLE = new javax.swing.JLabel();
+        idLabelNONEDITABLE = new javax.swing.JLabel();
+        idLabel = new javax.swing.JLabel();
         tituloLabel = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
         funcionesTable.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null}
+                {null, null, null, null, null},
+                {null, null, null, null, null},
+                {null, null, null, null, null},
+                {null, null, null, null, null}
             },
             new String [] {
-                "ID", "Titulo", "Formato", "Hora de inicio"
+                "ID", "Titulo", "Asientos", "Hora inicio", "Hora fin"
             }
         ) {
             Class[] types = new Class [] {
-                java.lang.Integer.class, java.lang.String.class, java.lang.String.class, java.lang.String.class
+                java.lang.Integer.class, java.lang.String.class, java.lang.Integer.class, java.lang.String.class, java.lang.String.class
             };
 
             public Class getColumnClass(int columnIndex) {
@@ -135,7 +172,14 @@ public class FrameVerFuncionesUsuario extends javax.swing.JFrame {
 
         funcionLabel.setText("Funcion seleccionada:");
 
-        tituloLabel.setText("Titulo");
+        tituloLabelNONEDITABLE.setText("Titulo:");
+
+        idLabelNONEDITABLE.setText("ID:");
+
+        idLabel.setText("     ");
+
+        tituloLabel.setText("     ");
+        tituloLabel.setToolTipText("");
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
@@ -148,8 +192,15 @@ public class FrameVerFuncionesUsuario extends javax.swing.JFrame {
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(funcionLabel)
-                            .addComponent(tituloLabel))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 146, Short.MAX_VALUE)
+                            .addGroup(jPanel1Layout.createSequentialGroup()
+                                .addComponent(idLabelNONEDITABLE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(idLabel)
+                                .addGap(67, 67, 67)
+                                .addComponent(tituloLabelNONEDITABLE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(tituloLabel)))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 107, Short.MAX_VALUE)
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                             .addComponent(comprarBtn, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                             .addComponent(regresarBtn, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
@@ -167,8 +218,12 @@ public class FrameVerFuncionesUsuario extends javax.swing.JFrame {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(regresarBtn)
-                    .addComponent(tituloLabel))
-                .addContainerGap())
+                    .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                        .addComponent(tituloLabelNONEDITABLE)
+                        .addComponent(idLabelNONEDITABLE)
+                        .addComponent(idLabel)
+                        .addComponent(tituloLabel)))
+                .addGap(15, 15, 15))
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
@@ -184,22 +239,21 @@ public class FrameVerFuncionesUsuario extends javax.swing.JFrame {
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addContainerGap())
+                .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void regresarBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_regresarBtnActionPerformed
-        // TODO add your handling code here:
-        seleccion = 1;
-    }//GEN-LAST:event_regresarBtnActionPerformed
-
     private void comprarBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_comprarBtnActionPerformed
         // TODO add your handling code here:
         seleccion = 2;
     }//GEN-LAST:event_comprarBtnActionPerformed
+
+    private void regresarBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_regresarBtnActionPerformed
+        // TODO add your handling code here:
+        seleccion = 1;
+    }//GEN-LAST:event_regresarBtnActionPerformed
 
     /**
      * @param args the command line arguments
@@ -209,9 +263,12 @@ public class FrameVerFuncionesUsuario extends javax.swing.JFrame {
     private javax.swing.JButton comprarBtn;
     private javax.swing.JLabel funcionLabel;
     private javax.swing.JTable funcionesTable;
+    private javax.swing.JLabel idLabel;
+    private javax.swing.JLabel idLabelNONEDITABLE;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JButton regresarBtn;
     private javax.swing.JLabel tituloLabel;
+    private javax.swing.JLabel tituloLabelNONEDITABLE;
     // End of variables declaration//GEN-END:variables
 }

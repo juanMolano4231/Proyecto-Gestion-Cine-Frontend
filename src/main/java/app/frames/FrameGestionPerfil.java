@@ -4,6 +4,7 @@
  */
 package app.frames;
 
+import app.models.Usuario;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import java.awt.event.WindowListener;
@@ -16,17 +17,20 @@ import javax.swing.JFrame;
 public class FrameGestionPerfil extends javax.swing.JFrame {
 
     private int seleccion = -1;
-
+    private Usuario usuario;
+    
     /**
      * Creates new form FrameUsuario
      */
-    public FrameGestionPerfil() {
+    public FrameGestionPerfil(Usuario usuario) {
+        this.usuario = usuario;
         initComponents();
         setLocationRelativeTo(null);
         // Esto se hace para poder detectar cuando la ventana se cierra con un listener
         setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
         // Aquí se hace el setup del windowListener
         AgregarWindowListener();
+        this.userLabel.setText(usuario.getUsuario());
     }
 
     public int getSeleccion() {

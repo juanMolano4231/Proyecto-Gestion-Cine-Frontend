@@ -6,6 +6,9 @@ package app.services;
 
 import java.util.concurrent.TimeUnit;
 import app.frames.*;
+import app.models.Sala;
+import app.models.Usuario;
+import java.util.List;
 
 /**
  *
@@ -13,8 +16,12 @@ import app.frames.*;
  */
 public class ViewGestionPerfilService {
 
-    public String verPerfil() {
-        FrameGestionPerfil frame = new FrameGestionPerfil();
+    private Usuario usuario;
+    private List<Sala> salas;
+    
+    public String verPerfil(Usuario usuario) {
+        this.usuario = usuario;
+        FrameGestionPerfil frame = new FrameGestionPerfil(usuario);
         frame.setVisible(true);
 
         while (true) {
@@ -44,7 +51,8 @@ public class ViewGestionPerfilService {
         }
     }
 
-    public String verTickets() {
+    public String verTickets(Usuario usuario) {
+        this.usuario = usuario;
         FrameVerTicketsUsuario frame = new FrameVerTicketsUsuario();
         frame.setVisible(true);
 
@@ -72,8 +80,10 @@ public class ViewGestionPerfilService {
         }
     }
 
-    public String verFunciones() {
-        FrameVerFuncionesUsuario frame = new FrameVerFuncionesUsuario();
+    public String verFunciones(Usuario usuario, List<Sala> salas) {
+        this.salas = salas;
+        this.usuario = usuario;
+        FrameVerFuncionesUsuario frame = new FrameVerFuncionesUsuario(usuario, salas);
         frame.setVisible(true);
 
         while (true) {

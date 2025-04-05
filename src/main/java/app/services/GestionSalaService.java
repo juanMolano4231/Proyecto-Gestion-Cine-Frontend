@@ -41,7 +41,7 @@ public class GestionSalaService {
                     return new Object[]{"GestionSala_exitoAlBorrar", null};
                 }
             case 3:  // Crear nueva función
-                return new Object[]{"CrearFuncion_ingresarTitulo", null};
+                return new Object[]{"CrearFuncion_ingresarDatos", null};
             case 4:  // Gestionar función n
                 return new Object[]{"GestionFuncion_gestionFuncion", funcionSeleccionada};
             default:  // Botón no configurado
@@ -108,5 +108,20 @@ public class GestionSalaService {
             }
         }
         return false;
+    }
+
+    public List<Sala> getSalas() {
+        List<Sala> salas = cliente.getSalas();
+        return salas;
+    }
+
+    public Sala reloadSala(Sala sala) {
+        List<Sala> salas = getSalas();
+        for (Sala s: salas) {
+            if (s.getId() == sala.getId()) {
+                return s;
+            }
+        }
+        return null;
     }
 }

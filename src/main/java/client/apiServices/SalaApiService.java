@@ -5,6 +5,7 @@
 
 package client.apiServices;
 
+import app.models.Funcion;
 import app.models.Sala;
 import app.models.Usuario;
 import java.util.List;
@@ -29,4 +30,7 @@ public interface SalaApiService {
 
     @DELETE("/api/salas/{index}")
     Call<Void> deleteSala(@Path("index") int index);
+
+    @POST("/api/salas/{id}")
+    Call<Void> createFuncion(@Path("id") int id, @Body String[] datos);
 }

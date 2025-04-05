@@ -28,8 +28,9 @@ public class GestionSalaController {
     }
     
     public Object[] gestionSala(Sala sala, int indexSala) {
-        Object[] selecciones = levantarFrameGestionSala(sala, indexSala);
-        return service.gestionSala(selecciones, sala);
+        Sala salaActualizada = service.reloadSala(sala);
+        Object[] selecciones = levantarFrameGestionSala(salaActualizada, indexSala);
+        return service.gestionSala(selecciones, salaActualizada);
     }
     
     public String falloAlBorrar() {
@@ -37,7 +38,7 @@ public class GestionSalaController {
         return service.falloAlBorrar(seleccion);
     }
     
-    public String exitoAlBorrar( int indexSala) {
+    public String exitoAlBorrar(int indexSala) {
         String rutaAlterna = service.borrarSala(indexSala);  // En caso de que haya un error de conexión
         if (rutaAlterna != null) {
             return rutaAlterna;

@@ -4,6 +4,8 @@
  */
 package app.frames;
 
+import app.models.Tiquete;
+import app.models.Usuario;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import java.awt.event.WindowListener;
@@ -17,6 +19,7 @@ import javax.swing.table.DefaultTableModel;
 public class FrameVerTicketsUsuario extends javax.swing.JFrame {
 
     private int seleccion = -1;
+    private Usuario usuario;
 
     public int getSeleccion() {
         return this.seleccion;
@@ -25,7 +28,8 @@ public class FrameVerTicketsUsuario extends javax.swing.JFrame {
     /**
      * Creates new form FrameTickets
      */
-    public FrameVerTicketsUsuario() {
+    public FrameVerTicketsUsuario(Usuario usuario) {
+        this.usuario = usuario;
         initComponents();
         setLocationRelativeTo(null);
         // Esto se hace para poder detectar cuando la ventana se cierra con un listener
@@ -55,10 +59,29 @@ public class FrameVerTicketsUsuario extends javax.swing.JFrame {
             }
         };
 
-        model.setColumnIdentifiers(new Object[]{"ID", "Funcion", "Asiento", "Hora"});
+        model.setColumnIdentifiers(new Object[]{"ID Funcion", "Titulo", "Asiento", "Hora Funcion"});
 
-        for (int i = 0; i < 1; i++) {
-            model.addRow(new Object[]{1, "Avengers", 30, "19:30"});
+        if (usuario == null || usuario.getTickets() == null || usuario.getTickets().isEmpty()) {
+            ticketsTable.setModel(model);
+            return;
+        }
+
+        try {
+            for (Tiquete t : usuario.getTickets()) {
+                if (t == null || t.getFuncion() == null) {
+                    continue;
+                }
+
+                model.addRow(new Object[]{
+                    t.getFuncion().getId(),
+                    t.getFuncion().getTitulo(),
+                    t.getAsiento(),
+                    t.getFuncion().getInicio()
+                });
+            }
+        } catch (Exception e) {
+            System.err.println("Error al llenar tabla de tickets: " + e.getMessage());
+            e.printStackTrace();
         }
 
         ticketsTable.setModel(model);
@@ -102,11 +125,11 @@ public class FrameVerTicketsUsuario extends javax.swing.JFrame {
                 {null, null, null, null}
             },
             new String [] {
-                "ID Ticket", "Funcion", "Asiento", "Hora funcion"
+                "ID Funcion", "Titulo", "Asiento", "Hora funcion"
             }
         ) {
             Class[] types = new Class [] {
-                java.lang.String.class, java.lang.String.class, java.lang.Integer.class, java.lang.Object.class
+                java.lang.String.class, java.lang.String.class, java.lang.Integer.class, java.lang.String.class
             };
 
             public Class getColumnClass(int columnIndex) {

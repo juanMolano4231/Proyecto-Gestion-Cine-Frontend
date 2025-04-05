@@ -53,7 +53,7 @@ public class ViewGestionPerfilService {
 
     public String verTickets(Usuario usuario) {
         this.usuario = usuario;
-        FrameVerTicketsUsuario frame = new FrameVerTicketsUsuario();
+        FrameVerTicketsUsuario frame = new FrameVerTicketsUsuario(usuario);
         frame.setVisible(true);
 
         while (true) {

@@ -72,9 +72,9 @@ public class LoginService {
             return new Object[]{"Login_pinInvalido", null};
         }
         if (pin == usuario.getPin()) {
-            return new Object[]{"Login_exito", pin};
+            return new Object[]{"Login_exito", pin, usuario};
         } else {
-            return new Object[]{"Login_pinIncorrecto", null};
+            return new Object[]{"Login_pinIncorrecto", null, null};
         }
     }
 

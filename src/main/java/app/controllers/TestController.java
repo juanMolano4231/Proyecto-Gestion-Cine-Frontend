@@ -5,24 +5,22 @@
 
 package app.controllers;
 
-import app.services.ViewTestService;
+import app.services.TestService;
 
 /**
  *
  * @author Juan José Molano Franco
  */
-public class ViewTestController {
+public class TestController {
     
-    private final ViewTestService service;
+    private final TestService service;
     
-    public ViewTestController() {
-        this.service = new ViewTestService();
+    public TestController() {
+        this.service = new TestService();
     }
 
     public String botones() {
         return service.botones();
     }
-    
-    
     
 }

@@ -70,7 +70,6 @@ public class CineClient {
             if (response.isSuccessful()) {
                 return response.body();
             } else {
-                System.out.println("Error: " + response.code() + " - " + response.message());
                 return null;
             }
         } catch (IOException e) {

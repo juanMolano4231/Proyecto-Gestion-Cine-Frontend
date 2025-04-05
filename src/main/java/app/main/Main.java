@@ -26,6 +26,7 @@ public class Main {
     private static final GestionPerfilController viewGestionPerfilController = new GestionPerfilController();
     private static final GestionSalaController gestionSalaController = new GestionSalaController();
     private static final ViewGestionFuncionController gestionFuncionController = new ViewGestionFuncionController();
+    private static final CrearFuncionController crearFuncionController = new CrearFuncionController();
 
     public static void main(String[] args) {
         looksAndFeelSetup();
@@ -167,6 +168,16 @@ public class Main {
                 case "GestionFuncion_falloAlBorrar":
                     ruta = gestionFuncion_falloAlBorrar();
                     break;
+                // ViewCrearFuncion
+                case "CrearFuncion_ingresarDatos":
+                    ruta = crearFuncion_ingresarDatos();
+                    break;
+                case "CrearFuncion_error":
+                    ruta = crearFuncion_error();
+                    break;
+                case "CrearFuncion_exito":
+                    ruta = crearFuncion_exito(salaSeleccionada);
+                    break;
                 // Default
                 default:
                     throw new Error("No hay una ruta implementada para la ruta \""
@@ -292,4 +303,18 @@ public class Main {
         return gestionFuncionController.falloAlBorrar();
     }
 
+    // ViewCrearFuncion
+    private static String crearFuncion_ingresarDatos() {
+        return crearFuncionController.ingresarDatos();
+    }
+
+    private static String crearFuncion_error() {
+        return crearFuncionController.error();
+    }
+
+    private static String crearFuncion_exito(Sala sala) {
+        return crearFuncionController.exito(sala);
+    }
+    
+    
 }

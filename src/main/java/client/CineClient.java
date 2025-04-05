@@ -5,6 +5,7 @@
 package client;
 
 import app.models.Cliente;
+import app.models.Funcion;
 import app.models.Sala;
 import app.models.Usuario;
 import client.apiServices.SalaApiService;
@@ -114,6 +115,20 @@ public class CineClient {
             }
         } catch (IOException e) {
             throw new Exception("La sala no se pudo borrar, por favor inténtelo de nuevo más tarde");
+        }
+    }
+
+    public void createFuncion(Sala sala, String[] datos) throws Exception {
+        try {
+            Response<Void> response = salaApiService.createFuncion(sala.getId(), datos).execute();
+            if (response.isSuccessful()) {
+            } else {
+                throw new Exception("La función no pudo guardar, por favor inténtelo de nuevo más tarde");
+            }
+        } catch (IOException e) {
+//            throw new Exception(e.getMessage());
+e.printStackTrace();
+//            throw new Exception("La función no pudo guardar, por favor inténtelo de nuevo más tarde");
         }
     }
 

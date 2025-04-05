@@ -4,6 +4,9 @@
  */
 package app.frames;
 
+import app.models.Cliente;
+import app.models.Tiquete;
+import app.models.Usuario;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import java.awt.event.WindowListener;
@@ -17,6 +20,7 @@ import javax.swing.table.DefaultTableModel;
 public class FrameVerTicketsUsuario extends javax.swing.JFrame {
 
     private int seleccion = -1;
+    private Usuario usuario;
 
     public int getSeleccion() {
         return this.seleccion;
@@ -25,7 +29,8 @@ public class FrameVerTicketsUsuario extends javax.swing.JFrame {
     /**
      * Creates new form FrameTickets
      */
-    public FrameVerTicketsUsuario() {
+    public FrameVerTicketsUsuario(Usuario usuario) {
+        this.usuario = usuario;
         initComponents();
         setLocationRelativeTo(null);
         // Esto se hace para poder detectar cuando la ventana se cierra con un listener
@@ -51,14 +56,40 @@ public class FrameVerTicketsUsuario extends javax.swing.JFrame {
         DefaultTableModel model = new DefaultTableModel() {
             @Override
             public boolean isCellEditable(int row, int column) {
-                return false; // Make all cells non-editable
+                return false;
             }
         };
 
-        model.setColumnIdentifiers(new Object[]{"ID", "Funcion", "Asiento", "Hora"});
+        model.setColumnIdentifiers(new Object[]{"ID Función", "Título", "Asiento", "Hora Función"});
 
-        for (int i = 0; i < 1; i++) {
-            model.addRow(new Object[]{1, "Avengers", 30, "19:30"});
+        if (!(usuario instanceof Cliente)) {
+            ticketsTable.setModel(model);
+            return;
+        }
+
+        Cliente cliente = (Cliente) usuario;
+
+        if (cliente.getTiquetes() == null || cliente.getTiquetes().isEmpty()) {
+            ticketsTable.setModel(model);
+            return;
+        }
+
+        try {
+            for (Tiquete t : cliente.getTiquetes()) {
+                if (t == null || t.getFuncion() == null) {
+                    continue;
+                }
+
+                model.addRow(new Object[]{
+                    t.getFuncion().getId(),
+                    t.getFuncion().getTitulo(),
+                    t.getAsiento(),
+                    t.getFuncion().getInicio()
+                });
+            }
+        } catch (Exception e) {
+            System.err.println("Error al llenar tabla de tiquetes: " + e.getMessage());
+            e.printStackTrace();
         }
 
         ticketsTable.setModel(model);

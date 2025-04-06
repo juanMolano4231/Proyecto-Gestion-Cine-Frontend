@@ -9,6 +9,7 @@ import app.models.Usuario;
 import app.services.GestionPerfilService;
 import app.frames.*;
 import app.models.Funcion;
+import client.CineClient;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
 
@@ -34,10 +35,12 @@ public class GestionPerfilController {
         return service.verTickets(seleccion);
     }
 
-    public String verFunciones(Usuario usuario) {
+    public Object[] verFunciones(Usuario usuario) {
         List<Sala> salas = service.getSalas();
         Object[] seleccion = levantarFrameFunciones(usuario, salas);
-        return service.verFunciones(seleccion);
+        String ruta = service.verFunciones(seleccion);
+        Funcion funcion = (Funcion) seleccion[1];
+        return new Object[]{ruta, funcion};
     }
 
     private Object[] levantarFramePerfil(Usuario usuario) {
@@ -81,7 +84,7 @@ public class GestionPerfilController {
             int seleccion = frame.getSeleccion();
             if (seleccion >= 0) {
                 frame.dispose();
-                return new Object[]{seleccion};
+                return new Object[]{seleccion, frame.getFuncionId()};
             }
             try {
                 TimeUnit.MILLISECONDS.sleep(250);
@@ -92,7 +95,7 @@ public class GestionPerfilController {
     }
 
     public String comprarTicket(Usuario usuario, Funcion funcion) {
-        return service.comprarTicket(usuario);
+        return service.comprarTicket(usuario, funcion);
     }
 
 }

@@ -255,6 +255,10 @@ public class FrameVerFuncionesUsuario extends javax.swing.JFrame {
         seleccion = 1;
     }//GEN-LAST:event_regresarBtnActionPerformed
 
+    public int getFuncionId() {
+        return Integer.parseInt(idLabel.getText());
+    }
+    
     /**
      * @param args the command line arguments
      */

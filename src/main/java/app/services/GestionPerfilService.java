@@ -4,7 +4,10 @@
  */
 package app.services;
 
+import app.models.Cliente;
+import app.models.Funcion;
 import app.models.Sala;
+import app.models.Tiquete;
 import app.models.Usuario;
 import client.CineClient;
 import java.util.List;
@@ -67,13 +70,33 @@ public class GestionPerfilService {
         }
     }
 
-    public String comprarTicket(Usuario usuario) {
+    public String comprarTicket(Usuario usuario, Funcion funcion) {
         try {
-            cliente.postUsuario(usuario.getUsuario(), usuario);
-            notificar("Compra realizada con exito");
-            return "GestionPerfil_verFunciones";
+            List<Usuario> usuarios = cliente.getAllUsuarios();
+            Cliente clienteAEditar = null;
+
+            for (Usuario usuarioEncontrado : usuarios) {
+                if (usuarioEncontrado.getUsuario().equals(usuario.getUsuario())) {
+                    if (usuarioEncontrado instanceof Cliente) {
+                        clienteAEditar = (Cliente) usuarioEncontrado;
+                    }
+                    break;
+                }
+            }
+            int asientoDeseado = Integer.parseInt(JOptionPane.showInputDialog("Ingrese el asiento que desea comprar"));
+            clienteAEditar.getTiquetes().add(new Tiquete(funcion, asientoDeseado));
+
+            if (funcion.getAsientos()[asientoDeseado] == false) {
+                notificar("Error al realizar la compra, el asiento no esta disponible");
+                return "GestionPerfil_verFunciones";
+            } else {
+                notificar("Tiquete comprado con exito");
+                funcion.getAsientos()[asientoDeseado] = false;
+                cliente.postUsuario(usuario.getUsuario(), usuario);
+                return "GestionPerfil_verFunciones";
+            }
         } catch (Exception e) {
-            notificar("Error al realizar la compra:\n" + e.getMessage());
+            notificar("Error");
             return "GestionPerfil_verFunciones";
         }
     }

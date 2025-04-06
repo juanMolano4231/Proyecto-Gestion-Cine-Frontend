@@ -91,9 +91,9 @@ public class GestionSalaService {
         JOptionPane.showMessageDialog(null, mensaje);
     }
 
-    public String borrarSala(int indexSala) {
+    public String borrarSala(Sala sala) {
         try {
-            cliente.delete(indexSala - 1);
+            cliente.deleteSala(sala);
         } catch (Exception ex) {
             notificar(ex.getMessage());
             return "GestionCine_verSalas";

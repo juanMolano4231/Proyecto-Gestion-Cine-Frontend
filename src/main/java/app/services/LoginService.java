@@ -63,13 +63,13 @@ public class LoginService {
 
     public Object[] pidePin(String input) {
         if (input == null) {
-            return new Object[]{"Bienvenida_bienvenida", null};
+            return new Object[]{"Bienvenida_bienvenida", null, null};
         }
         int pin = -1;
         try {
             pin = Integer.parseInt(input);
         } catch (NumberFormatException e) {
-            return new Object[]{"Login_pinInvalido", null};
+            return new Object[]{"Login_pinInvalido", null, null};
         }
         if (pin == usuario.getPin()) {
             return new Object[]{"Login_exito", pin, usuario};

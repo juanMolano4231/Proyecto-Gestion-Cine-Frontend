@@ -20,7 +20,6 @@ import javax.swing.JOptionPane;
 public class FrameVerSalas extends javax.swing.JFrame {
 
     private int seleccion = -1;  // Valor default, preferiblemente un número negativo
-    private int indexSalaSeleccionada = -1;
     private Sala salaSeleccionada = null;
     private List<Sala> salas;
     
@@ -47,12 +46,12 @@ public class FrameVerSalas extends javax.swing.JFrame {
         return seleccion;
     }
     
-    public Sala getSalaSeleccionada() {
-        return salaSeleccionada;
+    public void setSeleccion(int seleccion) {
+        this.seleccion = seleccion;
     }
     
-    public int getIndexSalaSeleccionada() {
-        return indexSalaSeleccionada;
+    public Sala getSalaSeleccionada() {
+        return salaSeleccionada;
     }
     
     private void AgregarWindowListener() {
@@ -74,8 +73,8 @@ public class FrameVerSalas extends javax.swing.JFrame {
             model.addElement("ERROR DE CONEXION");
             return;
         }
-        for (int i = 0; i < salas.size(); i++) {
-            model.addElement("Sala " + (i + 1));
+        for (Sala s : salas) {
+            model.addElement(s);
         }
         cbSalas.setModel(model);
         try {  // No hay salas
@@ -248,10 +247,9 @@ public class FrameVerSalas extends javax.swing.JFrame {
 
     private void botonGestionarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botonGestionarActionPerformed
         seleccion = 3;
-        indexSalaSeleccionada = cbSalas.getSelectedIndex() + 1;
-        String selectedItem = (String) cbSalas.getSelectedItem();
-        if (! (selectedItem.equals("NO HAY SALAS") || selectedItem.equals("ERROR DE CONEXION") )) {
-             salaSeleccionada = salas.get(cbSalas.getSelectedIndex());
+        Object selectedItem = cbSalas.getSelectedItem();
+        if (selectedItem instanceof Sala) {
+             salaSeleccionada = (Sala) selectedItem;
         }
     }//GEN-LAST:event_botonGestionarActionPerformed
 

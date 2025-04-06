@@ -5,57 +5,59 @@
 
 package app.controllers;
 
-import app.frames.FrameGestionSala;
+import app.frames.FrameGestionFuncion;
 import app.models.Funcion;
 import app.models.Sala;
-import app.services.GestionSalaService;
-import app.views.ViewGestionSala;
-import java.util.List;
+import app.services.GestionFuncionService;
+import app.views.ViewGestionFuncion;
 import java.util.concurrent.TimeUnit;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import javax.swing.JOptionPane;
 
 /**
  *
  * @author Juan José Molano Franco
  */
-public class GestionSalaController {
-
-    private final GestionSalaService service;
-    private final ViewGestionSala view;
+public class GestionFuncionController {
     
-    public GestionSalaController() {
-        service = new GestionSalaService();
-        view = new ViewGestionSala();
+    private final GestionFuncionService service;
+    private final ViewGestionFuncion view;
+
+    public GestionFuncionController() {
+        this.service = new GestionFuncionService();
+        view = new ViewGestionFuncion();
     }
     
-    public Object[] gestionSala(Sala sala) {
+    public String gestionFuncion(Funcion funcion) {
+        int seleccion = levantarFrameGestionFuncion(funcion);
+        return service.gestionFuncion(seleccion, funcion);
+    }
+    
+    public String exitoAlBorrar(Sala sala, Funcion funcion) {
         Sala salaActualizada = service.reloadSala(sala);
-        Object[] selecciones = levantarFrameGestionSala(salaActualizada);
-        return service.gestionSala(selecciones, salaActualizada);
+        try {
+            service.borrarFuncion(salaActualizada, funcion);
+        } catch (Exception ex) {
+            notificar(ex.getMessage());
+            return "GestionFuncion_gestionFuncion";
+        }
+        return service.exitoAlBorrar();
     }
     
     public String falloAlBorrar() {
         int seleccion = view.falloAlBorrar();
         return service.falloAlBorrar(seleccion);
     }
-    
-    public String exitoAlBorrar(Sala sala) {
-        String rutaAlterna = service.borrarSala(sala);  // En caso de que haya un error de conexión
-        if (rutaAlterna != null) {
-            return rutaAlterna;
-        }
-        int seleccion = view.exitoAlBorrar();
-        return service.exitoAlBorrar(seleccion);
-    }
 
-    private Object[] levantarFrameGestionSala(Sala sala) {
-        FrameGestionSala frame = new FrameGestionSala(sala);
+    private int levantarFrameGestionFuncion(Funcion funcion) {
+        FrameGestionFuncion frame = new FrameGestionFuncion(funcion);
         frame.setVisible(true);
 
         /* Este ciclo revisa cada 250ms si el usuario ya clickeó un botón.
         En caso de que no espera otros 250ms, pero si sí entonces retorna la selección */
         while (true) {
             int seleccion = frame.getSeleccion();
-            Funcion funcionSeleccionada = frame.getFuncionSeleccionada();
             switch (seleccion) {
                 case -1:  // Valor default, preferiblemente un número negativo
                     // Detiene el ciclo por 250 ms
@@ -67,9 +69,12 @@ public class GestionSalaController {
                     break;
                 default:
                     frame.dispose();
-                    return new Object[]{seleccion, funcionSeleccionada};
+                    return seleccion;
             }
         }
     }
     
+    private void notificar(String mensaje) {
+        JOptionPane.showMessageDialog(null, mensaje);
+    }
 }

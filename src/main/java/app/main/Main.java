@@ -25,7 +25,7 @@ public class Main {
     private static final CrearSalaController crearSalaController = new CrearSalaController();
     private static final GestionPerfilController viewGestionPerfilController = new GestionPerfilController();
     private static final GestionSalaController gestionSalaController = new GestionSalaController();
-    private static final ViewGestionFuncionController gestionFuncionController = new ViewGestionFuncionController();
+    private static final GestionFuncionController gestionFuncionController = new GestionFuncionController();
     private static final CrearFuncionController crearFuncionController = new CrearFuncionController();
 
     public static void main(String[] args) {
@@ -49,7 +49,6 @@ public class Main {
         String nombreUsuarioRegistro = null;
         String pinRegistro = null;
         Usuario usuario = null;
-        int indexSalaSeleccionada = -1;  // Index de sala seleccionada para gestionarla
         /* La sala puede ser Sala n dependiendo del número, ERROR DE CONEXION si no se
         puede conectar con la API y NO HAY SALAS si aún no se han creado salas*/
         Sala salaSeleccionada = null;  // Sala seleccionada para gestión
@@ -124,8 +123,7 @@ public class Main {
                 case "GestionCine_verSalas":
                     data = gestionCine_verSalas();
                     ruta = (String) data[0];
-                    indexSalaSeleccionada = (int) data[1];  // Guarda index sala seleccionada para gestionar
-                    salaSeleccionada = (Sala) data[2];  // Sala para gestionarla
+                    salaSeleccionada = (Sala) data[1];  // Sala para gestionarla
                     break;
                 // ViewCrearSala
                 case "CrearSala_crearSala":
@@ -138,7 +136,7 @@ public class Main {
                     break;
                 // ViewGestionSala
                 case "GestionSala_gestionSala":
-                    data = gestionSala_gestionSala(salaSeleccionada, indexSalaSeleccionada);
+                    data = gestionSala_gestionSala(salaSeleccionada);
                     ruta = (String) data[0];
                     funcionSeleccionada = (Funcion) data[1];
                     break;
@@ -146,7 +144,7 @@ public class Main {
                     ruta = gestionSala_falloAlBorrar();
                     break;
                 case "GestionSala_exitoAlBorrar":
-                    ruta = gestionSala_exitoAlBorrar(indexSalaSeleccionada);
+                    ruta = gestionSala_exitoAlBorrar(salaSeleccionada);
                     break;
                 // ViewGestionPerfil
                 case "GestionPerfil_perfil":
@@ -160,10 +158,10 @@ public class Main {
                     break;
                 // ViewGestionFuncion
                 case "GestionFuncion_gestionFuncion":
-                    ruta = gestionFuncion_gestionFuncion();
+                    ruta = gestionFuncion_gestionFuncion(funcionSeleccionada);
                     break;
                 case "GestionFuncion_exitoAlBorrar":
-                    ruta = gestionFuncion_exitoAlBorrar();
+                    ruta = gestionFuncion_exitoAlBorrar(salaSeleccionada, funcionSeleccionada);
                     break;
                 case "GestionFuncion_falloAlBorrar":
                     ruta = gestionFuncion_falloAlBorrar();
@@ -265,16 +263,16 @@ public class Main {
     }
 
     // ViewGestionSala
-    private static Object[] gestionSala_gestionSala(Sala sala, int indexSala) {
-        return gestionSalaController.gestionSala(sala, indexSala);
+    private static Object[] gestionSala_gestionSala(Sala sala) {
+        return gestionSalaController.gestionSala(sala);
     }
 
     private static String gestionSala_falloAlBorrar() {
         return gestionSalaController.falloAlBorrar();
     }
 
-    private static String gestionSala_exitoAlBorrar(int indexSala) {
-        return gestionSalaController.exitoAlBorrar(indexSala);
+    private static String gestionSala_exitoAlBorrar(Sala sala) {
+        return gestionSalaController.exitoAlBorrar(sala);
     }
 
     // ViewGestionPerfil
@@ -291,12 +289,12 @@ public class Main {
     }
 
     // ViewGestionFuncion
-    private static String gestionFuncion_gestionFuncion() {
-        return gestionFuncionController.gestionFuncion();
+    private static String gestionFuncion_gestionFuncion(Funcion funcionSeleccionada) {
+        return gestionFuncionController.gestionFuncion(funcionSeleccionada);
     }
 
-    private static String gestionFuncion_exitoAlBorrar() {
-        return gestionFuncionController.exitoAlBorrar();
+    private static String gestionFuncion_exitoAlBorrar(Sala salaSeleccionada, Funcion funcionSeleccionada) {
+        return gestionFuncionController.exitoAlBorrar(salaSeleccionada, funcionSeleccionada);
     }
 
     private static String gestionFuncion_falloAlBorrar() {

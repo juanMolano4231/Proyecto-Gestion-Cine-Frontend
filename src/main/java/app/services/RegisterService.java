@@ -2,7 +2,6 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
  */
-
 package app.services;
 
 import app.models.Usuario;
@@ -18,13 +17,13 @@ import javax.swing.JOptionPane;
  * @author Juan José Molano Franco
  */
 public class RegisterService {
-    
+
     private final CineClient cliente;
-    
+
     public RegisterService() {
         cliente = new CineClient();
     }
-    
+
     public Object[] pideNombreUsuario(String nombreUsuario) {
         try {
             if (nombreUsuario == null) {
@@ -43,7 +42,7 @@ public class RegisterService {
             return new Object[]{"Bienvenida_bienvenida", null};
         }
     }
-    
+
     public String usuarioInvalido(int selection) {
         if (selection == 0) {  // Presiona OK
             return "Register_pideNombreUsuario";
@@ -55,7 +54,7 @@ public class RegisterService {
             throw new Error("Seleccion \"" + selection + "\" sin ruta");
         }
     }
-    
+
     public String usuarioOcupado(int selection) {
         if (selection == 0) {  // Presiona OK
             return "Register_pideNombreUsuario";
@@ -67,8 +66,11 @@ public class RegisterService {
             throw new Error("Seleccion \"" + selection + "\" sin ruta");
         }
     }
-    
+
     public Object[] pidePin(String input) {
+        if (input == null) {
+            return new Object[]{"Bienvenida_bienvenida", null};
+        }
         try {
             Integer.parseInt(input);
         } catch (Exception e) {
@@ -76,7 +78,7 @@ public class RegisterService {
         }
         return new Object[]{"Register_exito", input};
     }
-    
+
     public String pinInvalido(int selection) {
         if (selection == 0) {  // Presiona OK
             return "Register_pidePin";
@@ -88,7 +90,7 @@ public class RegisterService {
             throw new Error("Seleccion \"" + selection + "\" sin ruta");
         }
     }
-    
+
     public String exito(int selection, String usu, String pin) {
         try {
             registrarUsuario(usu, pin);
@@ -106,7 +108,7 @@ public class RegisterService {
             throw new Error("Seleccion \"" + selection + "\" sin ruta");
         }
     }
-    
+
     // Validaciones
     private static boolean nombreUsuarioValido(String usu) {
         if (usu == null || usu.isBlank()) {
@@ -141,5 +143,5 @@ public class RegisterService {
     private void registrarUsuario(String usu, String pin) throws Exception {
         cliente.createUsuario(usu, pin);
     }
-    
+
 }

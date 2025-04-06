@@ -158,6 +158,9 @@ public class Main {
                 case "GestionPerfil_verFunciones":
                     ruta = gestionPerfil_verFunciones(usuario);
                     break;
+                case "GestionPerfil_comprarTicket":
+                    ruta = gestionPerfil_comprarTicket(usuario);
+                    break;
                 // ViewGestionFuncion
                 case "GestionFuncion_gestionFuncion":
                     ruta = gestionFuncion_gestionFuncion();
@@ -287,6 +290,10 @@ public class Main {
     }
 
     private static String gestionPerfil_verFunciones(Usuario usuario) {
+        return viewGestionPerfilController.verFunciones(usuario);
+    }
+    
+    private static String gestionPerfil_comprarTicket(Usuario usuario) {
         return viewGestionPerfilController.verFunciones(usuario);
     }
 

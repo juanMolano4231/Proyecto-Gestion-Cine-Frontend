@@ -8,12 +8,12 @@ import app.models.Sala;
 import app.models.Usuario;
 import client.CineClient;
 import java.util.List;
+import javax.swing.JOptionPane;
 
 /**
  *
  * @author Johan
  */
-
 public class GestionPerfilService {
 
     private Usuario usuario;
@@ -65,6 +65,21 @@ public class GestionPerfilService {
             default:
                 throw new Error("Botón no configurado");
         }
+    }
+
+    public String comprarTicket(Usuario usuario) {
+        try {
+            cliente.postUsuario(usuario.getUsuario(), usuario);
+            notificar("Compra realizada con exito");
+            return "GestionPerfil_verFunciones";
+        } catch (Exception e) {
+            notificar("Error al realizar la compra:\n" + e.getMessage());
+            return "GestionPerfil_verFunciones";
+        }
+    }
+
+    private void notificar(String mensaje) {
+        JOptionPane.showMessageDialog(null, mensaje);
     }
 
     public List<Sala> getSalas() {

@@ -13,6 +13,8 @@ import client.apiServices.UsuarioApiService;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import retrofit2.Response;
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
@@ -79,6 +81,18 @@ public class CineClient {
         return null;
     }
 
+    public void postUsuario(String user, Usuario usuario) throws Exception {
+        try {
+            Response<Usuario> response = usuarioApiService.postUsuario(user, usuario).execute();
+            if (response.isSuccessful()) {
+            } else {
+                throw new Exception("El usuario no fue actualiado, intentelo de nuevo mas tarde.");
+            }
+        } catch (IOException ex) {
+                throw new Exception("El usuario no fue actualiado, intentelo de nuevo mas tarde.");
+        }
+    }
+
     public List<Sala> getSalas() {
         try {
             Response<List<Sala>> response = salaApiService.getSalas().execute();
@@ -127,7 +141,7 @@ public class CineClient {
             }
         } catch (IOException e) {
 //            throw new Exception(e.getMessage());
-e.printStackTrace();
+            e.printStackTrace();
 //            throw new Exception("La función no pudo guardar, por favor inténtelo de nuevo más tarde");
         }
     }

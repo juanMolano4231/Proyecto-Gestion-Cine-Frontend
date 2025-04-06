@@ -8,6 +8,7 @@ import app.models.Sala;
 import app.models.Usuario;
 import app.services.GestionPerfilService;
 import app.frames.*;
+import app.models.Funcion;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
 
@@ -89,4 +90,9 @@ public class GestionPerfilController {
             }
         }
     }
+
+    public String comprarTicket(Usuario usuario, Funcion funcion) {
+        return service.comprarTicket(usuario);
+    }
+
 }

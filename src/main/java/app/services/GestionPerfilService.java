@@ -83,7 +83,14 @@ public class GestionPerfilService {
                     break;
                 }
             }
-            int asientoDeseado = Integer.parseInt(JOptionPane.showInputDialog("Ingrese el asiento que desea comprar"));
+
+            if (cantidadAsientosDisponibles(funcion) <= 0) {
+                notificar("Error al realizar la compra, no hay asientos libres");
+                return "GestionPerfil_verFunciones";
+            }
+
+            int asientoDeseado = Integer.parseInt(JOptionPane.showInputDialog("Ingrese el asiento que desea comprar para la funcion: " + funcion.getId() + ", " + funcion.getTitulo() +
+                    ", quedan: " + cantidadAsientosDisponibles(funcion) + " asientos."));
             clienteAEditar.getTiquetes().add(new Tiquete(funcion, asientoDeseado));
 
             if (funcion.getAsientos()[asientoDeseado] == false) {
@@ -108,4 +115,32 @@ public class GestionPerfilService {
     public List<Sala> getSalas() {
         return cliente.getSalas();
     }
+
+    public Funcion buscarFuncionPorId(int id) {
+        List<Sala> salas = getSalas();
+        for (Sala s : salas) {
+            for (Funcion f : s.getFunciones()) {
+                if (f.getId() == id) {
+                    return f;
+                }
+            }
+        }
+        return null;
+    }
+
+    public int cantidadAsientosDisponibles(Funcion funcion) {
+        boolean[] asientos = funcion.getAsientos();
+        int disponibles = 0;
+        for (boolean disponible : asientos) {
+            if (disponible) {
+                disponibles++;
+            }
+        }
+        return disponibles;
+    }
+
+    public void setUsuario(Usuario usuario) {
+        this.usuario = usuario;
+    }
+
 }

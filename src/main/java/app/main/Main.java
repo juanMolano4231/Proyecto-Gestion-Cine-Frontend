@@ -157,10 +157,12 @@ public class Main {
                     ruta = gestionPerfil_verTickets(usuario);
                     break;
                 case "GestionPerfil_verFunciones":
+                    viewGestionPerfilController.setUsuario(usuario);
                     data = gestionPerfil_verFunciones(usuario);
                     funcionParaComprar = (Funcion) data[1];
                     ruta = (String) data[0];
                     break;
+
                 case "GestionPerfil_comprarTicket":
                     ruta = gestionPerfil_comprarTicket(usuario, funcionParaComprar);
                     break;
@@ -295,7 +297,7 @@ public class Main {
     private static Object[] gestionPerfil_verFunciones(Usuario usuario) {
         return viewGestionPerfilController.verFunciones(usuario);
     }
-    
+
     private static String gestionPerfil_comprarTicket(Usuario usuario, Funcion funcion) {
         return viewGestionPerfilController.comprarTicket(usuario, funcion);
     }
@@ -325,6 +327,5 @@ public class Main {
     private static String crearFuncion_exito(Sala sala) {
         return crearFuncionController.exito(sala);
     }
-    
-    
+
 }

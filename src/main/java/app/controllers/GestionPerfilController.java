@@ -19,10 +19,16 @@ import java.util.concurrent.TimeUnit;
  */
 public class GestionPerfilController {
 
+    private Usuario usuario;
     private final GestionPerfilService service;
 
     public GestionPerfilController() {
         service = new GestionPerfilService();
+    }
+
+    public void setUsuario(Usuario usuario) {
+        this.usuario = usuario;
+        service.setUsuario(usuario);
     }
 
     public String verPerfil(Usuario usuario) {
@@ -84,7 +90,10 @@ public class GestionPerfilController {
             int seleccion = frame.getSeleccion();
             if (seleccion >= 0) {
                 frame.dispose();
-                return new Object[]{seleccion, frame.getFuncionId()};
+                if(frame.getFuncionId() == -1) {
+                    return new Object[]{1, null};
+                }
+                return new Object[]{seleccion, service.buscarFuncionPorId(frame.getFuncionId())};
             }
             try {
                 TimeUnit.MILLISECONDS.sleep(250);

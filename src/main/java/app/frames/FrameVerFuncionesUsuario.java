@@ -256,7 +256,11 @@ public class FrameVerFuncionesUsuario extends javax.swing.JFrame {
     }//GEN-LAST:event_regresarBtnActionPerformed
 
     public int getFuncionId() {
+        try {
         return Integer.parseInt(idLabel.getText());
+        } catch (NumberFormatException e) {
+            return -1;
+        }
     }
     
     /**

@@ -49,6 +49,8 @@ public class Main {
         String nombreUsuarioRegistro = null;
         String pinRegistro = null;
         Usuario usuario = null;
+        Funcion funcionParaComprar = null;
+        int indexSalaSeleccionada = -1;  // Index de sala seleccionada para gestionarla
         /* La sala puede ser Sala n dependiendo del número, ERROR DE CONEXION si no se
         puede conectar con la API y NO HAY SALAS si aún no se han creado salas*/
         Sala salaSeleccionada = null;  // Sala seleccionada para gestión
@@ -151,10 +153,18 @@ public class Main {
                     ruta = gestionPerfil_verPerfil(usuario);
                     break;
                 case "GestionPerfil_verTickets":
+                    viewGestionPerfilController.setUsuario(usuario);
                     ruta = gestionPerfil_verTickets(usuario);
                     break;
                 case "GestionPerfil_verFunciones":
-                    ruta = gestionPerfil_verFunciones(usuario);
+                    viewGestionPerfilController.setUsuario(usuario);
+                    data = gestionPerfil_verFunciones(usuario);
+                    funcionParaComprar = (Funcion) data[1];
+                    ruta = (String) data[0];
+                    break;
+
+                case "GestionPerfil_comprarTicket":
+                    ruta = gestionPerfil_comprarTicket(usuario, funcionParaComprar);
                     break;
                 // ViewGestionFuncion
                 case "GestionFuncion_gestionFuncion":
@@ -284,8 +294,12 @@ public class Main {
         return viewGestionPerfilController.verTickets(usuario);
     }
 
-    private static String gestionPerfil_verFunciones(Usuario usuario) {
+    private static Object[] gestionPerfil_verFunciones(Usuario usuario) {
         return viewGestionPerfilController.verFunciones(usuario);
+    }
+
+    private static String gestionPerfil_comprarTicket(Usuario usuario, Funcion funcion) {
+        return viewGestionPerfilController.comprarTicket(usuario, funcion);
     }
 
     // ViewGestionFuncion
@@ -313,6 +327,5 @@ public class Main {
     private static String crearFuncion_exito(Sala sala) {
         return crearFuncionController.exito(sala);
     }
-    
-    
+
 }

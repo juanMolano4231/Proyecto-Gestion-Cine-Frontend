@@ -4,16 +4,19 @@
  */
 package app.services;
 
+import app.models.Cliente;
+import app.models.Funcion;
 import app.models.Sala;
+import app.models.Tiquete;
 import app.models.Usuario;
 import client.CineClient;
 import java.util.List;
+import javax.swing.JOptionPane;
 
 /**
  *
  * @author Johan
  */
-
 public class GestionPerfilService {
 
     private Usuario usuario;
@@ -67,7 +70,113 @@ public class GestionPerfilService {
         }
     }
 
+    public String comprarTicket(Usuario usuario, Funcion funcion) {
+        try {
+            List<Cliente> clientes = cliente.getAllClientes();
+            if (clientes == null) {
+                notificar("Error al obtener los clientes del sistema");
+                return "GestionPerfil_verFunciones";
+            }
+            Cliente clienteAEditar = null;
+            for (Cliente c : clientes) {
+                if (c.getUsuario().equals(usuario.getUsuario())) {
+                    clienteAEditar = c;
+                }
+            }
+
+            if (cantidadAsientosDisponibles(funcion) <= 0) {
+                notificar("Error al realizar la compra, no hay asientos libres");
+                return "GestionPerfil_verFunciones";
+            }
+
+            int asientoDeseado = Integer.parseInt(JOptionPane.showInputDialog("Ingrese el asiento que desea comprar para la funcion: " + funcion.getId() + ", " + funcion.getTitulo()
+                    + ", quedan: " + cantidadAsientosDisponibles(funcion) + " asientos."));
+            clienteAEditar.getTiquetes().add(new Tiquete(funcion, asientoDeseado));
+
+            if (funcion.getAsientos()[asientoDeseado] == true) {
+                notificar("Error al realizar la compra, el asiento no esta disponible");
+                return "GestionPerfil_verFunciones";
+            } else {
+                notificar("Tiquete comprado con exito");
+                funcion.getAsientos()[asientoDeseado] = true;
+                cliente.postCliente(usuario.getUsuario(), clienteAEditar);
+                actualizarFuncion(funcion);
+                return "GestionPerfil_verFunciones";
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+            notificar("Error");
+            return "GestionPerfil_verFunciones";
+        }
+    }
+
+    public void actualizarFuncion(Funcion funcionActualizada) {
+        try {
+            List<Sala> salas = cliente.getSalas();
+
+            for (Sala sala : salas) {
+                List<Funcion> funciones = sala.getFunciones();
+                for (int i = 0; i < funciones.size(); i++) {
+                    if (funciones.get(i).getId() == funcionActualizada.getId()) {
+                        funciones.set(i, funcionActualizada);
+
+                        cliente.updateSala(sala);
+                        return;
+                    }
+                }
+            }
+
+            notificar("No se pudo encontrar la función a actualizar.");
+
+        } catch (Exception e) {
+            e.printStackTrace();
+            notificar("Error al actualizar la función.");
+        }
+    }
+
+    private void notificar(String mensaje) {
+        JOptionPane.showMessageDialog(null, mensaje);
+    }
+
     public List<Sala> getSalas() {
         return cliente.getSalas();
     }
+
+    public Funcion buscarFuncionPorId(int id) {
+        List<Sala> salas = getSalas();
+        for (Sala s : salas) {
+            for (Funcion f : s.getFunciones()) {
+                if (f.getId() == id) {
+                    return f;
+                }
+            }
+        }
+        return null;
+    }
+
+    public int cantidadAsientosDisponibles(Funcion funcion) {
+        boolean[] asientos = funcion.getAsientos();
+        int disponibles = 0;
+        for (boolean disponible : asientos) {
+            if (!disponible) {
+                disponibles++;
+            }
+        }
+        return disponibles;
+    }
+
+    public Cliente getClienteByUser(Usuario usuario) {
+        List<Cliente> clientes = cliente.getAllClientes();
+        for (Cliente c : clientes) {
+            if (c.getUsuario().equals(usuario.getUsuario())) {
+                return c;
+            }
+        }
+        return null;
+    }
+
+    public void setUsuario(Usuario usuario) {
+        this.usuario = usuario;
+    }
+
 }

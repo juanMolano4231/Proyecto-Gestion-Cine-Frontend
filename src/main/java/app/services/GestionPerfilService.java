@@ -72,37 +72,40 @@ public class GestionPerfilService {
 
     public String comprarTicket(Usuario usuario, Funcion funcion) {
         try {
-            List<Usuario> usuarios = cliente.getAllUsuarios();
+            List<Cliente> clientes = cliente.getAllClientes();
+            if (clientes == null) {
+                notificar("Error al obtener los clientes del sistema");
+                return "GestionPerfil_verFunciones";
+            }
             Cliente clienteAEditar = null;
-
-            for (Usuario usuarioEncontrado : usuarios) {
-                if (usuarioEncontrado.getUsuario().equals(usuario.getUsuario())) {
-                    if (usuarioEncontrado instanceof Cliente) {
-                        clienteAEditar = (Cliente) usuarioEncontrado;
-                    }
-                    break;
+            for (Cliente c : clientes) {
+                if (c.getUsuario().equals(usuario.getUsuario())) {
+                    clienteAEditar = c;
                 }
             }
+            
+            System.out.println("Cliente a editar: " + clienteAEditar.getUsuario());
 
             if (cantidadAsientosDisponibles(funcion) <= 0) {
                 notificar("Error al realizar la compra, no hay asientos libres");
                 return "GestionPerfil_verFunciones";
             }
 
-            int asientoDeseado = Integer.parseInt(JOptionPane.showInputDialog("Ingrese el asiento que desea comprar para la funcion: " + funcion.getId() + ", " + funcion.getTitulo() +
-                    ", quedan: " + cantidadAsientosDisponibles(funcion) + " asientos."));
+            int asientoDeseado = Integer.parseInt(JOptionPane.showInputDialog("Ingrese el asiento que desea comprar para la funcion: " + funcion.getId() + ", " + funcion.getTitulo()
+                    + ", quedan: " + cantidadAsientosDisponibles(funcion) + " asientos."));
             clienteAEditar.getTiquetes().add(new Tiquete(funcion, asientoDeseado));
 
-            if (funcion.getAsientos()[asientoDeseado] == false) {
+            if (funcion.getAsientos()[asientoDeseado] == true) {
                 notificar("Error al realizar la compra, el asiento no esta disponible");
                 return "GestionPerfil_verFunciones";
             } else {
                 notificar("Tiquete comprado con exito");
-                funcion.getAsientos()[asientoDeseado] = false;
-                cliente.postUsuario(usuario.getUsuario(), usuario);
+                funcion.getAsientos()[asientoDeseado] = true;
+                cliente.postCliente(usuario.getUsuario(), clienteAEditar);
                 return "GestionPerfil_verFunciones";
             }
         } catch (Exception e) {
+            e.printStackTrace();
             notificar("Error");
             return "GestionPerfil_verFunciones";
         }
@@ -132,7 +135,7 @@ public class GestionPerfilService {
         boolean[] asientos = funcion.getAsientos();
         int disponibles = 0;
         for (boolean disponible : asientos) {
-            if (disponible) {
+            if (!disponible) {
                 disponibles++;
             }
         }

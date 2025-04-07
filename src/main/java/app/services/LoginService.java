@@ -69,7 +69,7 @@ public class LoginService {
         try {
             pin = Integer.parseInt(input);
         } catch (NumberFormatException e) {
-            return new Object[]{"Login_pinInvalido", null};
+            return new Object[]{"Login_pinInvalido", null, null};
         }
         if (pin == usuario.getPin()) {
             return new Object[]{"Login_exito", pin, usuario};

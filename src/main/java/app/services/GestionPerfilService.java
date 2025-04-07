@@ -83,8 +83,6 @@ public class GestionPerfilService {
                     clienteAEditar = c;
                 }
             }
-            
-            System.out.println("Cliente a editar: " + clienteAEditar.getUsuario());
 
             if (cantidadAsientosDisponibles(funcion) <= 0) {
                 notificar("Error al realizar la compra, no hay asientos libres");
@@ -102,12 +100,37 @@ public class GestionPerfilService {
                 notificar("Tiquete comprado con exito");
                 funcion.getAsientos()[asientoDeseado] = true;
                 cliente.postCliente(usuario.getUsuario(), clienteAEditar);
+                actualizarFuncion(funcion);
                 return "GestionPerfil_verFunciones";
             }
         } catch (Exception e) {
             e.printStackTrace();
             notificar("Error");
             return "GestionPerfil_verFunciones";
+        }
+    }
+
+    public void actualizarFuncion(Funcion funcionActualizada) {
+        try {
+            List<Sala> salas = cliente.getSalas();
+
+            for (Sala sala : salas) {
+                List<Funcion> funciones = sala.getFunciones();
+                for (int i = 0; i < funciones.size(); i++) {
+                    if (funciones.get(i).getId() == funcionActualizada.getId()) {
+                        funciones.set(i, funcionActualizada);
+
+                        cliente.updateSala(sala);
+                        return;
+                    }
+                }
+            }
+
+            notificar("No se pudo encontrar la función a actualizar.");
+
+        } catch (Exception e) {
+            e.printStackTrace();
+            notificar("Error al actualizar la función.");
         }
     }
 
@@ -140,6 +163,16 @@ public class GestionPerfilService {
             }
         }
         return disponibles;
+    }
+
+    public Cliente getClienteByUser(Usuario usuario) {
+        List<Cliente> clientes = cliente.getAllClientes();
+        for (Cliente c : clientes) {
+            if (c.getUsuario().equals(usuario.getUsuario())) {
+                return c;
+            }
+        }
+        return null;
     }
 
     public void setUsuario(Usuario usuario) {

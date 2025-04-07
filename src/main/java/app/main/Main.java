@@ -153,6 +153,7 @@ public class Main {
                     ruta = gestionPerfil_verPerfil(usuario);
                     break;
                 case "GestionPerfil_verTickets":
+                    viewGestionPerfilController.setUsuario(usuario);
                     ruta = gestionPerfil_verTickets(usuario);
                     break;
                 case "GestionPerfil_verFunciones":

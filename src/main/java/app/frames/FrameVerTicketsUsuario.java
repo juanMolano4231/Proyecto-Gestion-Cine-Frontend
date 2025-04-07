@@ -29,8 +29,8 @@ public class FrameVerTicketsUsuario extends javax.swing.JFrame {
     /**
      * Creates new form FrameTickets
      */
-    public FrameVerTicketsUsuario(Usuario usuario) {
-        this.usuario = usuario;
+    public FrameVerTicketsUsuario(Cliente cliente) {
+        this.usuario = cliente;
         initComponents();
         setLocationRelativeTo(null);
         // Esto se hace para poder detectar cuando la ventana se cierra con un listener

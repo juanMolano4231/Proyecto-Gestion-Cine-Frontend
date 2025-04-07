@@ -8,6 +8,7 @@ import app.models.Sala;
 import app.models.Usuario;
 import app.services.GestionPerfilService;
 import app.frames.*;
+import app.models.Cliente;
 import app.models.Funcion;
 import client.CineClient;
 import java.util.List;
@@ -67,7 +68,8 @@ public class GestionPerfilController {
     }
 
     private Object[] levantarFrameTickets(Usuario usuario) {
-        FrameVerTicketsUsuario frame = new FrameVerTicketsUsuario(usuario);
+        Cliente cliente = service.getClienteByUser(usuario);
+        FrameVerTicketsUsuario frame = new FrameVerTicketsUsuario(cliente);
         frame.setVisible(true);
         while (true) {
             int seleccion = frame.getSeleccion();
@@ -90,7 +92,7 @@ public class GestionPerfilController {
             int seleccion = frame.getSeleccion();
             if (seleccion >= 0) {
                 frame.dispose();
-                if(frame.getFuncionId() == -1) {
+                if (frame.getFuncionId() == -1) {
                     return new Object[]{1, null};
                 }
                 return new Object[]{seleccion, service.buscarFuncionPorId(frame.getFuncionId())};

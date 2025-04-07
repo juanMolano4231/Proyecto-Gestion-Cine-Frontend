@@ -70,7 +70,7 @@ public class CrearSalaService {
     public int indexSala() {
         List<Sala> salas = cliente.getSalas();
         if (salas != null) {
-            return salas.size() + 1;
+            return salas.size();
         } else {
             return -1;
         }

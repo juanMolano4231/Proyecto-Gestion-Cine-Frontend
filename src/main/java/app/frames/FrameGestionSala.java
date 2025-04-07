@@ -25,7 +25,7 @@ public class FrameGestionSala extends javax.swing.JFrame {
     /**
      * Creates new form FrameGestionSala
      */
-    public FrameGestionSala(Sala sala, int indexSala) {
+    public FrameGestionSala(Sala sala) {
         initComponents();
         setLocationRelativeTo(null);
         // Esto se hace para poder detectar cuando la ventana se cierra con un listener
@@ -33,7 +33,7 @@ public class FrameGestionSala extends javax.swing.JFrame {
         // Aquí se hace el setup thel windowlistener
         AgregarWindowListener();
         llenarCombobox(sala);
-        labelSala.setText("Gestionando sala " + indexSala);
+        labelSala.setText("Gestionando sala " + sala.getId());
         labelAsientos.setText("Asientos totales: " + sala.getAsientos());
         labelFunciones.setText("Funciones programadas: " + sala.getFunciones().size());
     }

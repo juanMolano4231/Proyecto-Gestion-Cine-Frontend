@@ -123,9 +123,9 @@ public class CineClient {
         }
     }
 
-    public void delete(int indexSala) throws Exception {
+    public void deleteSala(Sala sala) throws Exception {
         try {
-            Response<Void> response = salaApiService.deleteSala(indexSala).execute();
+            Response<Void> response = salaApiService.deleteSala(sala.getId()).execute();
             if (response.isSuccessful()) {
             } else {
                 throw new Exception("La sala no se pudo borrar, por favor inténtelo de nuevo más tarde");
@@ -143,9 +143,22 @@ public class CineClient {
                 throw new Exception("La función no pudo guardar, por favor inténtelo de nuevo más tarde");
             }
         } catch (IOException e) {
-//            throw new Exception(e.getMessage());
             e.printStackTrace();
-//            throw new Exception("La función no pudo guardar, por favor inténtelo de nuevo más tarde");
+            throw new Exception("La función no pudo guardar, por favor inténtelo de nuevo más tarde");
+        }
+    }
+
+    public void updateSala(Sala sala) throws Exception {
+        try {
+            Response<Sala> response = salaApiService.patchSala(sala.getId(), sala).execute();
+            if (response.isSuccessful()) {
+            } else {
+                System.err.println(response.errorBody().toString());
+                throw new Exception("La función no se pudo borrar, por favor inténtelo de nuevo más tarde");
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+            throw new Exception("La función no se pudo borrar, por favor inténtelo de nuevo más tarde");
         }
     }
 

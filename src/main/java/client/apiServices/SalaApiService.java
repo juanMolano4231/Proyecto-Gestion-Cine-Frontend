@@ -13,7 +13,9 @@ import retrofit2.Call;
 import retrofit2.http.Body;
 import retrofit2.http.DELETE;
 import retrofit2.http.GET;
+import retrofit2.http.PATCH;
 import retrofit2.http.POST;
+import retrofit2.http.PUT;
 import retrofit2.http.Path;
 
 /**
@@ -28,9 +30,12 @@ public interface SalaApiService {
     @POST("/api/salas")
     Call<Sala> createSala(@Body Sala sala);
 
-    @DELETE("/api/salas/{index}")
-    Call<Void> deleteSala(@Path("index") int index);
+    @DELETE("/api/salas/{id}")
+    Call<Void> deleteSala(@Path("id") int id);
 
-    @POST("/api/salas/{id}")
+    @PUT("/api/salas/{id}")
     Call<Void> createFuncion(@Path("id") int id, @Body String[] datos);
+
+    @PATCH("/api/salas/{id}")
+    Call<Sala> patchSala(@Path("id") int id, @Body Sala sala);
 }

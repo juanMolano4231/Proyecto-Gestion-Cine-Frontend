@@ -38,7 +38,6 @@ public class GestionCineController {
         En caso de que no espera otros 250ms, pero si sí entonces retorna la selección */
         while (true) {
             int seleccion = frame.getSeleccion();
-            int indexSalaSeleccionada = frame.getIndexSalaSeleccionada();
             Sala salaSeleccionada = frame.getSalaSeleccionada();
             switch (seleccion) {
                 case -1:  // Valor default, preferiblemente un número negativo
@@ -50,12 +49,14 @@ public class GestionCineController {
                     }
                     break;
                 case 3:
-                    if (indexSalaSeleccionada == -1) {  // No se ha seleccionado una sala
+                    // No se ha seleccionado una sala, no hay salas o ha habido un error de conexión
+                    if (salaSeleccionada == null) {
+                        frame.setSeleccion(-1);
                         break;
                     }
                 default:
                     frame.dispose();
-                    return new Object[]{seleccion, indexSalaSeleccionada, salaSeleccionada};
+                    return new Object[]{seleccion, salaSeleccionada};
             }
         }
     }

@@ -4,6 +4,7 @@
  */
 package app.frames;
 
+import app.models.Funcion;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import java.awt.event.WindowListener;
@@ -21,13 +22,19 @@ public class FrameGestionFuncion extends javax.swing.JFrame {
     /**
      * Creates new form FrameGestionFuncion
      */
-    public FrameGestionFuncion() {
+    public FrameGestionFuncion(Funcion funcion) {
         initComponents();
         setLocationRelativeTo(null);
         // Esto se hace para poder detectar cuando la ventana se cierra con un listener
         setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
         // Aquí se hace el setup thel windowlistener
         AgregarWindowListener();
+        
+        lFuncion.setText("Gestionando función " + funcion.getId());
+        lTitulo.setText("Título: " + funcion.getTitulo());
+        lInicio.setText("Inicio: " + funcion.getInicio());
+        lFin.setText("Final:  " + funcion.getFin());
+        lAsientos.setText("Asientos disponibles: " + funcion.getAsientos().length);
     }
     
     public int getSeleccion() {
@@ -55,25 +62,25 @@ public class FrameGestionFuncion extends javax.swing.JFrame {
     private void initComponents() {
 
         jPanel1 = new javax.swing.JPanel();
-        jLabel1 = new javax.swing.JLabel();
-        jLabel2 = new javax.swing.JLabel();
-        jLabel3 = new javax.swing.JLabel();
-        jLabel4 = new javax.swing.JLabel();
-        jLabel5 = new javax.swing.JLabel();
+        lFuncion = new javax.swing.JLabel();
+        lTitulo = new javax.swing.JLabel();
+        lInicio = new javax.swing.JLabel();
+        lFin = new javax.swing.JLabel();
+        lAsientos = new javax.swing.JLabel();
         botonVolver = new javax.swing.JButton();
         botonBorrarFuncion = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
-        jLabel1.setText("Gestionando función n");
+        lFuncion.setText("Gestionando función n");
 
-        jLabel2.setText("Título: titulo");
+        lTitulo.setText("Título: titulo");
 
-        jLabel3.setText("Inicio: fecha");
+        lInicio.setText("Inicio: fecha");
 
-        jLabel4.setText("Final: fecha");
+        lFin.setText("Final: fecha");
 
-        jLabel5.setText("Asientos disponibles: x");
+        lAsientos.setText("Asientos disponibles: x");
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
@@ -83,30 +90,32 @@ public class FrameGestionFuncion extends javax.swing.JFrame {
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addGap(65, 65, 65)
-                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jLabel3)
-                            .addComponent(jLabel2)
-                            .addComponent(jLabel4)))
+                        .addComponent(lTitulo))
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addGap(34, 34, 34)
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jLabel1)
-                            .addComponent(jLabel5))))
+                            .addComponent(lFuncion)
+                            .addComponent(lAsientos)))
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addGap(23, 23, 23)
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(lInicio)
+                            .addComponent(lFin))))
                 .addContainerGap(51, Short.MAX_VALUE))
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jLabel1)
+                .addComponent(lFuncion)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(jLabel2)
+                .addComponent(lTitulo)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(jLabel3)
+                .addComponent(lInicio)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(jLabel4)
+                .addComponent(lFin)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(jLabel5)
+                .addComponent(lAsientos)
                 .addContainerGap(18, Short.MAX_VALUE))
         );
 
@@ -166,11 +175,11 @@ public class FrameGestionFuncion extends javax.swing.JFrame {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton botonBorrarFuncion;
     private javax.swing.JButton botonVolver;
-    private javax.swing.JLabel jLabel1;
-    private javax.swing.JLabel jLabel2;
-    private javax.swing.JLabel jLabel3;
-    private javax.swing.JLabel jLabel4;
-    private javax.swing.JLabel jLabel5;
     private javax.swing.JPanel jPanel1;
+    private javax.swing.JLabel lAsientos;
+    private javax.swing.JLabel lFin;
+    private javax.swing.JLabel lFuncion;
+    private javax.swing.JLabel lInicio;
+    private javax.swing.JLabel lTitulo;
     // End of variables declaration//GEN-END:variables
 }

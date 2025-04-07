@@ -63,7 +63,7 @@ public class LoginService {
 
     public Object[] pidePin(String input) {
         if (input == null) {
-            return new Object[]{"Bienvenida_bienvenida", null};
+            return new Object[]{"Bienvenida_bienvenida", null, null};
         }
         int pin = -1;
         try {

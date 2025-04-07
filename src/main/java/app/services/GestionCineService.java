@@ -26,21 +26,20 @@ public class GestionCineService {
 
     public Object[] verSalas(Object[] selecciones) {
         int seleccion = (int) selecciones[0];
-        int indexSalaSeleccionada = (int) selecciones[1];
-        Sala salaSeleccionada = (Sala) selecciones[2];
+        Sala salaSeleccionada = (Sala) selecciones[1];
         switch (seleccion) {
             case 0:  // Se cierra el frame con la X
-                return new Object[]{"salida", -1, null};
+                return new Object[]{"salida", null};
             case 1:  // Cerrar sesión
-                return new Object[]{"Bienvenida_bienvenida", -1, null};
+                return new Object[]{"Bienvenida_bienvenida", null};
             case 2:  // Crear sala
-                return new Object[]{"CrearSala_crearSala", -1, null};
+                return new Object[]{"CrearSala_crearSala", null};
             case 3:  // Gestionar sala
                 if (salaSeleccionada != null) {
-                    return new Object[]{"GestionSala_gestionSala", indexSalaSeleccionada, salaSeleccionada};
+                    return new Object[]{"GestionSala_gestionSala", salaSeleccionada};
                 } else {
                     notificar("No hay o no se pueden cargar las salas en este momento");
-                    return new Object[]{"GestionCine_verSalas", -1, null};
+                    return new Object[]{"GestionCine_verSalas", null};
                 }
             default:  // Botón no configurado
                 throw new Error("Botón no configurado");

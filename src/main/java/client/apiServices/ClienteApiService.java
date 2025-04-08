@@ -23,4 +23,7 @@ public interface ClienteApiService {
     
     @POST("/api/clientes/{user}")
     Call<Cliente> postCliente(@Path("user") String user, @Body Cliente cliente);
+
+    @POST("/api/clientes")
+    Call<Cliente> createCliente(@Body Cliente  cliente);
 }

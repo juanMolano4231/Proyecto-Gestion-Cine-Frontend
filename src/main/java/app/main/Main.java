@@ -50,6 +50,9 @@ public class Main {
         String pinRegistro = null;
         Usuario usuario = null;
         Funcion funcionParaComprar = null;
+        Funcion funcionParaDevolver = null;
+        int idTiquete = -1;
+        int asiento = -1;
         int indexSalaSeleccionada = -1;  // Index de sala seleccionada para gestionarla
         /* La sala puede ser Sala n dependiendo del número, ERROR DE CONEXION si no se
         puede conectar con la API y NO HAY SALAS si aún no se han creado salas*/
@@ -154,7 +157,10 @@ public class Main {
                     break;
                 case "GestionPerfil_verTickets":
                     viewGestionPerfilController.setUsuario(usuario);
-                    ruta = gestionPerfil_verTickets(usuario);
+                    data = gestionPerfil_verTickets(usuario);
+                    ruta = (String) data[0];
+                    funcionParaDevolver = (Funcion) data[1];
+                    asiento = (int) data[2];
                     break;
                 case "GestionPerfil_verFunciones":
                     viewGestionPerfilController.setUsuario(usuario);
@@ -162,9 +168,11 @@ public class Main {
                     funcionParaComprar = (Funcion) data[1];
                     ruta = (String) data[0];
                     break;
-
                 case "GestionPerfil_comprarTicket":
                     ruta = gestionPerfil_comprarTicket(usuario, funcionParaComprar);
+                    break;
+                case "GestionPerfil_devolverTicket":
+                    ruta = gestionPerfil_devolverTicket(usuario, funcionParaDevolver, asiento);
                     break;
                 // ViewGestionFuncion
                 case "GestionFuncion_gestionFuncion":
@@ -290,7 +298,7 @@ public class Main {
         return viewGestionPerfilController.verPerfil(usuario);
     }
 
-    private static String gestionPerfil_verTickets(Usuario usuario) {
+    private static Object[] gestionPerfil_verTickets(Usuario usuario) {
         return viewGestionPerfilController.verTickets(usuario);
     }
 
@@ -300,6 +308,10 @@ public class Main {
 
     private static String gestionPerfil_comprarTicket(Usuario usuario, Funcion funcion) {
         return viewGestionPerfilController.comprarTicket(usuario, funcion);
+    }
+
+    private static String gestionPerfil_devolverTicket(Usuario usuario, Funcion funcion, int asiento) {
+        return viewGestionPerfilController.devolverTicket(usuario, funcion, asiento);
     }
 
     // ViewGestionFuncion

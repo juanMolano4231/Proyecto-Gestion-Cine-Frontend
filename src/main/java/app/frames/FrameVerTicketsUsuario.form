@@ -50,9 +50,15 @@
                   <Group type="103" groupAlignment="0" attributes="0">
                       <Component id="jScrollPane1" alignment="0" pref="0" max="32767" attributes="0"/>
                       <Group type="102" alignment="1" attributes="0">
-                          <EmptySpace min="0" pref="167" max="32767" attributes="0"/>
-                          <Group type="103" groupAlignment="0" attributes="0">
-                              <Component id="regresarBtn" alignment="1" min="-2" max="-2" attributes="0"/>
+                          <EmptySpace min="0" pref="163" max="32767" attributes="0"/>
+                          <Group type="103" groupAlignment="0" max="-2" attributes="0">
+                              <Group type="102" alignment="1" attributes="0">
+                                  <Component id="jLabel1" min="-2" max="-2" attributes="0"/>
+                                  <EmptySpace type="unrelated" max="-2" attributes="0"/>
+                                  <Component id="asientoLabel" min="-2" max="-2" attributes="0"/>
+                                  <EmptySpace max="32767" attributes="0"/>
+                                  <Component id="regresarBtn" min="-2" max="-2" attributes="0"/>
+                              </Group>
                               <Group type="102" alignment="1" attributes="0">
                                   <Component id="ticketSeleccionadoJLabel" min="-2" max="-2" attributes="0"/>
                                   <EmptySpace max="-2" attributes="0"/>
@@ -78,9 +84,21 @@
                       <Component id="ticketSeleccionadoJLabel" alignment="3" min="-2" max="-2" attributes="0"/>
                       <Component id="idTicketLabel" alignment="3" min="-2" max="-2" attributes="0"/>
                   </Group>
-                  <EmptySpace max="32767" attributes="0"/>
-                  <Component id="regresarBtn" min="-2" max="-2" attributes="0"/>
-                  <EmptySpace max="-2" attributes="0"/>
+                  <Group type="103" groupAlignment="0" attributes="0">
+                      <Group type="102" attributes="0">
+                          <EmptySpace max="32767" attributes="0"/>
+                          <Component id="regresarBtn" min="-2" max="-2" attributes="0"/>
+                          <EmptySpace max="-2" attributes="0"/>
+                      </Group>
+                      <Group type="102" alignment="0" attributes="0">
+                          <EmptySpace max="-2" attributes="0"/>
+                          <Group type="103" groupAlignment="3" attributes="0">
+                              <Component id="jLabel1" alignment="3" min="-2" max="-2" attributes="0"/>
+                              <Component id="asientoLabel" alignment="3" min="-2" max="-2" attributes="0"/>
+                          </Group>
+                          <EmptySpace max="32767" attributes="0"/>
+                      </Group>
+                  </Group>
               </Group>
           </Group>
         </DimensionLayout>
@@ -130,7 +148,17 @@
         </Component>
         <Component class="javax.swing.JLabel" name="idTicketLabel">
           <Properties>
-            <Property name="text" type="java.lang.String" value="ID"/>
+            <Property name="text" type="java.lang.String" value="     "/>
+          </Properties>
+        </Component>
+        <Component class="javax.swing.JLabel" name="jLabel1">
+          <Properties>
+            <Property name="text" type="java.lang.String" value="Con asiento:"/>
+          </Properties>
+        </Component>
+        <Component class="javax.swing.JLabel" name="asientoLabel">
+          <Properties>
+            <Property name="text" type="java.lang.String" value="          "/>
           </Properties>
         </Component>
       </SubComponents>

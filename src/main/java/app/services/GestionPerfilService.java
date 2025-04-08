@@ -50,7 +50,7 @@ public class GestionPerfilService {
             case 1:
                 return "GestionPerfil_perfil";
             case 2:
-                return "GestionPerfil_devolver";
+                return "GestionPerfil_devolverTicket";
             default:
                 throw new Error("Botón no configurado");
         }
@@ -71,6 +71,10 @@ public class GestionPerfilService {
     }
 
     public String comprarTicket(Usuario usuario, Funcion funcion) {
+        if (funcion == null) {
+            notificar("No hay ninguna funcion seleccionada");
+            return "GestionPerfil_verFunciones";
+        }
         try {
             List<Cliente> clientes = cliente.getAllClientes();
             if (clientes == null) {
@@ -93,6 +97,11 @@ public class GestionPerfilService {
                     + ", quedan: " + cantidadAsientosDisponibles(funcion) + " asientos."));
             clienteAEditar.getTiquetes().add(new Tiquete(funcion, asientoDeseado));
 
+            if (asientoDeseado > funcion.getAsientos().length) {
+                notificar("El asiento no existe");
+                return "GestionPerfil_verFunciones";
+            }
+
             if (funcion.getAsientos()[asientoDeseado] == true) {
                 notificar("Error al realizar la compra, el asiento no esta disponible");
                 return "GestionPerfil_verFunciones";
@@ -103,6 +112,61 @@ public class GestionPerfilService {
                 actualizarFuncion(funcion);
                 return "GestionPerfil_verFunciones";
             }
+        } catch (Exception e) {
+            e.printStackTrace();
+            notificar("Error");
+            return "GestionPerfil_verFunciones";
+        }
+    }
+
+    public String devolverTicket(Usuario usuario, Funcion funcion, int asiento) {
+        try {
+            if (funcion == null) {
+                notificar("No hay ningun tiquete seleccionado");
+                return "GestionPerfil_verTickets";
+            }
+
+            List<Cliente> clientes = cliente.getAllClientes();
+            if (clientes == null) {
+                notificar("Error al obtener los clientes del sistema");
+                return "GestionPerfil_verFunciones";
+            }
+
+            Cliente clienteAEditar = null;
+            for (Cliente c : clientes) {
+                if (c.getUsuario().equals(usuario.getUsuario())) {
+                    clienteAEditar = c;
+                    break;
+                }
+            }
+
+            if (clienteAEditar == null) {
+                notificar("Cliente no encontrado");
+                return "GestionPerfil_verFunciones";
+            }
+
+            Tiquete tiqueteAEliminar = null;
+            for (Tiquete t : clienteAEditar.getTiquetes()) {
+                if (t.getFuncion().getId() == funcion.getId() && t.getAsiento() == asiento) {
+                    tiqueteAEliminar = t;
+                    break;
+                }
+            }
+
+            if (tiqueteAEliminar == null) {
+                notificar("No se encontró un tiquete para ese asiento en esta función");
+                return "GestionPerfil_verTickets";
+            }
+
+            funcion.getAsientos()[asiento] = false;
+            actualizarFuncion(funcion);
+
+            clienteAEditar.getTiquetes().remove(tiqueteAEliminar);
+            cliente.postCliente(usuario.getUsuario(), clienteAEditar);
+
+            notificar("Tiquete devuelto con éxito");
+            return "GestionPerfil_verTickets";
+
         } catch (Exception e) {
             e.printStackTrace();
             notificar("Error");

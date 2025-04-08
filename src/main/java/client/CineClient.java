@@ -187,5 +187,18 @@ public class CineClient {
             throw new Exception("No se pudo actualizar el cliente. Inténtalo de nuevo más tarde.");
         }
     }
+    
+    public void createCliente(String usu, String pin) throws Exception {
+        Cliente cliente = new Cliente(usu, Long.parseLong(pin));
+        try {
+            Response<Cliente> response = clienteApiService.createCliente(cliente).execute();
+            if (response.isSuccessful()) {
+            } else {
+                throw new Exception("El cliente no se pudo guardar, por favor inténtelo de nuevo más tarde");
+            }
+        } catch (IOException e) {
+            throw new Exception("El cliente no se pudo guardar, por favor inténtelo de nuevo más tarde");
+        }
+    }
 
 }

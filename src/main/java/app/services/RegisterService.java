@@ -93,7 +93,7 @@ public class RegisterService {
 
     public String exito(int selection, String usu, String pin) {
         try {
-            registrarUsuario(usu, pin);
+            registrarCliente(usu, pin);
         } catch (Exception ex) {
             notificar(ex.getMessage());
             ex.printStackTrace();
@@ -140,8 +140,8 @@ public class RegisterService {
         JOptionPane.showMessageDialog(null, mensaje);
     }
 
-    private void registrarUsuario(String usu, String pin) throws Exception {
-        cliente.createUsuario(usu, pin);
+    private void registrarCliente(String usu, String pin) throws Exception {
+        cliente.createCliente(usu, pin);
     }
 
 }

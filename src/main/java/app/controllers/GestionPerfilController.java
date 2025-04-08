@@ -1,7 +1,3 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
 package app.controllers;
 
 import app.models.Sala;
@@ -14,13 +10,10 @@ import client.CineClient;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
 
-/**
- *
- * @author Johan
- */
 public class GestionPerfilController {
 
     private Usuario usuario;
+    Funcion funcion;
     private final GestionPerfilService service;
 
     public GestionPerfilController() {
@@ -37,9 +30,12 @@ public class GestionPerfilController {
         return service.verPerfil(seleccion);
     }
 
-    public String verTickets(Usuario usuario) {
+    public Object[] verTickets(Usuario usuario) {
         Object[] seleccion = levantarFrameTickets(usuario);
-        return service.verTickets(seleccion);
+        String ruta = service.verTickets(seleccion);
+        Funcion funcion = (Funcion) seleccion[1];
+        int asiento = (int) seleccion[2];
+        return new Object[]{ruta, funcion, asiento};
     }
 
     public Object[] verFunciones(Usuario usuario) {
@@ -75,7 +71,9 @@ public class GestionPerfilController {
             int seleccion = frame.getSeleccion();
             if (seleccion >= 0) {
                 frame.dispose();
-                return new Object[]{seleccion};
+                Funcion funcion = service.buscarFuncionPorId(frame.getId());
+                int asiento = frame.getAsiento();
+                return new Object[]{seleccion, funcion, asiento};
             }
             try {
                 TimeUnit.MILLISECONDS.sleep(250);
@@ -92,10 +90,8 @@ public class GestionPerfilController {
             int seleccion = frame.getSeleccion();
             if (seleccion >= 0) {
                 frame.dispose();
-                if (frame.getFuncionId() == -1) {
-                    return new Object[]{1, null};
-                }
-                return new Object[]{seleccion, service.buscarFuncionPorId(frame.getFuncionId())};
+                Funcion funcion = service.buscarFuncionPorId(frame.getFuncionId());
+                return new Object[]{seleccion, funcion};
             }
             try {
                 TimeUnit.MILLISECONDS.sleep(250);
@@ -107,6 +103,10 @@ public class GestionPerfilController {
 
     public String comprarTicket(Usuario usuario, Funcion funcion) {
         return service.comprarTicket(usuario, funcion);
+    }
+
+    public String devolverTicket(Usuario usuario, Funcion funcion, int asiento) {
+        return service.devolverTicket(usuario, funcion, asiento);
     }
 
 }

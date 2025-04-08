@@ -10,6 +10,7 @@ import app.models.Usuario;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import java.awt.event.WindowListener;
+import java.util.List;
 import javax.swing.JFrame;
 import javax.swing.table.DefaultTableModel;
 
@@ -21,6 +22,7 @@ public class FrameVerTicketsUsuario extends javax.swing.JFrame {
 
     private int seleccion = -1;
     private Usuario usuario;
+    private int asiento = -1;
 
     public int getSeleccion() {
         return this.seleccion;
@@ -62,20 +64,16 @@ public class FrameVerTicketsUsuario extends javax.swing.JFrame {
 
         model.setColumnIdentifiers(new Object[]{"ID Función", "Título", "Asiento", "Hora Función"});
 
-        if (!(usuario instanceof Cliente)) {
-            ticketsTable.setModel(model);
-            return;
-        }
-
-        Cliente cliente = (Cliente) usuario;
-
-        if (cliente.getTiquetes() == null || cliente.getTiquetes().isEmpty()) {
+        if (!(usuario instanceof Cliente cliente) || cliente.getTiquetes() == null || cliente.getTiquetes().isEmpty()) {
             ticketsTable.setModel(model);
             return;
         }
 
         try {
-            for (Tiquete t : cliente.getTiquetes()) {
+            // Se recorren los tiquetes desde el final hacia el inicio
+            List<Tiquete> tiquetes = cliente.getTiquetes();
+            for (int i = tiquetes.size() - 1; i >= 0; i--) {
+                Tiquete t = tiquetes.get(i);
                 if (t == null || t.getFuncion() == null) {
                     continue;
                 }
@@ -101,6 +99,8 @@ public class FrameVerTicketsUsuario extends javax.swing.JFrame {
                 int selectedRow = ticketsTable.getSelectedRow();
 
                 idTicketLabel.setText(ticketsTable.getValueAt(selectedRow, 0).toString());
+                asiento = (int) ticketsTable.getValueAt(selectedRow, 2);
+                asientoLabel.setText(ticketsTable.getValueAt(selectedRow, 2).toString());
                 ticketsTable.clearSelection();
             }
         });
@@ -122,6 +122,8 @@ public class FrameVerTicketsUsuario extends javax.swing.JFrame {
         devolverBtn = new javax.swing.JButton();
         ticketSeleccionadoJLabel = new javax.swing.JLabel();
         idTicketLabel = new javax.swing.JLabel();
+        jLabel1 = new javax.swing.JLabel();
+        asientoLabel = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -162,7 +164,11 @@ public class FrameVerTicketsUsuario extends javax.swing.JFrame {
 
         ticketSeleccionadoJLabel.setText("Ticket seleccionado:");
 
-        idTicketLabel.setText("ID");
+        idTicketLabel.setText("     ");
+
+        jLabel1.setText("Con asiento:");
+
+        asientoLabel.setText("          ");
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
@@ -172,9 +178,14 @@ public class FrameVerTicketsUsuario extends javax.swing.JFrame {
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
-                        .addGap(0, 167, Short.MAX_VALUE)
-                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(regresarBtn, javax.swing.GroupLayout.Alignment.TRAILING)
+                        .addGap(0, 163, Short.MAX_VALUE)
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
+                                .addComponent(jLabel1)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                .addComponent(asientoLabel)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addComponent(regresarBtn))
                             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
                                 .addComponent(ticketSeleccionadoJLabel)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
@@ -193,9 +204,17 @@ public class FrameVerTicketsUsuario extends javax.swing.JFrame {
                     .addComponent(devolverBtn)
                     .addComponent(ticketSeleccionadoJLabel)
                     .addComponent(idTicketLabel))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(regresarBtn)
-                .addContainerGap())
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(regresarBtn)
+                        .addContainerGap())
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(jLabel1)
+                            .addComponent(asientoLabel))
+                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
@@ -228,13 +247,27 @@ public class FrameVerTicketsUsuario extends javax.swing.JFrame {
         seleccion = 1;
     }//GEN-LAST:event_regresarBtnActionPerformed
 
+    public int getId() {
+        try {
+            return Integer.parseInt(idTicketLabel.getText());
+        } catch (Exception e) {
+        }
+        return -1;
+    }
+
+    public int getAsiento() {
+        return asiento;
+    }
+
     /**
      * @param args the command line arguments
      */
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JLabel asientoLabel;
     private javax.swing.JButton devolverBtn;
     private javax.swing.JLabel idTicketLabel;
+    private javax.swing.JLabel jLabel1;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JButton regresarBtn;

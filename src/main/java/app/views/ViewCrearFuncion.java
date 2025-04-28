@@ -5,22 +5,41 @@
 
 package app.views;
 
-import javax.swing.JOptionPane;
+import javax.swing.*;
 
 /**
  *
- * @author Juan José Molano Franco
+ * @author Juan Jose Molano Franco
  */
 public class ViewCrearFuncion {
     
     public int exito() {
-        String message = "Función creada exitosamente";
-        return JOptionPane.showConfirmDialog(null, message, "Advertencia", 
-                JOptionPane.OK_CANCEL_OPTION);
+        String message = "Funcion creada exitosamente";
+        return mostrarMensaje(message, "Advertencia");
     }
 
     public int error(String message) {
-        return JOptionPane.showConfirmDialog(null, message, "Advertencia",
-                JOptionPane.OK_CANCEL_OPTION);
+        return mostrarMensaje(message, "Advertencia");
+    }
+
+    private int mostrarMensaje(String message, String title) {
+        JOptionPane optionPane = new JOptionPane(
+            message,
+            JOptionPane.WARNING_MESSAGE,
+            JOptionPane.OK_CANCEL_OPTION
+        );
+        JDialog dialog = optionPane.createDialog(null, title);
+        dialog.setSize(400, 300);
+        dialog.setResizable(false);
+        dialog.setLocationRelativeTo(null);
+        dialog.setVisible(true);
+
+        Object selectedValue = optionPane.getValue();
+
+        if (selectedValue instanceof Integer) {
+            return (Integer) selectedValue;
+        } else {
+            return JOptionPane.CLOSED_OPTION;
+        }
     }
 }

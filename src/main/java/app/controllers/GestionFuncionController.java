@@ -30,6 +30,9 @@ public class GestionFuncionController {
     }
     
     public String gestionFuncion(Funcion funcion) {
+        if (funcion == null) {
+            return "GestionSala_gestionSala";
+        }
         int seleccion = levantarFrameGestionFuncion(funcion);
         return service.gestionFuncion(seleccion, funcion);
     }

@@ -13,13 +13,8 @@ import javax.swing.*;
  */
 public class ViewCrearSala {
     
-    public int exito(int n) {
-        String message = "";
-        if (n == -1) {
-            message = "Sala numero n creada exitosamente";
-        } else {
-            message = "Sala numero " + n + " creada exitosamente";
-        }
+    public int exito() {
+        String message = "Sala creada exitosamente";
         return mostrarMensaje(message, "Advertencia");
     }
 

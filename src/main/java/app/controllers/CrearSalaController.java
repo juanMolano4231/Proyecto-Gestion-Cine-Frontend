@@ -25,19 +25,17 @@ public class CrearSalaController {
     }
     
     public Object[] crearSala() {
-        int numSala = service.indexSala();
-        int[] selecciones = levantarFrameCrearSala(numSala);
+        int[] selecciones = levantarFrameCrearSala();
         return service.crearSala(selecciones);
     }
 
     public String exito(int asientos) {
-        int numSala = service.indexSala();
-        int seleccion = crearSala.exito(numSala);
+        int seleccion = crearSala.exito();
         return service.exito(seleccion, asientos);
     }
 
-    private int[] levantarFrameCrearSala(int numSala) {
-        FrameCrearSala frame = new FrameCrearSala(numSala);
+    private int[] levantarFrameCrearSala() {
+        FrameCrearSala frame = new FrameCrearSala();
         frame.setVisible(true);
         
         /* Este ciclo revisa cada 250ms si el usuario ya clickeó un botón.

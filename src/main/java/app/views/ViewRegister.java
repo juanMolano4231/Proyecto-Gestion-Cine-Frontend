@@ -5,7 +5,7 @@
 
 package app.views;
 
-import javax.swing.JOptionPane;
+import javax.swing.*;
 
 /**
  *
@@ -14,35 +14,74 @@ import javax.swing.JOptionPane;
 public class ViewRegister {
     public String pideNombreUsuario() {
         String message = "Registrandose, por favor elija un nombre de usuario";
-        return JOptionPane.showInputDialog(message);
+        return mostrarInput(message, "Nombre de Usuario");
     }
     
     public int usuarioInvalido() {
         String message = "El formato del nombre es invalido, no use espacios";
-        return JOptionPane.showConfirmDialog(null, message, "Advertencia", 
-                JOptionPane.OK_CANCEL_OPTION);
+        return mostrarMensaje(message, "Advertencia");
     }
     
     public int usuarioOcupado() {
         String message = "El usuario ya existe, use otro nombre de usuario";
-        return JOptionPane.showConfirmDialog(null, message, "Advertencia", 
-                JOptionPane.OK_CANCEL_OPTION);
+        return mostrarMensaje(message, "Advertencia");
     }
     
     public String pidePin() {
         String message = "Elija un pin para su usuario";
-        return JOptionPane.showInputDialog(message);
+        return mostrarInput(message, "PIN");
     }
     
     public int pinInvalido() {
         String message = "El formato del pin es invalido, solo ingrese digitos";
-        return JOptionPane.showConfirmDialog(null, message, "Advertencia", 
-                JOptionPane.OK_CANCEL_OPTION);
+        return mostrarMensaje(message, "Advertencia");
     }
     
     public int exito() {
         String message = "Usuario registrado exitosamente";
-        return JOptionPane.showConfirmDialog(null, message, "Advertencia", 
-                JOptionPane.OK_CANCEL_OPTION);
+        return mostrarMensaje(message, "Advertencia");
+    }
+
+    private int mostrarMensaje(String message, String title) {
+        JOptionPane optionPane = new JOptionPane(
+            message,
+            JOptionPane.WARNING_MESSAGE,
+            JOptionPane.OK_CANCEL_OPTION
+        );
+        JDialog dialog = optionPane.createDialog(null, title);
+        dialog.setSize(400, 300);
+        dialog.setResizable(false);
+        dialog.setLocationRelativeTo(null);
+        dialog.setVisible(true);
+
+        Object selectedValue = optionPane.getValue();
+
+        if (selectedValue instanceof Integer) {
+            return (Integer) selectedValue;
+        } else {
+            return JOptionPane.CLOSED_OPTION;
+        }
+    }
+
+    private String mostrarInput(String message, String title) {
+        JOptionPane optionPane = new JOptionPane(
+            message,
+            JOptionPane.QUESTION_MESSAGE,
+            JOptionPane.OK_CANCEL_OPTION
+        );
+        optionPane.setWantsInput(true);
+        JDialog dialog = optionPane.createDialog(null, title);
+        dialog.setSize(400, 300);
+        dialog.setResizable(false);
+        dialog.setLocationRelativeTo(null);
+        dialog.setVisible(true);
+
+        Object inputValue = optionPane.getInputValue();
+
+        if (inputValue == JOptionPane.UNINITIALIZED_VALUE || inputValue == null) {
+            return null; // Usuario cerró el cuadro sin escribir
+        } else {
+            return inputValue.toString();
+        }
     }
 }

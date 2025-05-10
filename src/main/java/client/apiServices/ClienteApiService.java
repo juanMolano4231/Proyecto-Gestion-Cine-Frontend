@@ -18,12 +18,12 @@ import retrofit2.http.Path;
  */
 public interface ClienteApiService {
 
-    @GET("/api/clientes")
+    @GET("/api/clientes_data")
     Call<List<Cliente>> getAllClientes();
     
-    @POST("/api/clientes/{user}")
+    @POST("/api/clientes_data/{user}")
     Call<Cliente> postCliente(@Path("user") String user, @Body Cliente cliente);
 
-    @POST("/api/clientes")
-    Call<Cliente> createCliente(@Body Cliente  cliente);
+    @POST("/api/clientes_data")
+    Call<Cliente> createCliente(@Body Cliente cliente);
 }

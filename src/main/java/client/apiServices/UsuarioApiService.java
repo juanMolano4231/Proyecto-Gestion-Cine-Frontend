@@ -18,16 +18,18 @@ import retrofit2.http.Path;
  */
 public interface UsuarioApiService {
 
-    @GET("/api/usuarios")
+    @GET("/api/usuarios_data")
     Call<List<Usuario>> getAllUsuarios();
 
-    @POST("/api/usuarios")
+    @POST("/api/usuarios_data")
     Call<Usuario> createUsuario(@Body Usuario usuario);
 
-    @GET("/api/usuarios/{user}")
+    @GET("/api/usuarios_data/{user}")
     Call<Usuario> buscarUsuario(@Path("user") String user);
 
-    @POST("/api/usuarios/{user}")
+    @POST("/api/usuarios_data/{user}")
     Call<Usuario> postUsuario(@Path("user") String user, @Body Usuario usuario);
-
+    
+    @POST("/api/usuarios_data/login")
+    Call<Usuario> login(@Body Usuario usuario);
 }

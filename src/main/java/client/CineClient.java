@@ -58,7 +58,7 @@ public class CineClient {
     }
 
     public void createUsuario(String usu, String pin) throws Exception {
-        Usuario usuario = new Cliente(usu, Long.parseLong(pin));
+        Usuario usuario = new Cliente(usu, pin);
         try {
             Response<Usuario> response = usuarioApiService.createUsuario(usuario).execute();
             if (response.isSuccessful()) {
@@ -68,6 +68,23 @@ public class CineClient {
         } catch (IOException e) {
             throw new Exception("El usuario no se pudo guardar, por favor inténtelo de nuevo más tarde");
         }
+    }
+
+    public Usuario login(String user, String pin) {
+        try {
+            Usuario usuario = new Usuario(user, pin);
+
+            Response<Usuario> response = usuarioApiService.login(usuario).execute();
+            if (response.isSuccessful()) {
+                return response.body();
+            } else {
+                System.out.println("Error en login: " + response.errorBody().string());
+                return null;
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return null;
     }
 
     public Usuario buscarUsuario(String user) {
@@ -176,20 +193,38 @@ public class CineClient {
         }
     }
 
-    public void postCliente(String usuario, Cliente clienteData) throws Exception {
+    public void postCliente(String usuario, List<Tiquete> nuevosTiquetes) throws Exception {
         try {
-            Response<Cliente> response = clienteApiService.postCliente(usuario, clienteData).execute();
-            if (!response.isSuccessful()) {
-                throw new Exception("No se pudo actualizar el cliente. Inténtalo de nuevo más tarde.");
+            // Obtener cliente actual
+            Response<Cliente> getResponse = clienteApiService.getCliente(usuario).execute();
+            if (!getResponse.isSuccessful() || getResponse.body() == null) {
+                throw new Exception("No se pudo obtener el cliente actual.");
             }
+
+            Cliente clienteActual = getResponse.body();
+
+            // Inicializar lista si es null
+            if (clienteActual.getTiquetes() == null) {
+                clienteActual.setTiquetes(new ArrayList<>());
+            }
+
+            // Agregar los nuevos tiquetes
+            clienteActual.getTiquetes().addAll(nuevosTiquetes);
+
+            // Enviar cliente actualizado al backend
+            Response<Cliente> postResponse = clienteApiService.postCliente(usuario, clienteActual).execute();
+            if (!postResponse.isSuccessful()) {
+                throw new Exception("No se pudo actualizar el cliente con los nuevos tiquetes.");
+            }
+
         } catch (IOException e) {
             e.printStackTrace();
-            throw new Exception("No se pudo actualizar el cliente. Inténtalo de nuevo más tarde.");
+            throw new Exception("Ocurrió un error al actualizar los tiquetes del cliente.");
         }
     }
-    
+
     public void createCliente(String usu, String pin) throws Exception {
-        Cliente cliente = new Cliente(usu, Long.parseLong(pin));
+        Cliente cliente = new Cliente(usu, pin);
         try {
             Response<Cliente> response = clienteApiService.createCliente(cliente).execute();
             if (response.isSuccessful()) {

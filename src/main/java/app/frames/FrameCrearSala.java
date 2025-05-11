@@ -18,14 +18,14 @@ import javax.swing.text.DefaultFormatter;
  * @author Juan José Molano Franco
  */
 public class FrameCrearSala extends javax.swing.JFrame {
-    
+
     private int seleccion = -1;  // Valor default, preferiblemente un número negativo
     private int asientos = -1; // Valor default cantidad de asientos
-    
+
     /**
      * Creates new form FrameCrearSala
      */
-    public FrameCrearSala(int numSala) {
+    public FrameCrearSala() {
         initComponents();
         setLocationRelativeTo(null);
         // Esto se hace para poder detectar cuando la ventana se cierra con un listener
@@ -34,32 +34,28 @@ public class FrameCrearSala extends javax.swing.JFrame {
         AgregarWindowListener();
         configurarSpinner();
         // numSala es el número de la sala que está siendo creada
-        if (numSala == -1) {
-            labelSala.setText("Creando sala n");
-        } else {
-            labelSala.setText("Creando sala " + numSala);
-        }
+        labelSala.setText("Creando sala n");
     }
-    
+
     private void configurarSpinner() {
         SpinnerNumberModel model = new SpinnerNumberModel(15, 1, 30, 1);
         spinner.setModel(model);
         // Configuración para no permitir ediciones inválidas
-        JSpinner.DefaultEditor editor = (JSpinner.DefaultEditor)spinner.getEditor();
+        JSpinner.DefaultEditor editor = (JSpinner.DefaultEditor) spinner.getEditor();
         JFormattedTextField ftf = editor.getTextField();
         JFormattedTextField.AbstractFormatter formatter = ftf.getFormatter();
-        DefaultFormatter df = (DefaultFormatter)formatter;
+        DefaultFormatter df = (DefaultFormatter) formatter;
         df.setAllowsInvalid(false);
     }
-    
+
     public int getSeleccion() {
         return seleccion;
     }
-    
+
     public int getAsientos() {
         return asientos;
     }
-    
+
     private void AgregarWindowListener() {
         WindowListener exitListener = new WindowAdapter() {
 
@@ -156,7 +152,7 @@ public class FrameCrearSala extends javax.swing.JFrame {
     private void botonVolverActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botonVolverActionPerformed
         seleccion = 1;
     }//GEN-LAST:event_botonVolverActionPerformed
-    
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton botonCrear;

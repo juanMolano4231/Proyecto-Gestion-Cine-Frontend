@@ -7,6 +7,7 @@ package client;
 import app.models.Cliente;
 import app.models.Funcion;
 import app.models.Sala;
+import app.models.Tiquete;
 import app.models.Usuario;
 import client.apiServices.ClienteApiService;
 import client.apiServices.SalaApiService;
@@ -57,19 +58,6 @@ public class CineClient {
         }
     }
 
-    public void createUsuario(String usu, String pin) throws Exception {
-        Usuario usuario = new Cliente(usu, pin);
-        try {
-            Response<Usuario> response = usuarioApiService.createUsuario(usuario).execute();
-            if (response.isSuccessful()) {
-            } else {
-                throw new Exception("El usuario no se pudo guardar, por favor inténtelo de nuevo más tarde");
-            }
-        } catch (IOException e) {
-            throw new Exception("El usuario no se pudo guardar, por favor inténtelo de nuevo más tarde");
-        }
-    }
-
     public Usuario login(String user, String pin) {
         try {
             Usuario usuario = new Usuario(user, pin);
@@ -99,18 +87,6 @@ public class CineClient {
             e.printStackTrace();
         }
         return null;
-    }
-
-    public void postUsuario(String user, Usuario usuario) throws Exception {
-        try {
-            Response<Usuario> response = usuarioApiService.postUsuario(user, usuario).execute();
-            if (response.isSuccessful()) {
-            } else {
-                throw new Exception("El usuario no fue actualiado, intentelo de nuevo mas tarde.");
-            }
-        } catch (IOException ex) {
-            throw new Exception("El usuario no fue actualiado, intentelo de nuevo mas tarde.");
-        }
     }
 
     public List<Sala> getSalas() {
@@ -196,7 +172,8 @@ public class CineClient {
     public void postCliente(String usuario, List<Tiquete> nuevosTiquetes) throws Exception {
         try {
             // Obtener cliente actual
-            Response<Cliente> getResponse = clienteApiService.getCliente(usuario).execute();
+//            Response<Cliente> getResponse = clienteApiService.getCliente(usuario).execute();
+Response<Cliente> getResponse = null;
             if (!getResponse.isSuccessful() || getResponse.body() == null) {
                 throw new Exception("No se pudo obtener el cliente actual.");
             }
@@ -233,6 +210,20 @@ public class CineClient {
             }
         } catch (IOException e) {
             throw new Exception("El cliente no se pudo guardar, por favor inténtelo de nuevo más tarde");
+        }
+    }
+
+    public String consultarTipo(Usuario usuario) {
+        try {
+            Response<String> response = usuarioApiService.consultarTipo(usuario.getUsuario()).execute();
+            if (response.isSuccessful()) {
+                return response.body();
+            } else {
+                return null;
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+            return null;
         }
     }
 

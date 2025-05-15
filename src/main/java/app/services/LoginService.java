@@ -104,9 +104,13 @@ public class LoginService {
         }
     }
 
-    public String exito(String nombreUsuario, int selection) {
+    public String exito(int selection) {
         if (selection == 0) {  // Presiona OK
-            if (nombreUsuario.equals("juan1234")) {
+            String tipo = cliente.consultarTipo(usuario);
+            if (tipo == null) {
+                return "Bienvenida_bienvenida";
+            }
+            if (tipo.equals("admin")) {
                 return "GestionCine_verSalas";
             } else {
                 return "GestionPerfil_perfil";

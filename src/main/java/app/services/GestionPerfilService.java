@@ -108,7 +108,7 @@ public class GestionPerfilService {
             } else {
                 notificar("Tiquete comprado con exito");
                 funcion.getAsientos()[asientoDeseado] = true;
-                cliente.postCliente(usuario.getUsuario(), clienteAEditar);
+//                cliente.postCliente(usuario.getUsuario(), clienteAEditar);
                 actualizarFuncion(funcion);
                 return "GestionPerfil_verFunciones";
             }
@@ -162,7 +162,7 @@ public class GestionPerfilService {
             actualizarFuncion(funcion);
 
             clienteAEditar.getTiquetes().remove(tiqueteAEliminar);
-            cliente.postCliente(usuario.getUsuario(), clienteAEditar);
+//            cliente.postCliente(usuario.getUsuario(), clienteAEditar);
 
             notificar("Tiquete devuelto con éxito");
             return "GestionPerfil_verTickets";

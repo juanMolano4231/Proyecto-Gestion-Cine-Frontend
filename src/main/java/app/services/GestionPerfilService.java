@@ -102,11 +102,11 @@ public class GestionPerfilService {
                 return "GestionPerfil_verFunciones";
             }
 
-            if (funcion.getAsientos()[asientoDeseado] == true) {
+            if (funcion.getAsientos()[asientoDeseado - 1] == true) {
                 notificar("Error al realizar la compra, el asiento no esta disponible");
                 return "GestionPerfil_verFunciones";
             } else {
-                funcion.getAsientos()[asientoDeseado] = true;
+                funcion.getAsientos()[asientoDeseado - 1] = true;
                 cliente.postCliente(usuario.getUsuario(), clienteAEditar);
                 actualizarFuncion(funcion);
                 notificar("Tiquete comprado con exito");

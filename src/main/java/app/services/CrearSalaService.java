@@ -66,14 +66,4 @@ public class CrearSalaService {
         JOptionPane.showMessageDialog(null, mensaje);
     }
 
-    /* Retorna el index de la sala que se está creando */
-    public int indexSala() {
-        List<Sala> salas = cliente.getSalas();
-        if (salas != null) {
-            return salas.size();
-        } else {
-            return -1;
-        }
-    }
-    
 }

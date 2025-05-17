@@ -147,11 +147,11 @@ public class CineClient {
             if (response.isSuccessful()) {
             } else {
                 System.err.println(response.errorBody().toString());
-                throw new Exception("La función no se pudo borrar, por favor inténtelo de nuevo más tarde");
+                throw new Exception("La sala no se pudo guardar");
             }
         } catch (IOException e) {
             e.printStackTrace();
-            throw new Exception("La función no se pudo borrar, por favor inténtelo de nuevo más tarde");
+            throw new Exception("La sala no se pudo guardar");
         }
     }
 
@@ -169,27 +169,10 @@ public class CineClient {
         }
     }
 
-    public void postCliente(String usuario, List<Tiquete> nuevosTiquetes) throws Exception {
+    public void postCliente(String usuario, Cliente cliente) throws Exception {
         try {
-            // Obtener cliente actual
-//            Response<Cliente> getResponse = clienteApiService.getCliente(usuario).execute();
-Response<Cliente> getResponse = null;
-            if (!getResponse.isSuccessful() || getResponse.body() == null) {
-                throw new Exception("No se pudo obtener el cliente actual.");
-            }
-
-            Cliente clienteActual = getResponse.body();
-
-            // Inicializar lista si es null
-            if (clienteActual.getTiquetes() == null) {
-                clienteActual.setTiquetes(new ArrayList<>());
-            }
-
-            // Agregar los nuevos tiquetes
-            clienteActual.getTiquetes().addAll(nuevosTiquetes);
-
             // Enviar cliente actualizado al backend
-            Response<Cliente> postResponse = clienteApiService.postCliente(usuario, clienteActual).execute();
+            Response<Cliente> postResponse = clienteApiService.postCliente(usuario, cliente).execute();
             if (!postResponse.isSuccessful()) {
                 throw new Exception("No se pudo actualizar el cliente con los nuevos tiquetes.");
             }

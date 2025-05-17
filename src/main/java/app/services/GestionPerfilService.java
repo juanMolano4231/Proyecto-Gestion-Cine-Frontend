@@ -106,10 +106,25 @@ public class GestionPerfilService {
                 notificar("Error al realizar la compra, el asiento no esta disponible");
                 return "GestionPerfil_verFunciones";
             } else {
-                notificar("Tiquete comprado con exito");
                 funcion.getAsientos()[asientoDeseado] = true;
-//                cliente.postCliente(usuario.getUsuario(), clienteAEditar);
+                cliente.postCliente(usuario.getUsuario(), clienteAEditar);
                 actualizarFuncion(funcion);
+                notificar("Tiquete comprado con exito");
+                
+//                !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+                System.out.println(clienteAEditar.getUsuario());
+                for (Tiquete t : clienteAEditar.getTiquetes()) {
+                    System.out.print(t.toString() + " ");
+                }
+                System.out.println("");
+                
+                System.out.println(funcion.getTitulo());
+                for (int i = 0; i < funcion.getAsientos().length; i++) {
+                    System.out.print(funcion.getAsientos()[i] + " ");
+                }
+                System.out.println("");
+//                !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+                
                 return "GestionPerfil_verFunciones";
             }
         } catch (Exception e) {
@@ -162,7 +177,7 @@ public class GestionPerfilService {
             actualizarFuncion(funcion);
 
             clienteAEditar.getTiquetes().remove(tiqueteAEliminar);
-//            cliente.postCliente(usuario.getUsuario(), clienteAEditar);
+            cliente.postCliente(usuario.getUsuario(), clienteAEditar);
 
             notificar("Tiquete devuelto con éxito");
             return "GestionPerfil_verTickets";

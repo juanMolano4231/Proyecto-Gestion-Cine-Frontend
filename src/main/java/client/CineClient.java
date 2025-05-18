@@ -10,13 +10,16 @@ import app.models.Sala;
 import app.models.Tiquete;
 import app.models.Usuario;
 import client.apiServices.ClienteApiService;
+import client.apiServices.FuncionApiService;
 import client.apiServices.SalaApiService;
+import client.apiServices.TiqueteApiService;
 import client.apiServices.UsuarioApiService;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import org.slf4j.LoggerFactory;
 import retrofit2.Response;
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
@@ -31,7 +34,11 @@ public class CineClient {
     private static UsuarioApiService usuarioApiService;
     private static SalaApiService salaApiService;
     private static ClienteApiService clienteApiService;
+    private static TiqueteApiService tiqueteApiService;
+    private static FuncionApiService funcionApiService;
     private static Retrofit retrofit;
+    private static final org.slf4j.Logger logger = LoggerFactory.getLogger(CineClient.class);
+
 
     public CineClient() {
         retrofit = new Retrofit.Builder()
@@ -42,6 +49,8 @@ public class CineClient {
         usuarioApiService = retrofit.create(UsuarioApiService.class);
         salaApiService = retrofit.create(SalaApiService.class);
         clienteApiService = retrofit.create(ClienteApiService.class);
+        tiqueteApiService = retrofit.create(TiqueteApiService.class);
+        funcionApiService = retrofit.create(FuncionApiService.class);
     }
 
     public List<Usuario> getAllUsuarios() {
@@ -207,6 +216,30 @@ public class CineClient {
         } catch (IOException e) {
             e.printStackTrace();
             return null;
+        }
+    }
+
+    public void borrarTiquete(int idFuncion, int asiento) {
+        try {
+            Response<Void> response = tiqueteApiService.borrarTiquete(idFuncion, asiento).execute();
+            if (response.isSuccessful()) {
+            } else {
+                logger.warn("No se pudo borrar el tiquete con idFuncion: {} y asiento: {}", idFuncion, asiento);
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public void updateFuncion(Funcion funcion) {
+        try {
+            Response<Void> response = funcionApiService.updateFuncion(funcion.getId(), funcion).execute();
+            if (response.isSuccessful()) {
+            } else {
+                logger.warn("No se pudo actualizar la funcion con id: {}", funcion.getId());
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
         }
     }
 

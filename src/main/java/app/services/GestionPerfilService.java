@@ -102,14 +102,15 @@ public class GestionPerfilService {
                 return "GestionPerfil_verFunciones";
             }
 
-            if (funcion.getAsientos()[asientoDeseado] == true) {
+            if (funcion.getAsientos()[asientoDeseado - 1] == true) {
                 notificar("Error al realizar la compra, el asiento no esta disponible");
                 return "GestionPerfil_verFunciones";
             } else {
-                notificar("Tiquete comprado con exito");
-                funcion.getAsientos()[asientoDeseado] = true;
+                funcion.getAsientos()[asientoDeseado - 1] = true;
                 cliente.postCliente(usuario.getUsuario(), clienteAEditar);
-                actualizarFuncion(funcion);
+                cliente.updateFuncion(funcion);
+                notificar("Tiquete comprado con exito");
+                
                 return "GestionPerfil_verFunciones";
             }
         } catch (Exception e) {
@@ -158,11 +159,12 @@ public class GestionPerfilService {
                 return "GestionPerfil_verTickets";
             }
 
-            funcion.getAsientos()[asiento] = false;
-            actualizarFuncion(funcion);
+            funcion.getAsientos()[asiento - 1] = false;
+            cliente.updateFuncion(funcion);
 
             clienteAEditar.getTiquetes().remove(tiqueteAEliminar);
             cliente.postCliente(usuario.getUsuario(), clienteAEditar);
+            cliente.borrarTiquete(funcion.getId(), asiento);
 
             notificar("Tiquete devuelto con éxito");
             return "GestionPerfil_verTickets";
@@ -174,29 +176,6 @@ public class GestionPerfilService {
         }
     }
 
-    public void actualizarFuncion(Funcion funcionActualizada) {
-        try {
-            List<Sala> salas = cliente.getSalas();
-
-            for (Sala sala : salas) {
-                List<Funcion> funciones = sala.getFunciones();
-                for (int i = 0; i < funciones.size(); i++) {
-                    if (funciones.get(i).getId() == funcionActualizada.getId()) {
-                        funciones.set(i, funcionActualizada);
-
-                        cliente.updateSala(sala);
-                        return;
-                    }
-                }
-            }
-
-            notificar("No se pudo encontrar la función a actualizar.");
-
-        } catch (Exception e) {
-            e.printStackTrace();
-            notificar("Error al actualizar la función.");
-        }
-    }
 
     private void notificar(String mensaje) {
         JOptionPane.showMessageDialog(null, mensaje);

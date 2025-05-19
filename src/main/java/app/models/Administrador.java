@@ -11,7 +11,7 @@ package app.models;
  */
 public class Administrador extends Usuario {
 
-    public Administrador(String usuario, long pin) {
+    public Administrador(String usuario, String pin) {
         super(usuario, pin);
     }
 

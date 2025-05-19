@@ -7,15 +7,19 @@ package client;
 import app.models.Cliente;
 import app.models.Funcion;
 import app.models.Sala;
+import app.models.Tiquete;
 import app.models.Usuario;
 import client.apiServices.ClienteApiService;
+import client.apiServices.FuncionApiService;
 import client.apiServices.SalaApiService;
+import client.apiServices.TiqueteApiService;
 import client.apiServices.UsuarioApiService;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import org.slf4j.LoggerFactory;
 import retrofit2.Response;
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
@@ -30,7 +34,11 @@ public class CineClient {
     private static UsuarioApiService usuarioApiService;
     private static SalaApiService salaApiService;
     private static ClienteApiService clienteApiService;
+    private static TiqueteApiService tiqueteApiService;
+    private static FuncionApiService funcionApiService;
     private static Retrofit retrofit;
+    private static final org.slf4j.Logger logger = LoggerFactory.getLogger(CineClient.class);
+
 
     public CineClient() {
         retrofit = new Retrofit.Builder()
@@ -41,6 +49,8 @@ public class CineClient {
         usuarioApiService = retrofit.create(UsuarioApiService.class);
         salaApiService = retrofit.create(SalaApiService.class);
         clienteApiService = retrofit.create(ClienteApiService.class);
+        tiqueteApiService = retrofit.create(TiqueteApiService.class);
+        funcionApiService = retrofit.create(FuncionApiService.class);
     }
 
     public List<Usuario> getAllUsuarios() {
@@ -57,17 +67,21 @@ public class CineClient {
         }
     }
 
-    public void createUsuario(String usu, String pin) throws Exception {
-        Usuario usuario = new Cliente(usu, Long.parseLong(pin));
+    public Usuario login(String user, String pin) {
         try {
-            Response<Usuario> response = usuarioApiService.createUsuario(usuario).execute();
+            Usuario usuario = new Usuario(user, pin);
+
+            Response<Usuario> response = usuarioApiService.login(usuario).execute();
             if (response.isSuccessful()) {
+                return response.body();
             } else {
-                throw new Exception("El usuario no se pudo guardar, por favor inténtelo de nuevo más tarde");
+                System.out.println("Error en login: " + response.errorBody().string());
+                return null;
             }
         } catch (IOException e) {
-            throw new Exception("El usuario no se pudo guardar, por favor inténtelo de nuevo más tarde");
+            e.printStackTrace();
         }
+        return null;
     }
 
     public Usuario buscarUsuario(String user) {
@@ -82,18 +96,6 @@ public class CineClient {
             e.printStackTrace();
         }
         return null;
-    }
-
-    public void postUsuario(String user, Usuario usuario) throws Exception {
-        try {
-            Response<Usuario> response = usuarioApiService.postUsuario(user, usuario).execute();
-            if (response.isSuccessful()) {
-            } else {
-                throw new Exception("El usuario no fue actualiado, intentelo de nuevo mas tarde.");
-            }
-        } catch (IOException ex) {
-            throw new Exception("El usuario no fue actualiado, intentelo de nuevo mas tarde.");
-        }
     }
 
     public List<Sala> getSalas() {
@@ -154,11 +156,11 @@ public class CineClient {
             if (response.isSuccessful()) {
             } else {
                 System.err.println(response.errorBody().toString());
-                throw new Exception("La función no se pudo borrar, por favor inténtelo de nuevo más tarde");
+                throw new Exception("La sala no se pudo guardar");
             }
         } catch (IOException e) {
             e.printStackTrace();
-            throw new Exception("La función no se pudo borrar, por favor inténtelo de nuevo más tarde");
+            throw new Exception("La sala no se pudo guardar");
         }
     }
 
@@ -176,20 +178,22 @@ public class CineClient {
         }
     }
 
-    public void postCliente(String usuario, Cliente clienteData) throws Exception {
+    public void postCliente(String usuario, Cliente cliente) throws Exception {
         try {
-            Response<Cliente> response = clienteApiService.postCliente(usuario, clienteData).execute();
-            if (!response.isSuccessful()) {
-                throw new Exception("No se pudo actualizar el cliente. Inténtalo de nuevo más tarde.");
+            // Enviar cliente actualizado al backend
+            Response<Cliente> postResponse = clienteApiService.postCliente(usuario, cliente).execute();
+            if (!postResponse.isSuccessful()) {
+                throw new Exception("No se pudo actualizar el cliente con los nuevos tiquetes.");
             }
+
         } catch (IOException e) {
             e.printStackTrace();
-            throw new Exception("No se pudo actualizar el cliente. Inténtalo de nuevo más tarde.");
+            throw new Exception("Ocurrió un error al actualizar los tiquetes del cliente.");
         }
     }
-    
+
     public void createCliente(String usu, String pin) throws Exception {
-        Cliente cliente = new Cliente(usu, Long.parseLong(pin));
+        Cliente cliente = new Cliente(usu, pin);
         try {
             Response<Cliente> response = clienteApiService.createCliente(cliente).execute();
             if (response.isSuccessful()) {
@@ -198,6 +202,44 @@ public class CineClient {
             }
         } catch (IOException e) {
             throw new Exception("El cliente no se pudo guardar, por favor inténtelo de nuevo más tarde");
+        }
+    }
+
+    public String consultarTipo(Usuario usuario) {
+        try {
+            Response<String> response = usuarioApiService.consultarTipo(usuario.getUsuario()).execute();
+            if (response.isSuccessful()) {
+                return response.body();
+            } else {
+                return null;
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+            return null;
+        }
+    }
+
+    public void borrarTiquete(int idFuncion, int asiento) {
+        try {
+            Response<Void> response = tiqueteApiService.borrarTiquete(idFuncion, asiento).execute();
+            if (response.isSuccessful()) {
+            } else {
+                logger.warn("No se pudo borrar el tiquete con idFuncion: {} y asiento: {}", idFuncion, asiento);
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public void updateFuncion(Funcion funcion) {
+        try {
+            Response<Void> response = funcionApiService.updateFuncion(funcion.getId(), funcion).execute();
+            if (response.isSuccessful()) {
+            } else {
+                logger.warn("No se pudo actualizar la funcion con id: {}", funcion.getId());
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
         }
     }
 

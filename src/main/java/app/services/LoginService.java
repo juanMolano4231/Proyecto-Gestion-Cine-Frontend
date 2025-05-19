@@ -13,7 +13,7 @@ import client.CineClient;
  * @author Juan José Molano Franco
  */
 public class LoginService {
-    
+
     private Usuario usuario;
     private final CineClient cliente;
 
@@ -29,7 +29,7 @@ public class LoginService {
             return new Object[]{"Login_usuarioInvalido", null};
         }
 
-        usuario = cliente.buscarUsuario(input); 
+        this.usuario = cliente.buscarUsuario(input);
         if (usuario != null && usuario.getUsuario().equals(input)) {
             return new Object[]{"Login_pidePin", input};
         } else {
@@ -65,14 +65,16 @@ public class LoginService {
         if (input == null) {
             return new Object[]{"Bienvenida_bienvenida", null, null};
         }
-        int pin = -1;
         try {
-            pin = Integer.parseInt(input);
+            Integer.parseInt(input);
         } catch (NumberFormatException e) {
             return new Object[]{"Login_pinInvalido", null, null};
         }
-        if (pin == usuario.getPin()) {
-            return new Object[]{"Login_exito", pin, usuario};
+
+        Usuario autenticado = cliente.login(usuario.getUsuario(), input);
+        if (autenticado != null) {
+            this.usuario = autenticado;
+            return new Object[]{"Login_exito", input, usuario};
         } else {
             return new Object[]{"Login_pinIncorrecto", null, null};
         }
@@ -102,9 +104,13 @@ public class LoginService {
         }
     }
 
-    public String exito(String nombreUsuario, int selection) {
+    public String exito(int selection) {
         if (selection == 0) {  // Presiona OK
-            if (nombreUsuario.equals("juan1234")) {
+            String tipo = cliente.consultarTipo(usuario);
+            if (tipo == null) {
+                return "Bienvenida_bienvenida";
+            }
+            if (tipo.equals("admin")) {
                 return "GestionCine_verSalas";
             } else {
                 return "GestionPerfil_perfil";

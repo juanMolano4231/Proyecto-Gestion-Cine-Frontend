@@ -71,7 +71,7 @@ public class LoginService {
             return new Object[]{"Login_pinInvalido", null, null};
         }
 
-        Usuario autenticado = cliente.login(usuario.getUsuario(), input);
+        Usuario autenticado = cliente.login(usuario.getUsuario(), input).getUsuario();
         if (autenticado != null) {
             this.usuario = autenticado;
             return new Object[]{"Login_exito", input, usuario};

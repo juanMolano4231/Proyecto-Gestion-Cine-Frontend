@@ -6,6 +6,7 @@ package client;
 
 import app.models.Cliente;
 import app.models.Funcion;
+import app.models.LoginResponse;
 import app.models.Sala;
 import app.models.Tiquete;
 import app.models.Usuario;
@@ -39,7 +40,6 @@ public class CineClient {
     private static Retrofit retrofit;
     private static final org.slf4j.Logger logger = LoggerFactory.getLogger(CineClient.class);
 
-
     public CineClient() {
         retrofit = new Retrofit.Builder()
                 .baseUrl(BASE_URL)
@@ -67,11 +67,11 @@ public class CineClient {
         }
     }
 
-    public Usuario login(String user, String pin) {
+    public LoginResponse login(String user, String pin) {
         try {
             Usuario usuario = new Usuario(user, pin);
 
-            Response<Usuario> response = usuarioApiService.login(usuario).execute();
+            Response<LoginResponse> response = usuarioApiService.login(usuario).execute();
             if (response.isSuccessful()) {
                 return response.body();
             } else {

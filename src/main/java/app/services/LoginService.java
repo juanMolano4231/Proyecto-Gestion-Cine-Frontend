@@ -111,7 +111,7 @@ public class LoginService {
 
     public String exito(int selection) {
         if (selection == 0) {  // Presiona OK
-            String tipo = cliente.consultarTipo(usuario, "Bearer " + Session.getToken());
+            String tipo = cliente.consultarTipo(usuario, Session.getToken());
             if (tipo == null) {
                 return "Bienvenida_bienvenida";
             }

@@ -12,6 +12,7 @@ import app.models.Usuario;
 import client.CineClient;
 import java.util.List;
 import javax.swing.JOptionPane;
+import session.Session;
 
 /**
  *
@@ -182,11 +183,14 @@ public class GestionPerfilService {
     }
 
     public List<Sala> getSalas() {
-        return cliente.getSalas();
+        return cliente.getSalas(Session.getToken());
     }
 
     public Funcion buscarFuncionPorId(int id) {
         List<Sala> salas = getSalas();
+        if (salas == null) {
+            return null;
+        }
         for (Sala s : salas) {
             for (Funcion f : s.getFunciones()) {
                 if (f.getId() == id) {

@@ -70,13 +70,14 @@ public class CineClient {
         return null;
     }
 
-    public List<Sala> getSalas() {
+    public List<Sala> getSalas(String token) {
         try {
-            Response<List<Sala>> response = salaApiService.getSalas().execute();
+            Response<List<Sala>> response = salaApiService.getSalas("Bearer " + token).execute();
             if (response.isSuccessful()) {
                 List<Sala> salas = response.body();
                 return salas;
             } else {
+                System.out.println("fail");
                 return null;
             }
         } catch (IOException e) {
@@ -84,10 +85,10 @@ public class CineClient {
         }
     }
 
-    public void createSala(int asientos) throws Exception {
+    public void createSala(int asientos, String token) throws Exception {
         Sala sala = new Sala(asientos);
         try {
-            Response<Sala> response = salaApiService.createSala(sala).execute();
+            Response<Sala> response = salaApiService.createSala(sala, "Bearer " + token).execute();
             if (response.isSuccessful()) {
             } else {
                 throw new Exception("La sala no se pudo guardar, por favor inténtelo de nuevo más tarde");
@@ -97,9 +98,9 @@ public class CineClient {
         }
     }
 
-    public void deleteSala(Sala sala) throws Exception {
+    public void deleteSala(Sala sala, String token) throws Exception {
         try {
-            Response<Void> response = salaApiService.deleteSala(sala.getId()).execute();
+            Response<Void> response = salaApiService.deleteSala(sala.getId(), "Bearer " + token).execute();
             if (response.isSuccessful()) {
             } else {
                 throw new Exception("La sala no se pudo borrar, por favor inténtelo de nuevo más tarde");
@@ -109,9 +110,9 @@ public class CineClient {
         }
     }
 
-    public void createFuncion(Sala sala, String[] datos) throws Exception {
+    public void createFuncion(Sala sala, String[] datos, String token) throws Exception {
         try {
-            Response<Void> response = salaApiService.createFuncion(sala.getId(), datos).execute();
+            Response<Void> response = salaApiService.createFuncion(sala.getId(), datos, "Bearer " + token).execute();
             if (response.isSuccessful()) {
             } else {
                 throw new Exception("La función no pudo guardar, por favor inténtelo de nuevo más tarde");
@@ -122,9 +123,9 @@ public class CineClient {
         }
     }
 
-    public void updateSala(Sala sala) throws Exception {
+    public void updateSala(Sala sala, String token) throws Exception {
         try {
-            Response<Sala> response = salaApiService.patchSala(sala.getId(), sala).execute();
+            Response<Sala> response = salaApiService.patchSala(sala.getId(), sala, "Bearer " + token).execute();
             if (response.isSuccessful()) {
             } else {
                 System.err.println(response.errorBody().toString());
@@ -179,7 +180,7 @@ public class CineClient {
 
     public String consultarTipo(Usuario usuario, String token) {
         try {
-            Response<String> response = usuarioApiService.consultarTipo(usuario.getUsuario(), token).execute();
+            Response<String> response = usuarioApiService.consultarTipo(usuario.getUsuario(), "Bearer " + token).execute();
             if (response.isSuccessful()) {
                 return response.body();
             } else {

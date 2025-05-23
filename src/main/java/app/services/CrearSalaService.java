@@ -12,6 +12,7 @@ import client.CineClient;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
 import javax.swing.JOptionPane;
+import session.Session;
 
 /**
  *
@@ -59,7 +60,7 @@ public class CrearSalaService {
 
     //Otros procesos
     private void createSala(int asientos) throws Exception {
-        cliente.createSala(asientos);
+        cliente.createSala(asientos, Session.getToken());
     }
     
     private void notificar(String mensaje) {

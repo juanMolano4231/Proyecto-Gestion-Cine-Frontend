@@ -12,6 +12,7 @@ import app.views.ViewGestionFuncion;
 import client.CineClient;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
+import session.Session;
 
 /**
  *
@@ -97,11 +98,14 @@ public class GestionFuncionService {
                 sala.getFunciones().remove(i);
             }
         }
-        cliente.updateSala(sala);
+        cliente.updateSala(sala, Session.getToken());
     }
 
     public Sala reloadSala(Sala sala) {
         List<Sala> salas = getSalas();
+        if (salas == null) {
+            return null;
+        }
         for (Sala s: salas) {
             if (s.getId() == sala.getId()) {
                 return s;
@@ -111,7 +115,7 @@ public class GestionFuncionService {
     }
     
     public List<Sala> getSalas() {
-        List<Sala> salas = cliente.getSalas();
+        List<Sala> salas = cliente.getSalas(Session.getToken());
         return salas;
     }
 }

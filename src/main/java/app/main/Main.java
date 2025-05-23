@@ -63,7 +63,6 @@ public class Main {
         /* Para cargar la data de los métodos y usarla, siempre se sobrescribe */
         Object[] data;
         while (true) {
-            System.out.println("Token: " + Session.getToken());
             switch (ruta) {
                 // Test
                 case "Test_botones":

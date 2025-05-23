@@ -40,6 +40,9 @@ public class GestionPerfilController {
 
     public Object[] verFunciones(Usuario usuario) {
         List<Sala> salas = service.getSalas();
+        if (salas == null) {
+            return new Object[]{"GestionPerfil_perfil", null};
+        }
         Object[] seleccion = levantarFrameFunciones(usuario, salas);
         String ruta = service.verFunciones(seleccion);
         Funcion funcion = (Funcion) seleccion[1];

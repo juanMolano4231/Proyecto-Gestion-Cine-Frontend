@@ -123,16 +123,12 @@ public class RegisterService {
     }
 
     private boolean nombreUsuarioOcupado(String nombreUsuario) throws Exception {
-        List<Usuario> usuarios = cliente.getAllUsuarios();
-        if (usuarios == null) {
-            throw new Exception("Hubo un error al conectar con el servidor");
+        Boolean disponible = cliente.checkUsername(nombreUsuario);
+        if (disponible == null) {
+            throw new Exception("No se pudo verificar la disponibilidad del nombre de usuario: " + nombreUsuario);
+        } else {
+            return !disponible;
         }
-        for (Usuario u : usuarios) {
-            if (u.getUsuario().equals(nombreUsuario)) {
-                return true;
-            }
-        }
-        return false;
     }
 
     // Otros procesos

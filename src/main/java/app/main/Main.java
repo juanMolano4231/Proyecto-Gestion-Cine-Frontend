@@ -10,6 +10,7 @@ import app.models.Funcion;
 import app.models.Sala;
 import app.models.Usuario;
 import java.util.List;
+import session.Session;
 
 /**
  *
@@ -62,6 +63,7 @@ public class Main {
         /* Para cargar la data de los métodos y usarla, siempre se sobrescribe */
         Object[] data;
         while (true) {
+            System.out.println("Token: " + Session.getToken());
             switch (ruta) {
                 // Test
                 case "Test_botones":

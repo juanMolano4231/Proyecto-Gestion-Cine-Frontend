@@ -4,8 +4,6 @@
  */
 package app.models;
 
-import app.models.Usuario;
-
 /**
  *
  * @author johan

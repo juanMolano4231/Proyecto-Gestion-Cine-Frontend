@@ -53,20 +53,6 @@ public class CineClient {
         funcionApiService = retrofit.create(FuncionApiService.class);
     }
 
-    public List<Usuario> getAllUsuarios() {
-        try {
-            Response<List<Usuario>> response = usuarioApiService.getAllUsuarios().execute();
-            if (response.isSuccessful()) {
-                List<Usuario> usuarios = response.body();
-                return usuarios;
-            } else {
-                return null;
-            }
-        } catch (IOException e) {
-            return null;
-        }
-    }
-
     public LoginResponse login(String user, String pin) {
         try {
             Usuario usuario = new Usuario(user, pin);
@@ -76,20 +62,6 @@ public class CineClient {
                 return response.body();
             } else {
                 System.out.println("Error en login: " + response.errorBody().string());
-                return null;
-            }
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-        return null;
-    }
-
-    public Usuario buscarUsuario(String user) {
-        try {
-            Response<Usuario> response = usuarioApiService.buscarUsuario(user).execute();
-            if (response.isSuccessful()) {
-                return response.body();
-            } else {
                 return null;
             }
         } catch (IOException e) {
@@ -205,9 +177,9 @@ public class CineClient {
         }
     }
 
-    public String consultarTipo(Usuario usuario) {
+    public String consultarTipo(Usuario usuario, String token) {
         try {
-            Response<String> response = usuarioApiService.consultarTipo(usuario.getUsuario()).execute();
+            Response<String> response = usuarioApiService.consultarTipo(usuario.getUsuario(), token).execute();
             if (response.isSuccessful()) {
                 return response.body();
             } else {
@@ -240,6 +212,21 @@ public class CineClient {
             }
         } catch (IOException e) {
             e.printStackTrace();
+        }
+    }
+
+    public Boolean checkUsername(String username) {
+        try {
+            Response<Boolean> response = usuarioApiService.checkUsername(username).execute();
+            if (response.isSuccessful()) {
+                return response.body();
+            } else {
+                logger.warn("No se pudo validar el nombre de usuario: {}", username);
+                return null;
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+            return null;
         }
     }
 

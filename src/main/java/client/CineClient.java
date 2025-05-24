@@ -77,7 +77,7 @@ public class CineClient {
                 List<Sala> salas = response.body();
                 return salas;
             } else {
-                System.out.println("fail");
+                System.out.println("error getSalas en CineClient");
                 return null;
             }
         } catch (IOException e) {
@@ -137,24 +137,10 @@ public class CineClient {
         }
     }
 
-    public List<Cliente> getAllClientes() {
-        try {
-            Response<List<Cliente>> response = clienteApiService.getAllClientes().execute();
-            if (response.isSuccessful()) {
-                return response.body();
-            } else {
-                return null;
-            }
-        } catch (IOException e) {
-            e.printStackTrace();
-            return null;
-        }
-    }
-
-    public void postCliente(String usuario, Cliente cliente) throws Exception {
+    public void postCliente(String usuario, Cliente cliente, String token) throws Exception {
         try {
             // Enviar cliente actualizado al backend
-            Response<Cliente> postResponse = clienteApiService.postCliente(usuario, cliente).execute();
+            Response<Cliente> postResponse = clienteApiService.postCliente(usuario, cliente, "Bearer " + token).execute();
             if (!postResponse.isSuccessful()) {
                 throw new Exception("No se pudo actualizar el cliente con los nuevos tiquetes.");
             }
@@ -223,6 +209,21 @@ public class CineClient {
                 return response.body();
             } else {
                 logger.warn("No se pudo validar el nombre de usuario: {}", username);
+                return null;
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+            return null;
+        }
+    }
+
+    public Cliente getClienteByUsername(String username,String token) {
+        try {
+            Response<Cliente> response = clienteApiService.getClienteByUsername(username, "Bearer " + token).execute();
+            if (response.isSuccessful()) {
+                return response.body();
+            } else {
+                logger.warn("No se pudo obtener el cliente de username: {}", username);
                 return null;
             }
         } catch (IOException e) {

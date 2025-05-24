@@ -77,17 +77,7 @@ public class GestionPerfilService {
             return "GestionPerfil_verFunciones";
         }
         try {
-            List<Cliente> clientes = cliente.getAllClientes();
-            if (clientes == null) {
-                notificar("Error al obtener los clientes del sistema");
-                return "GestionPerfil_verFunciones";
-            }
-            Cliente clienteAEditar = null;
-            for (Cliente c : clientes) {
-                if (c.getUsuario().equals(usuario.getUsuario())) {
-                    clienteAEditar = c;
-                }
-            }
+            Cliente clienteAEditar = getClienteByUser(usuario.getUsuario());
 
             if (cantidadAsientosDisponibles(funcion) <= 0) {
                 notificar("Error al realizar la compra, no hay asientos libres");
@@ -108,7 +98,7 @@ public class GestionPerfilService {
                 return "GestionPerfil_verFunciones";
             } else {
                 funcion.getAsientos()[asientoDeseado - 1] = true;
-                cliente.postCliente(usuario.getUsuario(), clienteAEditar);
+                cliente.postCliente(usuario.getUsuario(), clienteAEditar, Session.getToken());
                 cliente.updateFuncion(funcion);
                 notificar("Tiquete comprado con exito");
                 
@@ -128,19 +118,7 @@ public class GestionPerfilService {
                 return "GestionPerfil_verTickets";
             }
 
-            List<Cliente> clientes = cliente.getAllClientes();
-            if (clientes == null) {
-                notificar("Error al obtener los clientes del sistema");
-                return "GestionPerfil_verFunciones";
-            }
-
-            Cliente clienteAEditar = null;
-            for (Cliente c : clientes) {
-                if (c.getUsuario().equals(usuario.getUsuario())) {
-                    clienteAEditar = c;
-                    break;
-                }
-            }
+            Cliente clienteAEditar = getClienteByUser(usuario.getUsuario());
 
             if (clienteAEditar == null) {
                 notificar("Cliente no encontrado");
@@ -164,7 +142,7 @@ public class GestionPerfilService {
             cliente.updateFuncion(funcion);
 
             clienteAEditar.getTiquetes().remove(tiqueteAEliminar);
-            cliente.postCliente(usuario.getUsuario(), clienteAEditar);
+            cliente.postCliente(usuario.getUsuario(), clienteAEditar, Session.getToken());
             cliente.borrarTiquete(funcion.getId(), asiento);
 
             notificar("Tiquete devuelto con éxito");
@@ -212,14 +190,8 @@ public class GestionPerfilService {
         return disponibles;
     }
 
-    public Cliente getClienteByUser(Usuario usuario) {
-        List<Cliente> clientes = cliente.getAllClientes();
-        for (Cliente c : clientes) {
-            if (c.getUsuario().equals(usuario.getUsuario())) {
-                return c;
-            }
-        }
-        return null;
+    public Cliente getClienteByUser(String username) {
+        return cliente.getClienteByUsername(username, Session.getToken());
     }
 
     public void setUsuario(Usuario usuario) {

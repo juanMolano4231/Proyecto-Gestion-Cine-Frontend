@@ -67,7 +67,7 @@ public class GestionPerfilController {
     }
 
     private Object[] levantarFrameTickets(Usuario usuario) {
-        Cliente cliente = service.getClienteByUser(usuario);
+        Cliente cliente = service.getClienteByUser(usuario.getUsuario());
         FrameVerTicketsUsuario frame = new FrameVerTicketsUsuario(cliente);
         frame.setVisible(true);
         while (true) {

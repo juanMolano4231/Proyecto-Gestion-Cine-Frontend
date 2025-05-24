@@ -178,9 +178,9 @@ public class CineClient {
         }
     }
 
-    public void borrarTiquete(int idFuncion, int asiento) {
+    public void borrarTiquete(int idFuncion, int asiento, String token) {
         try {
-            Response<Void> response = tiqueteApiService.borrarTiquete(idFuncion, asiento).execute();
+            Response<Void> response = tiqueteApiService.borrarTiquete(idFuncion, asiento, "Bearer " + token).execute();
             if (response.isSuccessful()) {
             } else {
                 logger.warn("No se pudo borrar el tiquete con idFuncion: {} y asiento: {}", idFuncion, asiento);

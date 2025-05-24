@@ -7,6 +7,7 @@ package client.apiServices;
 
 import retrofit2.Call;
 import retrofit2.http.DELETE;
+import retrofit2.http.Header;
 import retrofit2.http.Path;
 
 /**
@@ -16,6 +17,6 @@ import retrofit2.http.Path;
 public interface TiqueteApiService {
     
     @DELETE("/api/tiquetes/{idFuncion}/{asiento}")
-    Call<Void> borrarTiquete(@Path("idFuncion") int idFuncion, @Path("asiento") int asiento);
+    Call<Void> borrarTiquete(@Path("idFuncion") int idFuncion, @Path("asiento") int asiento, @Header("Authorization") String token);
 
 }

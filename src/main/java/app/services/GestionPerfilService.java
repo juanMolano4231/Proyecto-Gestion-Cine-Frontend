@@ -143,7 +143,7 @@ public class GestionPerfilService {
 
             clienteAEditar.getTiquetes().remove(tiqueteAEliminar);
             cliente.postCliente(usuario.getUsuario(), clienteAEditar, Session.getToken());
-            cliente.borrarTiquete(funcion.getId(), asiento);
+            cliente.borrarTiquete(funcion.getId(), asiento, Session.getToken());
 
             notificar("Tiquete devuelto con éxito");
             return "GestionPerfil_verTickets";

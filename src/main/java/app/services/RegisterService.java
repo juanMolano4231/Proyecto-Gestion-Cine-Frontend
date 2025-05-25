@@ -123,11 +123,11 @@ public class RegisterService {
     }
 
     private boolean nombreUsuarioOcupado(String nombreUsuario) throws Exception {
-        Boolean disponible = cliente.checkUsername(nombreUsuario);
-        if (disponible == null) {
+        Boolean yaExiste = cliente.checkUsername(nombreUsuario);
+        if (yaExiste == null) {
             throw new Exception("No se pudo verificar la disponibilidad del nombre de usuario: " + nombreUsuario);
         } else {
-            return !disponible;
+            return yaExiste;
         }
     }
 

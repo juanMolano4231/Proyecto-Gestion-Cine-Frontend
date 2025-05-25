@@ -31,7 +31,7 @@ import retrofit2.converter.gson.GsonConverterFactory;
  */
 public class CineClient {
 
-    private static final String BASE_URL = "http://localhost:8080";
+    private static final String BASE_URL = "https://gestion-cine-backend-latest.onrender.com/";
     private static UsuarioApiService usuarioApiService;
     private static SalaApiService salaApiService;
     private static ClienteApiService clienteApiService;

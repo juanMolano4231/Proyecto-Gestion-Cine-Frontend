@@ -104,12 +104,12 @@ public class GestionPerfilController {
         }
     }
 
-    public String comprarTicket(Usuario usuario, Funcion funcion, String token) {
-        return service.comprarTicket(usuario, funcion, token);
+    public String comprarTicket(Usuario usuario, Funcion funcion) {
+        return service.comprarTicket(usuario, funcion);
     }
 
-    public String devolverTicket(Usuario usuario, Funcion funcion, int asiento, String token) {
-        return service.devolverTicket(usuario, funcion, asiento, token);
+    public String devolverTicket(Usuario usuario, Funcion funcion, int asiento) {
+        return service.devolverTicket(usuario, funcion, asiento);
     }
 
 }

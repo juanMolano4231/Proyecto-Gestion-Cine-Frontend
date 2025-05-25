@@ -71,7 +71,7 @@ public class GestionPerfilService {
         }
     }
 
-    public String comprarTicket(Usuario usuario, Funcion funcion, String token) {
+    public String comprarTicket(Usuario usuario, Funcion funcion) {
         if (funcion == null) {
             notificar("No hay ninguna funcion seleccionada");
             return "GestionPerfil_verFunciones";
@@ -99,7 +99,7 @@ public class GestionPerfilService {
             } else {
                 funcion.getAsientos()[asientoDeseado - 1] = true;
                 cliente.postCliente(usuario.getUsuario(), clienteAEditar, Session.getToken());
-                cliente.updateFuncion(funcion, token);
+                cliente.updateFuncion(funcion, Session.getToken());
                 notificar("Tiquete comprado con exito");
                 
                 return "GestionPerfil_verFunciones";
@@ -111,7 +111,7 @@ public class GestionPerfilService {
         }
     }
 
-    public String devolverTicket(Usuario usuario, Funcion funcion, int asiento, String token) {
+    public String devolverTicket(Usuario usuario, Funcion funcion, int asiento) {
         try {
             if (funcion == null) {
                 notificar("No hay ningun tiquete seleccionado");
@@ -139,7 +139,7 @@ public class GestionPerfilService {
             }
 
             funcion.getAsientos()[asiento - 1] = false;
-            cliente.updateFuncion(funcion, token);
+            cliente.updateFuncion(funcion, Session.getToken());
 
             clienteAEditar.getTiquetes().remove(tiqueteAEliminar);
             cliente.postCliente(usuario.getUsuario(), clienteAEditar, Session.getToken());

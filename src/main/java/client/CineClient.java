@@ -190,9 +190,9 @@ public class CineClient {
         }
     }
 
-    public void updateFuncion(Funcion funcion) {
+    public void updateFuncion(Funcion funcion, String token) {
         try {
-            Response<Void> response = funcionApiService.updateFuncion(funcion.getId(), funcion).execute();
+            Response<Void> response = funcionApiService.updateFuncion(funcion.getId(), funcion, "Bearer " + token).execute();
             if (response.isSuccessful()) {
             } else {
                 logger.warn("No se pudo actualizar la funcion con id: {}", funcion.getId());

@@ -12,6 +12,7 @@ import app.views.ViewGestionFuncion;
 import client.CineClient;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
+import session.Session;
 
 /**
  *
@@ -82,26 +83,20 @@ public class GestionFuncionService {
     }
 
     public void borrarFuncion(Sala sala, Funcion funcion) throws Exception {
-//        System.out.println("++++++++");
-//        for (Funcion f : sala.getFunciones()) {
-//            System.out.println(f.getTitulo() + " " + f.getId());
-//        }
-        System.out.println("size: " + sala.getFunciones().size());
-        System.out.println("pasada: " + funcion.getId() + " " + funcion.getTitulo());
-//        boolean contenia = sala.getFunciones().remove(funcion);
-//        System.out.println("contenia: " + contenia);
         for (int i = 0; i < sala.getFunciones().size(); i++) {
             Funcion f = sala.getFunciones().get(i);
-            System.out.println("funcion: " + f.getId() + " " + f.getTitulo());
             if (f.getId() == funcion.getId()) {
                 sala.getFunciones().remove(i);
             }
         }
-        cliente.updateSala(sala);
+        cliente.updateSala(sala, Session.getToken());
     }
 
     public Sala reloadSala(Sala sala) {
         List<Sala> salas = getSalas();
+        if (salas == null) {
+            return null;
+        }
         for (Sala s: salas) {
             if (s.getId() == sala.getId()) {
                 return s;
@@ -111,7 +106,7 @@ public class GestionFuncionService {
     }
     
     public List<Sala> getSalas() {
-        List<Sala> salas = cliente.getSalas();
+        List<Sala> salas = cliente.getSalas(Session.getToken());
         return salas;
     }
 }

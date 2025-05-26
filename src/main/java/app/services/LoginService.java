@@ -4,9 +4,11 @@
  */
 package app.services;
 
+import app.models.LoginResponse;
 import app.models.Usuario;
 import app.views.ViewLogin;
 import client.CineClient;
+import session.Session;
 
 /**
  *
@@ -16,6 +18,7 @@ public class LoginService {
 
     private Usuario usuario;
     private final CineClient cliente;
+    private String nombreUsuario;
 
     public LoginService() {
         cliente = new CineClient();
@@ -28,9 +31,10 @@ public class LoginService {
         if (!nombreUsuarioValido(input)) {
             return new Object[]{"Login_usuarioInvalido", null};
         }
-
-        this.usuario = cliente.buscarUsuario(input);
-        if (usuario != null && usuario.getUsuario().equals(input)) {
+        
+        Boolean usuarioExiste = cliente.checkUsername(input);
+        this.nombreUsuario = input;
+        if (usuarioExiste != null && usuarioExiste) {
             return new Object[]{"Login_pidePin", input};
         } else {
             return new Object[]{"Login_usuarioNoEncontrado", null};
@@ -71,9 +75,10 @@ public class LoginService {
             return new Object[]{"Login_pinInvalido", null, null};
         }
 
-        Usuario autenticado = cliente.login(usuario.getUsuario(), input);
-        if (autenticado != null) {
-            this.usuario = autenticado;
+        LoginResponse response = cliente.login(nombreUsuario, input);
+        if (response != null) {
+            this.usuario = response.getUsuario();
+            Session.setToken(response.getToken());
             return new Object[]{"Login_exito", input, usuario};
         } else {
             return new Object[]{"Login_pinIncorrecto", null, null};
@@ -106,7 +111,7 @@ public class LoginService {
 
     public String exito(int selection) {
         if (selection == 0) {  // Presiona OK
-            String tipo = cliente.consultarTipo(usuario);
+            String tipo = cliente.consultarTipo(usuario, Session.getToken());
             if (tipo == null) {
                 return "Bienvenida_bienvenida";
             }

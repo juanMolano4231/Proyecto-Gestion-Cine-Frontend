@@ -10,6 +10,7 @@ import app.models.Funcion;
 import app.models.Sala;
 import app.models.Usuario;
 import java.util.List;
+import session.Session;
 
 /**
  *

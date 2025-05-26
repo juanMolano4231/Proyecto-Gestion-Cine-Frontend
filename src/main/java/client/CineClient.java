@@ -6,6 +6,7 @@ package client;
 
 import app.models.Cliente;
 import app.models.Funcion;
+import app.models.LoginResponse;
 import app.models.Sala;
 import app.models.Tiquete;
 import app.models.Usuario;
@@ -30,7 +31,7 @@ import retrofit2.converter.gson.GsonConverterFactory;
  */
 public class CineClient {
 
-    private static final String BASE_URL = "http://localhost:8080";
+    private static final String BASE_URL = "https://gestion-cine-backend-latest.onrender.com/";
     private static UsuarioApiService usuarioApiService;
     private static SalaApiService salaApiService;
     private static ClienteApiService clienteApiService;
@@ -38,7 +39,6 @@ public class CineClient {
     private static FuncionApiService funcionApiService;
     private static Retrofit retrofit;
     private static final org.slf4j.Logger logger = LoggerFactory.getLogger(CineClient.class);
-
 
     public CineClient() {
         retrofit = new Retrofit.Builder()
@@ -53,25 +53,11 @@ public class CineClient {
         funcionApiService = retrofit.create(FuncionApiService.class);
     }
 
-    public List<Usuario> getAllUsuarios() {
-        try {
-            Response<List<Usuario>> response = usuarioApiService.getAllUsuarios().execute();
-            if (response.isSuccessful()) {
-                List<Usuario> usuarios = response.body();
-                return usuarios;
-            } else {
-                return null;
-            }
-        } catch (IOException e) {
-            return null;
-        }
-    }
-
-    public Usuario login(String user, String pin) {
+    public LoginResponse login(String user, String pin) {
         try {
             Usuario usuario = new Usuario(user, pin);
 
-            Response<Usuario> response = usuarioApiService.login(usuario).execute();
+            Response<LoginResponse> response = usuarioApiService.login(usuario).execute();
             if (response.isSuccessful()) {
                 return response.body();
             } else {
@@ -84,27 +70,14 @@ public class CineClient {
         return null;
     }
 
-    public Usuario buscarUsuario(String user) {
+    public List<Sala> getSalas(String token) {
         try {
-            Response<Usuario> response = usuarioApiService.buscarUsuario(user).execute();
-            if (response.isSuccessful()) {
-                return response.body();
-            } else {
-                return null;
-            }
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-        return null;
-    }
-
-    public List<Sala> getSalas() {
-        try {
-            Response<List<Sala>> response = salaApiService.getSalas().execute();
+            Response<List<Sala>> response = salaApiService.getSalas("Bearer " + token).execute();
             if (response.isSuccessful()) {
                 List<Sala> salas = response.body();
                 return salas;
             } else {
+                System.out.println("error getSalas en CineClient");
                 return null;
             }
         } catch (IOException e) {
@@ -112,10 +85,10 @@ public class CineClient {
         }
     }
 
-    public void createSala(int asientos) throws Exception {
+    public void createSala(int asientos, String token) throws Exception {
         Sala sala = new Sala(asientos);
         try {
-            Response<Sala> response = salaApiService.createSala(sala).execute();
+            Response<Sala> response = salaApiService.createSala(sala, "Bearer " + token).execute();
             if (response.isSuccessful()) {
             } else {
                 throw new Exception("La sala no se pudo guardar, por favor inténtelo de nuevo más tarde");
@@ -125,9 +98,9 @@ public class CineClient {
         }
     }
 
-    public void deleteSala(Sala sala) throws Exception {
+    public void deleteSala(Sala sala, String token) throws Exception {
         try {
-            Response<Void> response = salaApiService.deleteSala(sala.getId()).execute();
+            Response<Void> response = salaApiService.deleteSala(sala.getId(), "Bearer " + token).execute();
             if (response.isSuccessful()) {
             } else {
                 throw new Exception("La sala no se pudo borrar, por favor inténtelo de nuevo más tarde");
@@ -137,9 +110,9 @@ public class CineClient {
         }
     }
 
-    public void createFuncion(Sala sala, String[] datos) throws Exception {
+    public void createFuncion(Sala sala, String[] datos, String token) throws Exception {
         try {
-            Response<Void> response = salaApiService.createFuncion(sala.getId(), datos).execute();
+            Response<Void> response = salaApiService.createFuncion(sala.getId(), datos, "Bearer " + token).execute();
             if (response.isSuccessful()) {
             } else {
                 throw new Exception("La función no pudo guardar, por favor inténtelo de nuevo más tarde");
@@ -150,9 +123,9 @@ public class CineClient {
         }
     }
 
-    public void updateSala(Sala sala) throws Exception {
+    public void updateSala(Sala sala, String token) throws Exception {
         try {
-            Response<Sala> response = salaApiService.patchSala(sala.getId(), sala).execute();
+            Response<Sala> response = salaApiService.patchSala(sala.getId(), sala, "Bearer " + token).execute();
             if (response.isSuccessful()) {
             } else {
                 System.err.println(response.errorBody().toString());
@@ -164,24 +137,10 @@ public class CineClient {
         }
     }
 
-    public List<Cliente> getAllClientes() {
-        try {
-            Response<List<Cliente>> response = clienteApiService.getAllClientes().execute();
-            if (response.isSuccessful()) {
-                return response.body();
-            } else {
-                return null;
-            }
-        } catch (IOException e) {
-            e.printStackTrace();
-            return null;
-        }
-    }
-
-    public void postCliente(String usuario, Cliente cliente) throws Exception {
+    public void postCliente(String usuario, Cliente cliente, String token) throws Exception {
         try {
             // Enviar cliente actualizado al backend
-            Response<Cliente> postResponse = clienteApiService.postCliente(usuario, cliente).execute();
+            Response<Cliente> postResponse = clienteApiService.postCliente(usuario, cliente, "Bearer " + token).execute();
             if (!postResponse.isSuccessful()) {
                 throw new Exception("No se pudo actualizar el cliente con los nuevos tiquetes.");
             }
@@ -205,9 +164,9 @@ public class CineClient {
         }
     }
 
-    public String consultarTipo(Usuario usuario) {
+    public String consultarTipo(Usuario usuario, String token) {
         try {
-            Response<String> response = usuarioApiService.consultarTipo(usuario.getUsuario()).execute();
+            Response<String> response = usuarioApiService.consultarTipo(usuario.getUsuario(), "Bearer " + token).execute();
             if (response.isSuccessful()) {
                 return response.body();
             } else {
@@ -219,9 +178,9 @@ public class CineClient {
         }
     }
 
-    public void borrarTiquete(int idFuncion, int asiento) {
+    public void borrarTiquete(int idFuncion, int asiento, String token) {
         try {
-            Response<Void> response = tiqueteApiService.borrarTiquete(idFuncion, asiento).execute();
+            Response<Void> response = tiqueteApiService.borrarTiquete(idFuncion, asiento, "Bearer " + token).execute();
             if (response.isSuccessful()) {
             } else {
                 logger.warn("No se pudo borrar el tiquete con idFuncion: {} y asiento: {}", idFuncion, asiento);
@@ -231,15 +190,45 @@ public class CineClient {
         }
     }
 
-    public void updateFuncion(Funcion funcion) {
+    public void updateFuncion(Funcion funcion, String token) {
         try {
-            Response<Void> response = funcionApiService.updateFuncion(funcion.getId(), funcion).execute();
+            Response<Void> response = funcionApiService.updateFuncion(funcion.getId(), funcion, "Bearer " + token).execute();
             if (response.isSuccessful()) {
             } else {
                 logger.warn("No se pudo actualizar la funcion con id: {}", funcion.getId());
             }
         } catch (IOException e) {
             e.printStackTrace();
+        }
+    }
+
+    public Boolean checkUsername(String username) {
+        try {
+            Response<Boolean> response = usuarioApiService.checkUsername(username).execute();
+            if (response.isSuccessful()) {
+                return response.body();
+            } else {
+                logger.warn("No se pudo validar el nombre de usuario: {}", username);
+                return null;
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+            return null;
+        }
+    }
+
+    public Cliente getClienteByUsername(String username,String token) {
+        try {
+            Response<Cliente> response = clienteApiService.getClienteByUsername(username, "Bearer " + token).execute();
+            if (response.isSuccessful()) {
+                return response.body();
+            } else {
+                logger.warn("No se pudo obtener el cliente de username: {}", username);
+                return null;
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+            return null;
         }
     }
 

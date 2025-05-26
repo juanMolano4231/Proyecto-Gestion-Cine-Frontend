@@ -29,6 +29,9 @@ public class GestionSalaController {
     
     public Object[] gestionSala(Sala sala) {
         Sala salaActualizada = service.reloadSala(sala);
+        if (salaActualizada == null) {
+            return new Object[]{"GestionCine_verSalas", null};
+        }
         Object[] selecciones = levantarFrameGestionSala(salaActualizada);
         return service.gestionSala(selecciones, salaActualizada);
     }

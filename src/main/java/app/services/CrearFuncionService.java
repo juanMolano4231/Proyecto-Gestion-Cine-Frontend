@@ -8,6 +8,7 @@ import app.models.Sala;
 import client.CineClient;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
+import session.Session;
 
 /**
  *
@@ -78,7 +79,7 @@ public class CrearFuncionService {
     }
 
     public void crearFuncion(Sala sala) throws Exception {
-        cliente.createFuncion(sala, datos);
+        cliente.createFuncion(sala, datos, Session.getToken());
     }
 
     public String exito(int selection) {

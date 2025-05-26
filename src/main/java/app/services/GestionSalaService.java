@@ -13,6 +13,7 @@ import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JOptionPane;
+import session.Session;
 
 /**
  *
@@ -93,7 +94,7 @@ public class GestionSalaService {
 
     public String borrarSala(Sala sala) {
         try {
-            cliente.deleteSala(sala);
+            cliente.deleteSala(sala, Session.getToken());
         } catch (Exception ex) {
             notificar(ex.getMessage());
             return "GestionCine_verSalas";
@@ -111,12 +112,15 @@ public class GestionSalaService {
     }
 
     public List<Sala> getSalas() {
-        List<Sala> salas = cliente.getSalas();
+        List<Sala> salas = cliente.getSalas(Session.getToken());
         return salas;
     }
 
     public Sala reloadSala(Sala sala) {
         List<Sala> salas = getSalas();
+        if (salas == null) {
+            return null;
+        }
         for (Sala s: salas) {
             if (s.getId() == sala.getId()) {
                 return s;

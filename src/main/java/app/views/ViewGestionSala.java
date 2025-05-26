@@ -14,7 +14,7 @@ import javax.swing.*;
 public class ViewGestionSala {
 
     public int falloAlBorrar() {
-        String message = "Esta sala tiene una funcion programada que ya vendio un tiquete, no se puede borrar";
+        String message = "Esta sala tiene una funcion programada que\nya vendio un tiquete, no se puede borrar";
         return mostrarMensaje(message, "Advertencia");
     }
     

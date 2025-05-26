@@ -8,6 +8,7 @@ package client.apiServices;
 import app.models.Funcion;
 import retrofit2.Call;
 import retrofit2.http.Body;
+import retrofit2.http.Header;
 import retrofit2.http.PATCH;
 import retrofit2.http.POST;
 import retrofit2.http.PUT;
@@ -20,6 +21,6 @@ import retrofit2.http.Path;
 public interface FuncionApiService {
     
     @PUT("/api/funciones/{idFuncion}")
-    Call<Void> updateFuncion(@Path("idFuncion") int idFuncion, @Body Funcion funcion);
+    Call<Void> updateFuncion(@Path("idFuncion") int idFuncion, @Body Funcion funcion, @Header("Authorization") String token);
     
 }

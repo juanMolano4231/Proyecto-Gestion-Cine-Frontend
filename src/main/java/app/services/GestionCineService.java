@@ -11,6 +11,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
 import javax.swing.JOptionPane;
+import session.Session;
 
 /**
  *
@@ -47,7 +48,7 @@ public class GestionCineService {
     }
 
     public List<Sala> getSalas() {
-        List<Sala> salas = cliente.getSalas();
+        List<Sala> salas = cliente.getSalas(Session.getToken());
         return salas;
     }
 
